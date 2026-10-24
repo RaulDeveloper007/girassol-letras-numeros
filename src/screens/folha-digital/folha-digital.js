@@ -3,7 +3,8 @@ import { navigateTo } from '../../app/router.js'
 import { buscarBloco, carregarFase } from '../../curriculo/loader.js'
 import { montarFolha } from '../../geracao/montar-folha.js'
 import { registrarTodosOsGeradores } from '../../geracao/registrar-todos.js'
-import { avaliaNumerico } from '../../correcao/simbolico.js'
+import { avaliaNumerico, avaliaSimbolico } from '../../correcao/simbolico.js'
+import { avaliaTextual } from '../../correcao/textual.js'
 import { TOLERANCIA_PADRAO_POR_ESTAGIO } from '../../correcao/fala.js'
 import { createWritingCanvas } from '../../components/writing-canvas.js'
 import { createBigKeyboard } from '../../components/big-keyboard.js'
@@ -22,6 +23,19 @@ const ITEM_DEMO_FALA = {
   enunciado: 'Escute e repita em voz alta.',
   dados: { fraseAlvo: 'Eu gosto de estudar.', idioma: 'pt-BR' },
   gabarito: 'Eu gosto de estudar.',
+}
+
+// A resposta certa chega em formatos bem diferentes dependendo do tipo do
+// item (um número, um texto exato como "3/4", uma expressão algébrica) --
+// cada um precisa do seu próprio motor de correção, não só avaliaNumerico.
+async function avaliarResposta(item, valor) {
+  if (item.tipo === 'textual') {
+    return avaliaTextual(valor, String(item.gabarito))
+  }
+  if (item.tipo === 'simbolico') {
+    return avaliaSimbolico(valor, String(item.gabarito))
+  }
+  return avaliaNumerico(valor, Number(item.gabarito))
 }
 
 function formatarTempo(segundos) {
@@ -200,7 +214,7 @@ export function renderFolhaDigital(root) {
         mode: 'numeric',
         onSubmit: async (valor) => {
           if (!valor) return
-          const resultado = await avaliaNumerico(valor, Number(item.gabarito))
+          const resultado = await avaliarResposta(item, valor)
           mostrarFeedback(resultado.correto)
           registrarResultado(indice, resultado.correto)
           if (modoRefazer) {

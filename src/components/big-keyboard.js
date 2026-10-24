@@ -1,6 +1,9 @@
 import '../styles/big-keyboard.css'
 
-const DIGIT_ROWS = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '0']]
+// Além dos dígitos, o teclado numérico precisa de vírgula (decimais, no
+// padrão pt-BR, ex. "0,7") e de barra (frações como resposta, ex. "3/4") --
+// sem elas, nenhum item de Decimais/Frações consegue ser respondido.
+const DIGIT_ROWS = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '0'], [',', '/']]
 const LETTER_ROWS = ['QWERTYUIOP'.split(''), 'ASDFGHJKL'.split(''), 'ZXCVBNM'.split('')]
 
 export function createBigKeyboard(container, { mode = 'alpha', onSubmit } = {}) {

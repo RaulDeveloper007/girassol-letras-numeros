@@ -4,11 +4,25 @@ import { listarBlocosLineares } from '../../diagnostico/orquestracao.js'
 import { calcularIndiceDePartida, diagnosticoConcluido, iniciarDiagnostico, registrarResposta } from '../../diagnostico/algoritmo.js'
 import { montarFolha } from '../../geracao/montar-folha.js'
 import { registrarTodosOsGeradores } from '../../geracao/registrar-todos.js'
-import { avaliaNumerico } from '../../correcao/simbolico.js'
+import { avaliaNumerico, avaliaSimbolico } from '../../correcao/simbolico.js'
+import { avaliaTextual } from '../../correcao/textual.js'
 import { createWritingCanvas } from '../../components/writing-canvas.js'
 import { createBigKeyboard } from '../../components/big-keyboard.js'
 
 let geradoresRegistrados = false
+
+// Mesmo motor de despacho por tipo usado na Folha Digital -- o gabarito de
+// um item de fração/álgebra não é um número, então avaliaNumerico sozinho
+// reprovaria qualquer resposta certa.
+async function avaliarResposta(item, valor) {
+  if (item.tipo === 'textual') {
+    return avaliaTextual(valor, String(item.gabarito))
+  }
+  if (item.tipo === 'simbolico') {
+    return avaliaSimbolico(valor, String(item.gabarito))
+  }
+  return avaliaNumerico(valor, Number(item.gabarito))
+}
 
 const DISCIPLINAS = [
   { id: 'matematica', label: 'Matemática' },
@@ -118,7 +132,7 @@ export function renderDiagnostico(root) {
       mode: 'numeric',
       onSubmit: async (valor) => {
         if (!valor) return
-        const resultado = await avaliaNumerico(valor, Number(item.gabarito))
+        const resultado = await avaliarResposta(item, valor)
         const feedbackEl = areaDiagnostico.querySelector('#diagnostico-feedback')
         feedbackEl.textContent = resultado.correto ? '✅' : '❌'
 
