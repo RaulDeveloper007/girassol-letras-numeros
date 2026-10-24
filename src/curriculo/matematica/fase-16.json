@@ -1,0 +1,30 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 16,
+  "titulo": "Equações do 2º grau",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Equações do 2º grau por fatoração (raízes inteiras)",
+      "blocos": [
+        {
+          "id": "mat-f16-n01-b01",
+          "habilidade": "encontrar a maior raiz de uma equação do 2º grau fatorável",
+          "exemploResolvido": {
+            "enunciado": "x² - 7x + 12 = 0. Qual é a maior das duas raízes?",
+            "passoAPasso": [
+              "Procure dois números cuja soma seja 7 e produto seja 12: 3 e 4.",
+              "A equação fatora como (x - 3)(x - 4) = 0.",
+              "As raízes são 3 e 4 -- a maior é 4."
+            ]
+          },
+          "geradorId": "matematica.equacao-segundo-grau",
+          "parametrosGerador": { "raizMax": 10 },
+          "tempoPadraoSegundos": 600,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

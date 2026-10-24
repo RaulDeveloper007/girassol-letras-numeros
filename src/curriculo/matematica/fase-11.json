@@ -1,0 +1,71 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 11,
+  "titulo": "Equações do 1º grau — um passo",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Equações com soma e subtração",
+      "blocos": [
+        {
+          "id": "mat-f11-n01-b01",
+          "habilidade": "resolver x + a = b",
+          "exemploResolvido": {
+            "enunciado": "x + 5 = 12. Qual é o valor de x?",
+            "passoAPasso": ["Para isolar x, subtraia 5 dos dois lados.", "x = 12 - 5.", "x = 7."]
+          },
+          "geradorId": "matematica.equacao-um-passo",
+          "parametrosGerador": { "operacao": "soma", "maxX": 20, "maxA": 10 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f11-n01-b02",
+          "habilidade": "resolver x - a = b",
+          "exemploResolvido": {
+            "enunciado": "x - 4 = 9. Qual é o valor de x?",
+            "passoAPasso": ["Para isolar x, some 4 aos dois lados.", "x = 9 + 4.", "x = 13."]
+          },
+          "geradorId": "matematica.equacao-um-passo",
+          "parametrosGerador": { "operacao": "subtracao", "maxX": 20, "maxA": 10 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Equações com multiplicação e divisão",
+      "blocos": [
+        {
+          "id": "mat-f11-n02-b01",
+          "habilidade": "resolver ax = b",
+          "exemploResolvido": {
+            "enunciado": "3x = 21. Qual é o valor de x?",
+            "passoAPasso": ["Para isolar x, divida os dois lados por 3.", "x = 21 ÷ 3.", "x = 7."]
+          },
+          "geradorId": "matematica.equacao-um-passo",
+          "parametrosGerador": { "operacao": "multiplicacao", "maxX": 12, "maxA": 10 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f11-n02-b02",
+          "habilidade": "resolver x ÷ a = b",
+          "exemploResolvido": {
+            "enunciado": "x ÷ 4 = 6. Qual é o valor de x?",
+            "passoAPasso": ["Para isolar x, multiplique os dois lados por 4.", "x = 6 × 4.", "x = 24."]
+          },
+          "geradorId": "matematica.equacao-um-passo",
+          "parametrosGerador": { "operacao": "divisao", "maxX": 12, "maxA": 10 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

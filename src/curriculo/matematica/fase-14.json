@@ -1,0 +1,45 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 14,
+  "titulo": "Expressões algébricas",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Avaliar expressões lineares por substituição",
+      "blocos": [
+        {
+          "id": "mat-f14-n01-b01",
+          "habilidade": "calcular o valor de ax + b substituindo x",
+          "exemploResolvido": {
+            "enunciado": "Qual é o valor de 3x + 5 quando x = 4?",
+            "passoAPasso": ["Substitua x por 4: 3 × 4 + 5.", "3 × 4 = 12.", "12 + 5 = 17."]
+          },
+          "geradorId": "matematica.avaliar-expressao",
+          "parametrosGerador": { "forma": "linear", "aMax": 9, "bMax": 9, "xMax": 10 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Avaliar expressões com parênteses (propriedade distributiva)",
+      "blocos": [
+        {
+          "id": "mat-f14-n02-b01",
+          "habilidade": "calcular o valor de a(x + b) substituindo x",
+          "exemploResolvido": {
+            "enunciado": "Qual é o valor de 2(x + 3) quando x = 4?",
+            "passoAPasso": ["Substitua x por 4: 2(4 + 3).", "4 + 3 = 7.", "2 × 7 = 14."]
+          },
+          "geradorId": "matematica.avaliar-expressao",
+          "parametrosGerador": { "forma": "distributiva", "aMax": 9, "bMax": 9, "xMax": 10 },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

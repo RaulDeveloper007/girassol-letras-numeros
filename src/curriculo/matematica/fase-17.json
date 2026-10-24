@@ -1,0 +1,58 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 17,
+  "titulo": "Cálculo diferencial e integral",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Derivada de um polinômio, avaliada num ponto",
+      "blocos": [
+        {
+          "id": "mat-f17-n01-b01",
+          "habilidade": "derivar um polinômio pela regra do tombo e avaliar num ponto",
+          "exemploResolvido": {
+            "enunciado": "Se f(x) = x³ + 2x, qual é f'(2) (a derivada de f no ponto x = 2)?",
+            "passoAPasso": [
+              "Pela regra do tombo: d/dx(x³) = 3x² e d/dx(2x) = 2.",
+              "f'(x) = 3x² + 2.",
+              "f'(2) = 3 × 4 + 2 = 14."
+            ]
+          },
+          "geradorId": "matematica.derivada-em-ponto",
+          "parametrosGerador": { "expoentesDisponiveis": [1, 2, 3], "quantidadeTermos": 2, "coeficienteMax": 6, "pontoMax": 5 },
+          "tempoPadraoSegundos": 600,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Integral definida de um polinômio",
+      "blocos": [
+        {
+          "id": "mat-f17-n02-b01",
+          "habilidade": "calcular a integral definida de um polinômio simples",
+          "exemploResolvido": {
+            "enunciado": "Qual é a integral definida de 2x dx, de 0 a 3?",
+            "passoAPasso": [
+              "A antiderivada de 2x é x².",
+              "Avalie de 0 a 3: 3² - 0² = 9 - 0.",
+              "A integral definida é 9."
+            ]
+          },
+          "geradorId": "matematica.integral-definida",
+          "parametrosGerador": {
+            "expoentesDisponiveis": [0, 1, 2],
+            "quantidadeTermos": 2,
+            "multiplicadorMax": 5,
+            "limiteSuperiorMax": 4
+          },
+          "tempoPadraoSegundos": 600,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

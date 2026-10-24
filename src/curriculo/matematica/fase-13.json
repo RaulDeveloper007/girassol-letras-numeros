@@ -1,0 +1,83 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 13,
+  "titulo": "Potenciação e radiciação",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Quadrados",
+      "blocos": [
+        {
+          "id": "mat-f13-n01-b01",
+          "habilidade": "calcular o quadrado de um número",
+          "exemploResolvido": {
+            "enunciado": "6² = ?",
+            "passoAPasso": ["6² significa 6 × 6.", "6 × 6 = 36."]
+          },
+          "geradorId": "matematica.potencia",
+          "parametrosGerador": { "bases": [2, 3, 4, 5, 6, 7, 8, 9, 10], "expoentes": [2] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Cubos",
+      "blocos": [
+        {
+          "id": "mat-f13-n02-b01",
+          "habilidade": "calcular o cubo de um número",
+          "exemploResolvido": {
+            "enunciado": "4³ = ?",
+            "passoAPasso": ["4³ significa 4 × 4 × 4.", "4 × 4 = 16.", "16 × 4 = 64."]
+          },
+          "geradorId": "matematica.potencia",
+          "parametrosGerador": { "bases": [2, 3, 4, 5, 6], "expoentes": [3] },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Raiz quadrada exata",
+      "blocos": [
+        {
+          "id": "mat-f13-n03-b01",
+          "habilidade": "calcular a raiz quadrada exata de um número",
+          "exemploResolvido": {
+            "enunciado": "√36 = ?",
+            "passoAPasso": ["Pergunte: que número vezes ele mesmo dá 36?", "6 × 6 = 36.", "√36 = 6."]
+          },
+          "geradorId": "matematica.raiz",
+          "parametrosGerador": { "indices": [2], "raizMax": 12 },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Raiz cúbica exata",
+      "blocos": [
+        {
+          "id": "mat-f13-n04-b01",
+          "habilidade": "calcular a raiz cúbica exata de um número",
+          "exemploResolvido": {
+            "enunciado": "∛27 = ?",
+            "passoAPasso": ["Pergunte: que número elevado ao cubo dá 27?", "3 × 3 × 3 = 27.", "∛27 = 3."]
+          },
+          "geradorId": "matematica.raiz",
+          "parametrosGerador": { "indices": [3], "raizMax": 6 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 15,
+  "titulo": "Sistemas lineares e inequações",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Sistema de 2 equações e 2 incógnitas",
+      "blocos": [
+        {
+          "id": "mat-f15-n01-b01",
+          "habilidade": "resolver um sistema linear 2x2 por substituição ou soma",
+          "exemploResolvido": {
+            "enunciado": "No sistema abaixo, qual é o valor de x?\n2x + y = 7\nx - y = 2",
+            "passoAPasso": [
+              "Da segunda equação: x = y + 2.",
+              "Substitua na primeira: 2(y + 2) + y = 7 → 3y + 4 = 7 → y = 1.",
+              "x = y + 2 = 3."
+            ]
+          },
+          "geradorId": "matematica.sistema-2x2",
+          "parametrosGerador": { "maxValor": 10, "maxCoeficiente": 5 },
+          "tempoPadraoSegundos": 600,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Inequações do 1º grau",
+      "blocos": [
+        {
+          "id": "mat-f15-n02-b01",
+          "habilidade": "resolver uma inequação do 1º grau e achar o inteiro limite",
+          "exemploResolvido": {
+            "enunciado": "x + 4 > 10. Qual é o menor número inteiro que satisfaz essa inequação?",
+            "passoAPasso": ["Subtraia 4 dos dois lados: x > 6.", "O menor inteiro maior que 6 é 7."]
+          },
+          "geradorId": "matematica.inequacao-um-passo",
+          "parametrosGerador": { "maxX": 15, "maxA": 10, "operadores": [">", "<", "≥", "≤"] },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

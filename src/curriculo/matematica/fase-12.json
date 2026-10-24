@@ -1,0 +1,45 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 12,
+  "titulo": "Equações do 1º grau — dois passos",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "ax + b = c",
+      "blocos": [
+        {
+          "id": "mat-f12-n01-b01",
+          "habilidade": "resolver ax + b = c",
+          "exemploResolvido": {
+            "enunciado": "2x + 3 = 11. Qual é o valor de x?",
+            "passoAPasso": ["Subtraia 3 dos dois lados: 2x = 8.", "Divida os dois lados por 2: x = 4."]
+          },
+          "geradorId": "matematica.equacao-dois-passos",
+          "parametrosGerador": { "operacao": "soma", "maxCoeficiente": 9, "maxX": 15, "maxConstante": 20 },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "ax - b = c",
+      "blocos": [
+        {
+          "id": "mat-f12-n02-b01",
+          "habilidade": "resolver ax - b = c",
+          "exemploResolvido": {
+            "enunciado": "5x - 4 = 16. Qual é o valor de x?",
+            "passoAPasso": ["Some 4 aos dois lados: 5x = 20.", "Divida os dois lados por 5: x = 4."]
+          },
+          "geradorId": "matematica.equacao-dois-passos",
+          "parametrosGerador": { "operacao": "subtracao", "maxCoeficiente": 9, "maxX": 15, "maxConstante": 20 },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}
