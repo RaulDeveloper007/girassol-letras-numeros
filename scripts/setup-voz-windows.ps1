@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Etapa 1.2 — Preparação do ambiente de voz no Windows 11: síntese e
     reconhecimento de fala offline em Português (Brasil) e Inglês (EUA).

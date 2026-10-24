@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Etapa 1.1 — Preparação do ambiente de voz no Xiaomi Redmi 9 (Android/MIUI),
     executado a partir do Windows 11 via ADB.
