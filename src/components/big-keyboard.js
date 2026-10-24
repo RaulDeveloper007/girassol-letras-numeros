@@ -4,7 +4,15 @@ import '../styles/big-keyboard.css'
 // padrão pt-BR, ex. "0,7") e de barra (frações como resposta, ex. "3/4") --
 // sem elas, nenhum item de Decimais/Frações consegue ser respondido.
 const DIGIT_ROWS = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '0'], [',', '/']]
-const LETTER_ROWS = ['QWERTYUIOP'.split(''), 'ASDFGHJKL'.split(''), 'ZXCVBNM'.split('')]
+// Português usa acento o tempo todo (e é frequentemente o que o item de
+// ortografia está testando) -- sem essa linha, "café" ou "não" não dão
+// pra ser digitados de forma correta.
+const LETTER_ROWS = [
+  'QWERTYUIOP'.split(''),
+  'ASDFGHJKL'.split(''),
+  'ZXCVBNM'.split(''),
+  'ÁÀÂÃÉÊÍÓÔÕÚÇ'.split(''),
+]
 
 export function createBigKeyboard(container, { mode = 'alpha', onSubmit } = {}) {
   const wrapper = document.createElement('div')
@@ -63,6 +71,16 @@ export function createBigKeyboard(container, { mode = 'alpha', onSubmit } = {}) 
 
     const controlsRow = document.createElement('div')
     controlsRow.className = 'big-keyboard__row'
+
+    if (mode !== 'numeric') {
+      const spaceBtn = document.createElement('button')
+      spaceBtn.type = 'button'
+      spaceBtn.className = 'key key--control key--space'
+      spaceBtn.setAttribute('aria-label', 'Espaço')
+      spaceBtn.textContent = 'Espaço'
+      spaceBtn.addEventListener('click', () => appendChar(' '))
+      controlsRow.appendChild(spaceBtn)
+    }
 
     const backspaceBtn = document.createElement('button')
     backspaceBtn.type = 'button'

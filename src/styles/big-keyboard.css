@@ -40,6 +40,10 @@
   color: var(--color-text);
 }
 
+.key--space {
+  min-width: calc(var(--touch-min) * 3);
+}
+
 .key--submit {
   background: var(--color-primary);
   color: #fff;

@@ -6,10 +6,22 @@ import { montarFolha } from '../../geracao/montar-folha.js'
 import { registrarTodosOsGeradores } from '../../geracao/registrar-todos.js'
 import { avaliaNumerico, avaliaSimbolico } from '../../correcao/simbolico.js'
 import { avaliaTextual } from '../../correcao/textual.js'
+import { TOLERANCIA_PADRAO_POR_ESTAGIO } from '../../correcao/fala.js'
 import { createWritingCanvas } from '../../components/writing-canvas.js'
 import { createBigKeyboard } from '../../components/big-keyboard.js'
+import { criarPlayerAudio } from '../../components/player-audio.js'
+import { criarMicrofone } from '../../components/microfone.js'
 
 let geradoresRegistrados = false
+
+const TIPOS_DE_FALA = ['fala-repetir', 'fala-leitura', 'fala-resposta']
+
+// Um item de áudio/fala precisa de ouvir algo (o modelo a repetir, a
+// pergunta) sem que a resposta já apareça escrita no enunciado visível --
+// por isso o texto falado vem de dados.textoFala, nunca do enunciado.
+function precisaDePlayerDeAudio(item) {
+  return Boolean(item.dados?.textoFala) || item.tipo === 'fala-repetir' || item.tipo === 'escuta-escolha'
+}
 
 // Mesmo motor de despacho por tipo usado na Folha Digital -- o gabarito de
 // um item de fração/álgebra não é um número, então avaliaNumerico sozinho
@@ -50,6 +62,8 @@ export function renderDiagnostico(root) {
 
   let writingCanvas = null
   let currentKeyboard = null
+  let player = null
+  let microfone = null
 
   function limparControles() {
     if (writingCanvas) {
@@ -59,6 +73,14 @@ export function renderDiagnostico(root) {
     if (currentKeyboard) {
       currentKeyboard.destroy()
       currentKeyboard = null
+    }
+    if (player) {
+      player.destroy()
+      player = null
+    }
+    if (microfone) {
+      microfone.destroy()
+      microfone = null
     }
   }
 
@@ -120,24 +142,49 @@ export function renderDiagnostico(root) {
     areaDiagnostico.innerHTML = `
       <p class="diagnostico-progresso">Pergunta de calibração ${estado.tentativas.length + 1}</p>
       <p class="item-enunciado">${item.enunciado}</p>
+      <div id="diagnostico-player-slot"></div>
       <div id="diagnostico-resposta"></div>
       <div class="item-feedback" id="diagnostico-feedback"></div>
     `
+
+    const feedbackEl = areaDiagnostico.querySelector('#diagnostico-feedback')
+    function avancarComResultado(correto) {
+      feedbackEl.textContent = correto ? '✅' : '❌'
+      const proximoEstado = registrarResposta(estado, correto)
+      window.setTimeout(() => rodarPasso(disciplina, pontos, proximoEstado), 700)
+    }
+
+    if (precisaDePlayerDeAudio(item)) {
+      player = criarPlayerAudio(areaDiagnostico.querySelector('#diagnostico-player-slot'), {
+        texto: item.dados?.textoFala ?? item.enunciado,
+        idioma: item.dados?.idioma ?? 'pt-BR',
+      })
+    }
+
+    if (TIPOS_DE_FALA.includes(item.tipo)) {
+      microfone = criarMicrofone(areaDiagnostico.querySelector('#diagnostico-resposta'), {
+        fraseAlvo: item.dados?.fraseAlvo ?? String(item.gabarito),
+        idioma: item.dados?.idioma ?? 'pt-BR',
+        tolerancia: TOLERANCIA_PADRAO_POR_ESTAGIO.intermediario,
+        onDecisao: (decisao) => {
+          if (decisao.tipo === 'aceito' || decisao.tipo === 'encaminhar-orientador') {
+            avancarComResultado(decisao.tipo === 'aceito')
+          }
+        },
+      })
+      return
+    }
 
     const canvasSlot = document.createElement('div')
     areaDiagnostico.appendChild(canvasSlot)
     writingCanvas = createWritingCanvas(canvasSlot)
 
     currentKeyboard = createBigKeyboard(areaDiagnostico.querySelector('#diagnostico-resposta'), {
-      mode: 'numeric',
+      mode: disciplina === 'matematica' ? 'numeric' : 'alpha',
       onSubmit: async (valor) => {
         if (!valor) return
         const resultado = await avaliarResposta(item, valor)
-        const feedbackEl = areaDiagnostico.querySelector('#diagnostico-feedback')
-        feedbackEl.textContent = resultado.correto ? '✅' : '❌'
-
-        const proximoEstado = registrarResposta(estado, resultado.correto)
-        window.setTimeout(() => rodarPasso(disciplina, pontos, proximoEstado), 700)
+        avancarComResultado(resultado.correto)
       },
     })
   }
