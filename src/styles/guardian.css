@@ -1,0 +1,137 @@
+.screen-guardian {
+  align-items: stretch;
+  text-align: left;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.pin-display {
+  font-size: 2.5rem;
+  letter-spacing: 12px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.pin-keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.pin-key {
+  min-height: var(--touch-min);
+  font-size: 1.4rem;
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+}
+
+.pin-key--control {
+  background: #ffe0b2;
+  color: var(--color-text);
+}
+
+.pin-error {
+  text-align: center;
+  color: #c62828;
+  min-height: 24px;
+  font-weight: bold;
+}
+
+.guardian-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.guardian-tab {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+}
+
+.guardian-tab.is-active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.guardian-subject-panel {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.guardian-subject-panel h2 {
+  margin-top: 0;
+}
+
+.level-adjust {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+
+.level-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.level-stepper button {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+}
+
+.level-value {
+  font-size: 1.3rem;
+  font-weight: bold;
+  min-width: 32px;
+  text-align: center;
+}
+
+.guardian-stats p {
+  margin: 4px 0;
+}
+
+.guardian-rules {
+  margin-top: 12px;
+}
+
+.rule-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.rule-fields input {
+  min-height: var(--touch-min);
+  width: 80px;
+  margin-left: 8px;
+  font-size: 1rem;
+}
+
+.guardian-backup {
+  margin-top: 24px;
+}
+
+.import-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-min);
+  padding: 0 20px;
+  margin-left: 8px;
+  border-radius: var(--radius);
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+  cursor: pointer;
+}
