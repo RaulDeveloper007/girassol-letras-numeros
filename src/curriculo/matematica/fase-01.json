@@ -1,0 +1,62 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 1,
+  "titulo": "Contagem e reconhecimento",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Quantidades de 1 a 10",
+      "blocos": [
+        {
+          "id": "mat-f01-n01-b01",
+          "habilidade": "contar quantidades representadas por pontos, de 1 a 5",
+          "exemploResolvido": {
+            "enunciado": "Quantos pontos você vê? ● ● ●",
+            "passoAPasso": [
+              "Aponte pra cada ponto enquanto conta: 1, 2, 3.",
+              "O último número que você disse é a quantidade total.",
+              "● ● ● são 3 pontos."
+            ]
+          },
+          "geradorId": "matematica.contagem",
+          "parametrosGerador": { "min": 1, "max": 5 },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f01-n01-b02",
+          "habilidade": "contar quantidades representadas por pontos, de 1 a 10",
+          "exemploResolvido": {
+            "enunciado": "Quantos pontos você vê? ● ● ● ● ● ● ●",
+            "passoAPasso": [
+              "Conte um por um: 1, 2, 3, 4, 5, 6, 7.",
+              "● ● ● ● ● ● ● são 7 pontos."
+            ]
+          },
+          "geradorId": "matematica.contagem",
+          "parametrosGerador": { "min": 1, "max": 10 },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f01-n01-b03",
+          "habilidade": "reconhecer e escrever o numeral correspondente a uma quantidade, de 1 a 10",
+          "exemploResolvido": {
+            "enunciado": "● ● ● ● ● → escreva o número",
+            "passoAPasso": [
+              "Conte os pontos: 1, 2, 3, 4, 5.",
+              "Escreva o numeral 5."
+            ]
+          },
+          "geradorId": "matematica.contagem",
+          "parametrosGerador": { "min": 1, "max": 10, "exigirNumeral": true },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["tracado-guiado", "numerico"]
+        }
+      ]
+    }
+  ]
+}
