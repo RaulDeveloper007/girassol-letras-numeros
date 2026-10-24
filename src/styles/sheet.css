@@ -37,6 +37,7 @@
   min-width: var(--touch-min);
   min-height: var(--touch-min);
   background: var(--color-card-bg);
+  color: var(--color-text);
   border: 2px solid var(--color-primary);
   vertical-align: middle;
 }
@@ -94,6 +95,7 @@
   min-width: 64px;
   min-height: 64px;
   background: var(--color-card-bg);
+  color: var(--color-text);
   border: 3px solid var(--color-primary);
 }
 
