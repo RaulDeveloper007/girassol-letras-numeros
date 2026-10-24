@@ -1,0 +1,60 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 4,
+  "titulo": "Leitura em voz alta — frases curtas",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Frases muito curtas",
+      "blocos": [
+        {
+          "id": "por-f04-n01-b01",
+          "habilidade": "ler em voz alta uma frase curta, com entonação e pausas corretas",
+          "exemploResolvido": {
+            "enunciado": "Leia a frase em voz alta: O gato subiu no muro.",
+            "passoAPasso": ["Leia a frase inteira em silêncio primeiro.", "Fale palavra por palavra, sem pressa.", "Faça uma pequena pausa no ponto final."]
+          },
+          "geradorId": "portugues.leitura-frase",
+          "parametrosGerador": {
+            "frases": [
+              "O gato subiu no muro.",
+              "A bola é azul.",
+              "Meu pai leu o livro.",
+              "A chuva caiu forte.",
+              "Ana gosta de suco."
+            ]
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Frases um pouco mais longas",
+      "blocos": [
+        {
+          "id": "por-f04-n02-b01",
+          "habilidade": "ler em voz alta uma frase mais longa, mantendo o ritmo",
+          "exemploResolvido": {
+            "enunciado": "Leia a frase em voz alta: O menino correu até a escola.",
+            "passoAPasso": ["Leia a frase inteira em silêncio primeiro.", "Fale palavra por palavra, sem pressa.", "Respire antes de começar, se precisar."]
+          },
+          "geradorId": "portugues.leitura-frase",
+          "parametrosGerador": {
+            "frases": [
+              "O menino correu até a escola.",
+              "Minha mãe fez um bolo gostoso.",
+              "O cachorro latiu para o gato.",
+              "Nós fomos à praia no sábado."
+            ]
+          },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    }
+  ]
+}

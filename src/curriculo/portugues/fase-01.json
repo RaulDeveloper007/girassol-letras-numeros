@@ -1,0 +1,102 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 1,
+  "titulo": "Sílabas simples",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Sílabas com B",
+      "blocos": [
+        {
+          "id": "por-f01-n01-b01",
+          "habilidade": "ouvir e escrever sílabas simples com a consoante B",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a sílaba que você ouviu.",
+            "passoAPasso": ["Ouça o som com calma, pode repetir quantas vezes precisar.", "Pense em como esse som se escreve.", "Digite a sílaba."]
+          },
+          "geradorId": "portugues.silaba-ouvir",
+          "parametrosGerador": { "silabas": ["BA", "BE", "BI", "BO", "BU"] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Sílabas com C",
+      "blocos": [
+        {
+          "id": "por-f01-n02-b01",
+          "habilidade": "ouvir e escrever sílabas simples com a consoante C",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a sílaba que você ouviu.",
+            "passoAPasso": ["Ouça o som com calma.", "Pense em como esse som se escreve.", "Digite a sílaba."]
+          },
+          "geradorId": "portugues.silaba-ouvir",
+          "parametrosGerador": { "silabas": ["CA", "CO", "CU", "CE", "CI"] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Sílabas com D",
+      "blocos": [
+        {
+          "id": "por-f01-n03-b01",
+          "habilidade": "ouvir e escrever sílabas simples com a consoante D",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a sílaba que você ouviu.",
+            "passoAPasso": ["Ouça o som com calma.", "Pense em como esse som se escreve.", "Digite a sílaba."]
+          },
+          "geradorId": "portugues.silaba-ouvir",
+          "parametrosGerador": { "silabas": ["DA", "DE", "DI", "DO", "DU"] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Sílabas com F",
+      "blocos": [
+        {
+          "id": "por-f01-n04-b01",
+          "habilidade": "ouvir e escrever sílabas simples com a consoante F",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a sílaba que você ouviu.",
+            "passoAPasso": ["Ouça o som com calma.", "Pense em como esse som se escreve.", "Digite a sílaba."]
+          },
+          "geradorId": "portugues.silaba-ouvir",
+          "parametrosGerador": { "silabas": ["FA", "FE", "FI", "FO", "FU"] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 5,
+      "titulo": "Sílabas com L",
+      "blocos": [
+        {
+          "id": "por-f01-n05-b01",
+          "habilidade": "ouvir e escrever sílabas simples com a consoante L",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a sílaba que você ouviu.",
+            "passoAPasso": ["Ouça o som com calma.", "Pense em como esse som se escreve.", "Digite a sílaba."]
+          },
+          "geradorId": "portugues.silaba-ouvir",
+          "parametrosGerador": { "silabas": ["LA", "LE", "LI", "LO", "LU"] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

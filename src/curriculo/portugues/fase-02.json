@@ -1,0 +1,91 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 2,
+  "titulo": "Formação de palavras",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Palavras com 2 sílabas",
+      "blocos": [
+        {
+          "id": "por-f02-n01-b01",
+          "habilidade": "juntar duas sílabas pra formar uma palavra",
+          "exemploResolvido": {
+            "enunciado": "Junte as sílabas e escreva a palavra: BO - LA",
+            "passoAPasso": ["Leia as sílabas em ordem: BO, LA.", "Junte os sons: BOLA.", "Escreva a palavra."]
+          },
+          "geradorId": "portugues.formar-palavra",
+          "parametrosGerador": {
+            "palavras": [
+              { "silabas": ["BO", "LA"], "palavra": "bola" },
+              { "silabas": ["BA", "LA"], "palavra": "bala" },
+              { "silabas": ["VA", "CA"], "palavra": "vaca" },
+              { "silabas": ["DA", "DO"], "palavra": "dado" },
+              { "silabas": ["LO", "BO"], "palavra": "lobo" },
+              { "silabas": ["MA", "PA"], "palavra": "mapa" }
+            ]
+          },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Palavras com 3 sílabas",
+      "blocos": [
+        {
+          "id": "por-f02-n02-b01",
+          "habilidade": "juntar três sílabas pra formar uma palavra",
+          "exemploResolvido": {
+            "enunciado": "Junte as sílabas e escreva a palavra: BA - NA - NA",
+            "passoAPasso": ["Leia as sílabas em ordem: BA, NA, NA.", "Junte os sons: BANANA.", "Escreva a palavra."]
+          },
+          "geradorId": "portugues.formar-palavra",
+          "parametrosGerador": {
+            "palavras": [
+              { "silabas": ["BA", "NA", "NA"], "palavra": "banana" },
+              { "silabas": ["SA", "PA", "TO"], "palavra": "sapato" },
+              { "silabas": ["JA", "NE", "LA"], "palavra": "janela" },
+              { "silabas": ["MA", "CA", "CO"], "palavra": "macaco" },
+              { "silabas": ["TO", "MA", "TE"], "palavra": "tomate" },
+              { "silabas": ["CA", "BE", "LO"], "palavra": "cabelo" }
+            ]
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Palavras com dígrafos (CH, LH, NH)",
+      "blocos": [
+        {
+          "id": "por-f02-n03-b01",
+          "habilidade": "formar palavras que usam os dígrafos CH, LH ou NH",
+          "exemploResolvido": {
+            "enunciado": "Junte as sílabas e escreva a palavra: CHU - VA",
+            "passoAPasso": ["CH tem um som só, diferente de C e de H separados.", "Junte os sons: CHUVA.", "Escreva a palavra."]
+          },
+          "geradorId": "portugues.formar-palavra",
+          "parametrosGerador": {
+            "palavras": [
+              { "silabas": ["CHU", "VA"], "palavra": "chuva" },
+              { "silabas": ["FO", "LHA"], "palavra": "folha" },
+              { "silabas": ["U", "NHA"], "palavra": "unha" },
+              { "silabas": ["GA", "LHO"], "palavra": "galho" },
+              { "silabas": ["BA", "NHO"], "palavra": "banho" },
+              { "silabas": ["CHA", "VE"], "palavra": "chave" }
+            ]
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

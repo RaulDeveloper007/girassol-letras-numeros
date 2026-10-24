@@ -1,0 +1,45 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 3,
+  "titulo": "Leitura em voz alta — palavras",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Palavras simples",
+      "blocos": [
+        {
+          "id": "por-f03-n01-b01",
+          "habilidade": "ler uma palavra simples em voz alta, com pronúncia clara",
+          "exemploResolvido": {
+            "enunciado": "Leia a palavra em voz alta: gato",
+            "passoAPasso": ["Olhe a palavra com calma.", "Fale cada sílaba: GA-TO.", "Agora fale a palavra toda, de uma vez."]
+          },
+          "geradorId": "portugues.leitura-palavra",
+          "parametrosGerador": { "palavras": ["gato", "bola", "sapo", "mesa", "pato", "dedo", "lua", "foca"] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Palavras com dígrafos",
+      "blocos": [
+        {
+          "id": "por-f03-n02-b01",
+          "habilidade": "ler em voz alta palavras com os dígrafos CH, LH ou NH",
+          "exemploResolvido": {
+            "enunciado": "Leia a palavra em voz alta: chuva",
+            "passoAPasso": ["CH faz o som de \"x\" (chuva soa como \"xuva\").", "Fale a palavra com calma."]
+          },
+          "geradorId": "portugues.leitura-palavra",
+          "parametrosGerador": { "palavras": ["chuva", "folha", "unha", "carro", "bolha", "pilha"] },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    }
+  ]
+}

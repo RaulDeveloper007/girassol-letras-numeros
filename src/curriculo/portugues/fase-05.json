@@ -1,0 +1,45 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 5,
+  "titulo": "Ortografia — ditado",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Palavras com acento agudo ou circunflexo",
+      "blocos": [
+        {
+          "id": "por-f05-n01-b01",
+          "habilidade": "escrever corretamente palavras com acento agudo ou circunflexo, ao ouvi-las",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a palavra certinha (com acento, se tiver).",
+            "passoAPasso": ["Ouça a palavra inteira primeiro.", "Pense em cada sílaba.", "Não esqueça do acento -- ele muda o som da sílaba mais forte."]
+          },
+          "geradorId": "portugues.ditado-palavra",
+          "parametrosGerador": { "palavras": ["café", "sofá", "você", "está", "ônibus", "árvore"] },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Palavras com til",
+      "blocos": [
+        {
+          "id": "por-f05-n02-b01",
+          "habilidade": "escrever corretamente palavras com til, ao ouvi-las",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a palavra certinha (com acento, se tiver).",
+            "passoAPasso": ["Ouça a palavra inteira primeiro.", "O til faz o som ficar \"nasalado\" (sai pelo nariz).", "Escreva a palavra com o til no lugar certo."]
+          },
+          "geradorId": "portugues.ditado-palavra",
+          "parametrosGerador": { "palavras": ["mão", "pão", "não", "coração", "limão", "irmão"] },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

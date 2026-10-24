@@ -33,6 +33,11 @@ import { sistema2x2 } from './matematica/sistema-2x2.js'
 import { subtracao } from './matematica/subtracao.js'
 import { sucessorAntecessor } from './matematica/sucessor-antecessor.js'
 import { tabuada } from './matematica/tabuada.js'
+import { ditadoPalavra } from './portugues/ditado-palavra.js'
+import { formarPalavra } from './portugues/formar-palavra.js'
+import { leituraFrase } from './portugues/leitura-frase.js'
+import { leituraPalavra } from './portugues/leitura-palavra.js'
+import { silabaOuvir } from './portugues/silaba-ouvir.js'
 import { registrarGerador } from './registro.js'
 
 export function registrarTodosOsGeradores(): void {
@@ -69,4 +74,9 @@ export function registrarTodosOsGeradores(): void {
   registrarGerador('matematica.equacao-segundo-grau', equacaoSegundoGrau)
   registrarGerador('matematica.derivada-em-ponto', derivadaEmPonto)
   registrarGerador('matematica.integral-definida', integralDefinida)
+  registrarGerador('portugues.silaba-ouvir', silabaOuvir)
+  registrarGerador('portugues.formar-palavra', formarPalavra)
+  registrarGerador('portugues.leitura-palavra', leituraPalavra)
+  registrarGerador('portugues.leitura-frase', leituraFrase)
+  registrarGerador('portugues.ditado-palavra', ditadoPalavra)
 }
