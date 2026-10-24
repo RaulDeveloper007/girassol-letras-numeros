@@ -1,5 +1,6 @@
 import { navigateTo } from '../../app/router.js'
 import { getState } from '../../app/state.js'
+import { createWritingCanvas } from '../../components/writing-canvas.js'
 
 const SUBJECT_LABELS = {
   math: 'Matemática',
@@ -20,13 +21,18 @@ export function renderSheet(root) {
       <button class="back-button" id="go-back" aria-label="Voltar">←</button>
       <h1>${SUBJECT_LABELS[activeSubject] ?? activeSubject}</h1>
       <p class="placeholder-note">
-        Aqui vai a folha de exercícios, com canvas de escrita e teclado grande
-        (Etapa 3: canvas; Etapa 4: geradores de folha).
+        Escreva o rascunho aqui embaixo. Os exercícios reais (geradores de
+        folha) chegam na Etapa 4; o teclado grande de resposta, na Etapa 5.
       </p>
+      <div id="canvas-slot"></div>
       <button id="go-result">Simular conclusão da folha →</button>
     </main>
   `
 
+  const writingCanvas = createWritingCanvas(root.querySelector('#canvas-slot'))
+
   root.querySelector('#go-back').addEventListener('click', () => navigateTo('#/aluno'))
   root.querySelector('#go-result').addEventListener('click', () => navigateTo('#/resultado'))
+
+  return () => writingCanvas.destroy()
 }

@@ -13,12 +13,18 @@ const routes = {
 }
 
 let rootEl = null
+let currentCleanup = null
 
 function resolveRoute() {
   const hash = window.location.hash || '#/'
   const render = routes[hash] ?? renderProfileSelect
+
+  if (typeof currentCleanup === 'function') {
+    currentCleanup()
+  }
+
   rootEl.innerHTML = ''
-  render(rootEl)
+  currentCleanup = render(rootEl) ?? null
 }
 
 export function navigateTo(hash) {
