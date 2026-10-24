@@ -1,0 +1,102 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 6,
+  "titulo": "Frações",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Reconhecendo frações",
+      "blocos": [
+        {
+          "id": "mat-f06-n01-b01",
+          "habilidade": "ler a fração representada por uma figura dividida em partes iguais",
+          "exemploResolvido": {
+            "enunciado": "Uma figura foi dividida em 4 partes iguais e 3 delas estão pintadas. Que fração representa a parte pintada?",
+            "passoAPasso": ["O total de partes é o denominador: 4.", "As partes pintadas são o numerador: 3.", "A fração é 3/4."]
+          },
+          "geradorId": "matematica.fracao-ler",
+          "parametrosGerador": { "denominadores": [2, 3, 4] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Frações com denominadores maiores",
+      "blocos": [
+        {
+          "id": "mat-f06-n02-b01",
+          "habilidade": "ler a fração representada, com denominadores de 2 a 10",
+          "exemploResolvido": {
+            "enunciado": "Uma figura foi dividida em 8 partes iguais e 5 delas estão pintadas. Que fração representa a parte pintada?",
+            "passoAPasso": ["O total de partes é o denominador: 8.", "As partes pintadas são o numerador: 5.", "A fração é 5/8."]
+          },
+          "geradorId": "matematica.fracao-ler",
+          "parametrosGerador": { "denominadores": [2, 3, 4, 5, 6, 8, 10] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Frações equivalentes",
+      "blocos": [
+        {
+          "id": "mat-f06-n03-b01",
+          "habilidade": "completar uma fração equivalente",
+          "exemploResolvido": {
+            "enunciado": "1/2 = ?/8",
+            "passoAPasso": ["Para ir de 2 a 8, multiplicamos por 4.", "Multiplicamos o numerador pelo mesmo número: 1 × 4 = 4.", "1/2 = 4/8."]
+          },
+          "geradorId": "matematica.fracao-equivalente",
+          "parametrosGerador": { "denominadoresBase": [2, 3, 4, 5], "multiplicadorMax": 4 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Comparando frações",
+      "blocos": [
+        {
+          "id": "mat-f06-n04-b01",
+          "habilidade": "identificar qual de duas frações é maior",
+          "exemploResolvido": {
+            "enunciado": "Qual fração é maior: 3/4 ou 2/3?",
+            "passoAPasso": ["3/4 = 0,75.", "2/3 ≈ 0,667.", "0,75 é maior, então 3/4 é maior."]
+          },
+          "geradorId": "matematica.fracao-comparar",
+          "parametrosGerador": { "denominadores": [2, 3, 4, 5, 6, 8, 10] },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 5,
+      "titulo": "Simplificando frações",
+      "blocos": [
+        {
+          "id": "mat-f06-n05-b01",
+          "habilidade": "simplificar uma fração até a forma mais simples",
+          "exemploResolvido": {
+            "enunciado": "Simplifique a fração 6/8 até a forma mais simples.",
+            "passoAPasso": ["6 e 8 são divisíveis por 2.", "6 ÷ 2 = 3 e 8 ÷ 2 = 4.", "6/8 = 3/4, que não pode mais ser simplificada."]
+          },
+          "geradorId": "matematica.fracao-simplificar",
+          "parametrosGerador": { "denominadoresBase": [2, 3, 4, 5], "multiplicadorMax": 4 },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

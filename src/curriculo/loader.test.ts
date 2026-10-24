@@ -22,7 +22,7 @@ describe('carregarFase', () => {
 
 describe('listarFasesDisponiveis', () => {
   it('lista as fases existentes de matemática em ordem', () => {
-    expect(listarFasesDisponiveis('matematica')).toEqual([1, 2, 3, 4, 5])
+    expect(listarFasesDisponiveis('matematica')).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
   })
 
   it('retorna lista vazia para uma disciplina sem nenhum arquivo ainda', () => {

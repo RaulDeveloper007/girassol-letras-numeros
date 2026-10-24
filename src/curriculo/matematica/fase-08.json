@@ -1,0 +1,122 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 8,
+  "titulo": "Decimais",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Décimos: fração e decimal",
+      "blocos": [
+        {
+          "id": "mat-f08-n01-b01",
+          "habilidade": "converter fração de décimos em número decimal",
+          "exemploResolvido": {
+            "enunciado": "Escreva 7/10 como número decimal.",
+            "passoAPasso": ["7/10 significa 7 partes de 10.", "Em decimal, isso é 0,7."]
+          },
+          "geradorId": "matematica.decimal-fracao",
+          "parametrosGerador": { "direcao": "fracao-para-decimal", "casas": 1 },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f08-n01-b02",
+          "habilidade": "converter número decimal em fração de décimos",
+          "exemploResolvido": {
+            "enunciado": "Escreva 0,4 como fração (de décimos).",
+            "passoAPasso": ["0,4 tem 1 casa decimal: é em décimos.", "0,4 = 4/10."]
+          },
+          "geradorId": "matematica.decimal-fracao",
+          "parametrosGerador": { "direcao": "decimal-para-fracao", "casas": 1 },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Centésimos: fração e decimal",
+      "blocos": [
+        {
+          "id": "mat-f08-n02-b01",
+          "habilidade": "converter fração de centésimos em número decimal",
+          "exemploResolvido": {
+            "enunciado": "Escreva 23/100 como número decimal.",
+            "passoAPasso": ["23/100 significa 23 partes de 100.", "Em decimal, isso é 0,23."]
+          },
+          "geradorId": "matematica.decimal-fracao",
+          "parametrosGerador": { "direcao": "fracao-para-decimal", "casas": 2 },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Soma e subtração de decimais",
+      "blocos": [
+        {
+          "id": "mat-f08-n03-b01",
+          "habilidade": "somar e subtrair decimais até centésimos",
+          "exemploResolvido": {
+            "enunciado": "0,45 + 0,38 = ?",
+            "passoAPasso": ["Alinhe as casas decimais: 0,45 + 0,38.", "Centésimos: 5 + 8 = 13 (escreve 3, vai 1).", "Décimos: 4 + 3 + 1 = 8.", "0,45 + 0,38 = 0,83."]
+          },
+          "geradorId": "matematica.decimal-soma-subtracao",
+          "parametrosGerador": { "operacao": "soma", "casas": 2, "maximoInteiro": 9 },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f08-n03-b02",
+          "habilidade": "subtrair decimais até centésimos",
+          "exemploResolvido": {
+            "enunciado": "0,70 - 0,25 = ?",
+            "passoAPasso": ["Alinhe as casas decimais: 0,70 - 0,25.", "Centésimos: 0 - 5, precisa pegar emprestado do décimo.", "0,70 - 0,25 = 0,45."]
+          },
+          "geradorId": "matematica.decimal-soma-subtracao",
+          "parametrosGerador": { "operacao": "subtracao", "casas": 2, "maximoInteiro": 9 },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Multiplicação de decimais",
+      "blocos": [
+        {
+          "id": "mat-f08-n04-b01",
+          "habilidade": "multiplicar um decimal por um número inteiro",
+          "exemploResolvido": {
+            "enunciado": "0,25 × 4 = ?",
+            "passoAPasso": ["0,25 × 4 é o mesmo que 25 × 4 centésimos.", "25 × 4 = 100.", "100 centésimos = 1,00."]
+          },
+          "geradorId": "matematica.decimal-multiplicacao",
+          "parametrosGerador": { "modo": "por-inteiro", "casas": 2, "maximoInteiroBase": 9, "multiplicadorMax": 9 },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f08-n04-b02",
+          "habilidade": "multiplicar um decimal por 10 ou 100",
+          "exemploResolvido": {
+            "enunciado": "0,34 × 100 = ?",
+            "passoAPasso": ["Multiplicar por 100 desloca a vírgula duas casas para a direita.", "0,34 × 100 = 34."]
+          },
+          "geradorId": "matematica.decimal-multiplicacao",
+          "parametrosGerador": { "modo": "por-potencia-de-10", "casas": 2, "maximoInteiroBase": 9 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

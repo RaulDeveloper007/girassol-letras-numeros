@@ -1,0 +1,96 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 9,
+  "titulo": "Porcentagem",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Porcentagens simples de um número",
+      "blocos": [
+        {
+          "id": "mat-f09-n01-b01",
+          "habilidade": "calcular 10%, 25%, 50% ou 75% de um número",
+          "exemploResolvido": {
+            "enunciado": "Quanto é 50% de 80?",
+            "passoAPasso": ["50% é a metade.", "A metade de 80 é 40."]
+          },
+          "geradorId": "matematica.percentual-de-numero",
+          "parametrosGerador": { "percentuais": [10, 25, 50], "baseMax": 20, "multiploDeBase": 20 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Outras porcentagens",
+      "blocos": [
+        {
+          "id": "mat-f09-n02-b01",
+          "habilidade": "calcular 20% ou 75% de um número",
+          "exemploResolvido": {
+            "enunciado": "Quanto é 20% de 60?",
+            "passoAPasso": ["20% é 1/5.", "60 ÷ 5 = 12."]
+          },
+          "geradorId": "matematica.percentual-de-numero",
+          "parametrosGerador": { "percentuais": [20, 75], "baseMax": 20, "multiploDeBase": 20 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Porcentagem, fração e conversão",
+      "blocos": [
+        {
+          "id": "mat-f09-n03-b01",
+          "habilidade": "converter porcentagem em fração simplificada",
+          "exemploResolvido": {
+            "enunciado": "Escreva 25% como fração, na forma mais simples.",
+            "passoAPasso": ["25% = 25/100.", "Simplificando: 25/100 = 1/4."]
+          },
+          "geradorId": "matematica.percentual-conversao",
+          "parametrosGerador": { "direcao": "percentual-para-fracao", "percentuais": [10, 20, 25, 50, 75] },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        },
+        {
+          "id": "mat-f09-n03-b02",
+          "habilidade": "converter fração em porcentagem",
+          "exemploResolvido": {
+            "enunciado": "Escreva a fração 1/2 como porcentagem (só o número, sem o %).",
+            "passoAPasso": ["1/2 = 0,5.", "0,5 em porcentagem é 50%."]
+          },
+          "geradorId": "matematica.percentual-conversao",
+          "parametrosGerador": { "direcao": "fracao-para-percentual", "percentuais": [10, 20, 25, 50, 75] },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Porcentagem no dia a dia",
+      "blocos": [
+        {
+          "id": "mat-f09-n04-b01",
+          "habilidade": "resolver um problema de desconto percentual",
+          "exemploResolvido": {
+            "enunciado": "Um produto custa R$ 80. Com 25% de desconto, quanto você paga?",
+            "passoAPasso": ["25% de 80 é 20.", "O desconto é 20.", "80 - 20 = 60."]
+          },
+          "geradorId": "matematica.percentual-problema",
+          "parametrosGerador": { "percentuais": [10, 20, 25, 50], "precoMultiplo": 20, "precoMax": 10 },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

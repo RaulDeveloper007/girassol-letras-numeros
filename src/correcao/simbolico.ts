@@ -12,10 +12,21 @@ export interface ResultadoCorrecao {
   detalhe?: string
 }
 
+/**
+ * Alunos pt-BR digitam decimais com vírgula ("3,5"). math.js usa vírgula
+ * como separador de argumentos, então "3,5" seria lido como dois números --
+ * aqui normalizamos só o caso de um número decimal simples (sem isso,
+ * qualquer resposta decimal digitada do jeito natural seria rejeitada).
+ */
+function normalizarVirgulaDecimal(resposta: string): string {
+  const texto = resposta.trim()
+  return /^-?\d+,\d+$/.test(texto) ? texto.replace(',', '.') : texto
+}
+
 export async function avaliaNumerico(resposta: string, gabarito: number, tolerancia = 1e-9): Promise<ResultadoCorrecao> {
   const math = await obterMathjs()
   try {
-    const valor = Number(math.evaluate(resposta))
+    const valor = Number(math.evaluate(normalizarVirgulaDecimal(resposta)))
     if (!Number.isFinite(valor)) return { correto: false, detalhe: 'resposta não é um número válido' }
     return { correto: Math.abs(valor - gabarito) <= tolerancia }
   } catch {

@@ -23,6 +23,14 @@ describe('avaliaNumerico', () => {
     expect(resultado.correto).toBe(false)
     expect(resultado.detalhe).toBeTruthy()
   })
+
+  it('aceita decimal com vírgula (notação pt-BR)', async () => {
+    expect((await avaliaNumerico('3,5', 3.5)).correto).toBe(true)
+  })
+
+  it('rejeita decimal com vírgula que não bate com o gabarito', async () => {
+    expect((await avaliaNumerico('3,5', 4.2)).correto).toBe(false)
+  })
 })
 
 describe('equivalentesSimbolicamente', () => {

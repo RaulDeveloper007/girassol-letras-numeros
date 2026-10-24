@@ -1,0 +1,83 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 10,
+  "titulo": "Geometria básica: perímetro e área",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Perímetro do retângulo",
+      "blocos": [
+        {
+          "id": "mat-f10-n01-b01",
+          "habilidade": "calcular o perímetro de um retângulo",
+          "exemploResolvido": {
+            "enunciado": "Um retângulo tem 5 cm de base e 3 cm de altura. Qual é o perímetro (em cm)?",
+            "passoAPasso": ["O perímetro é a soma dos 4 lados.", "2 lados de 5 + 2 lados de 3.", "2 × (5 + 3) = 16."]
+          },
+          "geradorId": "matematica.perimetro-retangulo",
+          "parametrosGerador": { "ladoMax": 15 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Área do retângulo",
+      "blocos": [
+        {
+          "id": "mat-f10-n02-b01",
+          "habilidade": "calcular a área de um retângulo",
+          "exemploResolvido": {
+            "enunciado": "Um retângulo tem 5 cm de base e 3 cm de altura. Qual é a área (em cm²)?",
+            "passoAPasso": ["A área do retângulo é base × altura.", "5 × 3 = 15."]
+          },
+          "geradorId": "matematica.area-retangulo",
+          "parametrosGerador": { "ladoMax": 12 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Perímetro do triângulo",
+      "blocos": [
+        {
+          "id": "mat-f10-n03-b01",
+          "habilidade": "calcular o perímetro de um triângulo somando os 3 lados",
+          "exemploResolvido": {
+            "enunciado": "Um triângulo tem lados de 5 cm, 6 cm e 7 cm. Qual é o perímetro (em cm)?",
+            "passoAPasso": ["O perímetro é a soma dos 3 lados.", "5 + 6 + 7 = 18."]
+          },
+          "geradorId": "matematica.perimetro-triangulo",
+          "parametrosGerador": { "ladoMax": 15 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Área do triângulo",
+      "blocos": [
+        {
+          "id": "mat-f10-n04-b01",
+          "habilidade": "calcular a área de um triângulo a partir de base e altura",
+          "exemploResolvido": {
+            "enunciado": "Um triângulo tem 8 cm de base e 5 cm de altura. Qual é a área (em cm²)?",
+            "passoAPasso": ["A área do triângulo é (base × altura) ÷ 2.", "8 × 5 = 40.", "40 ÷ 2 = 20."]
+          },
+          "geradorId": "matematica.area-triangulo",
+          "parametrosGerador": { "baseMax": 12, "alturaMax": 12 },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}
