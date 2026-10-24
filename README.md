@@ -7,7 +7,9 @@ mouse), e roda instalado tanto no celular quanto no PC.
 
 ## Visão geral
 
-- **Dois perfis de aluno**, cada um com nível próprio por disciplina.
+- **Perfis de aluno** criados com nome e idade — o app já calibra o nível
+  inicial por disciplina pela série escolar correspondente, e cada perfil
+  evolui de forma independente.
 - **Geradores procedurais de folhas** — nenhum exercício é fixo/copiado;
   tudo é sorteado dentro de regras de dificuldade por nível.
 - **Sistema de níveis original**, em 6 estágios temáticos (Semente → Broto

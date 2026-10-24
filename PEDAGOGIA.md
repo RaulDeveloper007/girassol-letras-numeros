@@ -21,14 +21,22 @@ estar em "Flor" em Português e em "Semente" em Inglês, por exemplo.
 
 ## Regra de avanço de nível
 
-Por padrão (ajustável pelo responsável, por disciplina, no painel):
+O avanço acontece por **dois caminhos**, o que vier primeiro:
 
-> Avança de nível depois de **3 folhas seguidas** no mesmo nível, com
-> **acerto ≥ 80%** e **tempo ≤ 7 minutos** cada.
+1. **Acerto total**: acertar todos os exercícios corrigíveis de uma folha
+   já avança de nível na hora (exercícios de traçado, que não têm
+   gabarito certo/errado, não entram nessa conta).
+2. **Consistência**, configurável pelo responsável por disciplina no
+   painel (padrão):
 
-As 3 folhas precisam ser as 3 mais recentes feitas naquele nível — um
-resultado fraco "reseta" a contagem naturalmente, porque a folha seguinte
-vira a mais recente da janela. O responsável pode alterar os três valores
+   > **3 folhas seguidas** no mesmo nível, com **acerto ≥ 80%** e
+   > **tempo ≤ 7 minutos** cada.
+
+   As 3 folhas precisam ser as 3 mais recentes feitas naquele nível — um
+   resultado fraco "reseta" a contagem naturalmente, porque a folha
+   seguinte vira a mais recente da janela.
+
+O responsável pode alterar os três valores da regra de consistência
 (quantidade de folhas, % de acerto mínimo, tempo máximo) ou subir/baixar o
 nível manualmente a qualquer momento, pelo painel protegido por PIN.
 
@@ -60,8 +68,11 @@ não se repete em folhas consecutivas do mesmo nível.
 
 ## Inglês
 
-Trilha nova, criada para o app — as duas crianças começam do zero
-(estágio Semente), independente da idade.
+Trilha nova, criada para o app. Crianças pequenas começam do zero
+(estágio Semente); para as mais velhas, o app parte de um nível um pouco
+mais avançado, já supondo algum contato prévio com o idioma na escola
+(ver tabela de nível inicial por idade, abaixo) — ajustável pelo
+responsável se não for o caso.
 
 | Estágio  | Conteúdo | Exemplo |
 |----------|----------|---------|
@@ -74,10 +85,22 @@ Trilha nova, criada para o app — as duas crianças começam do zero
 
 ## Ajuste inicial recomendado
 
-Perfis novos sempre começam no nível 1 (Semente) em todas as disciplinas,
-o que é adequado para uma criança em pré-alfabetização. Para uma criança
-que já está além desse ponto (ex.: 2º ano do Ensino Fundamental), o
-responsável deve usar o ajuste manual de nível no painel para posicioná-la
-num estágio compatível com o que ela já sabe — por exemplo, "Botão" ou
-"Flor" em Matemática e Português — mantendo Inglês em "Semente" se for o
-primeiro contato da criança com o idioma.
+## Nível inicial por idade
+
+Ao criar um perfil, o app pede o nome e a idade da criança e já calcula um
+nível inicial por disciplina, com base numa correspondência aproximada com
+a série escolar (`src/app/age-level-mapping.js`):
+
+| Idade | Série aproximada | Matemática | Português | Inglês |
+|:-----:|-------------------|:----------:|:---------:|:------:|
+| até 5 | Educação Infantil | Semente (1) | Semente (1) | Semente (1) |
+| 6     | 1º ano EF         | Broto (6)   | Broto (6)   | Semente (1) |
+| 7     | 2º ano EF         | Folha (11)  | Folha (13)  | Semente (1) |
+| 8     | 3º ano EF         | Botão (16)  | Botão (18)  | Broto (6)   |
+| 9     | 4º ano EF         | Flor (21)   | Flor (23)   | Folha (11)  |
+| 10    | 5º ano EF         | Flor (24)   | Flor (26)   | Folha (13)  |
+| 11+   | 6º ano EF ou mais | Girassol (26) | Girassol (28) | Botão (16) |
+
+É só um ponto de partida aproximado — o responsável pode corrigir o nível
+manualmente no painel a qualquer momento, por disciplina, se a criança
+estiver mais ou menos avançada do que a média da série.

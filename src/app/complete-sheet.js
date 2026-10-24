@@ -61,9 +61,14 @@ export async function completeSheet({ studentId, sheet, exerciseResults, elapsed
     .sort((a, b) => new Date(b.date) - new Date(a.date))
 
   const recentWindow = sameLevelAttempts.slice(0, rules.sheetsRequired)
-  const meetsRule =
+  const meetsStreakRule =
     recentWindow.length >= rules.sheetsRequired &&
     recentWindow.every((attempt) => attempt.accuracyRate >= rules.minAccuracy && attempt.elapsedSeconds <= rules.maxTimeSeconds)
+
+  // Acertar tudo numa folha já avança de nível, sem precisar esperar a
+  // sequência de folhas da regra configurável abaixo.
+  const perfectSheet = totalGraded > 0 && correctCount === totalGraded
+  const meetsRule = perfectSheet || meetsStreakRule
 
   let leveledUp = false
   let newLevel = sheet.level

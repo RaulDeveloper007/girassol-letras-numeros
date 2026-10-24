@@ -1,6 +1,6 @@
 import { navigateTo } from '../../app/router.js'
 import { setState } from '../../app/state.js'
-import { ensureSeedStudents } from '../../data/students-repo.js'
+import { listStudents } from '../../data/students-repo.js'
 
 export function renderProfileSelect(root) {
   root.innerHTML = `
@@ -16,20 +16,27 @@ export function renderProfileSelect(root) {
     navigateTo('#/responsavel')
   })
 
-  ensureSeedStudents().then((students) => {
+  listStudents().then((students) => {
     const grid = root.querySelector('#profile-grid')
-    grid.innerHTML = students
+    const studentCards = students
       .map(
         (student) =>
           `<button class="profile-card" data-student="${student.id}"><span class="card-icon">${student.avatarIcon}</span><span class="card-label">${student.firstName}</span></button>`
       )
       .join('')
+    const addCard = `<button class="profile-card profile-card--add" id="add-student"><span class="card-icon">➕</span><span class="card-label">Novo aluno</span></button>`
 
-    grid.querySelectorAll('.profile-card').forEach((btn) => {
+    grid.innerHTML = studentCards + addCard
+
+    grid.querySelectorAll('.profile-card[data-student]').forEach((btn) => {
       btn.addEventListener('click', () => {
         setState({ activeStudentId: btn.dataset.student })
         navigateTo('#/aluno')
       })
     })
+
+    grid.querySelector('#add-student').addEventListener('click', () => navigateTo('#/novo-aluno'))
   })
+
+  return () => {}
 }

@@ -1,4 +1,4 @@
-import { listStudents } from '../../data/students-repo.js'
+import { listStudents, deleteStudent } from '../../data/students-repo.js'
 import { listProgressByStudent, saveProgress } from '../../data/subject-progress-repo.js'
 import { listAttemptsByStudentSubject } from '../../data/attempts-repo.js'
 import { getRules, saveRules } from '../../data/progression-rules-repo.js'
@@ -130,6 +130,7 @@ export function renderDashboard(container) {
 
     const progressList = await listProgressByStudent(selectedStudentId)
     const progressBySubject = Object.fromEntries(progressList.map((p) => [p.subject, p]))
+    const currentStudent = students.find((student) => student.id === selectedStudentId)
 
     container.innerHTML = `
       <div class="guardian-tabs" id="student-tabs">
@@ -140,6 +141,7 @@ export function renderDashboard(container) {
           )
           .join('')}
       </div>
+      <button type="button" id="remove-student" class="remove-student-button">🗑 Remover perfil de ${currentStudent?.firstName ?? 'aluno'}</button>
       <div id="subject-panels"></div>
       <div class="guardian-backup">
         <h2>Backup</h2>
@@ -158,6 +160,17 @@ export function renderDashboard(container) {
         selectedStudentId = btn.dataset.student
         render()
       })
+    })
+
+    container.querySelector('#remove-student').addEventListener('click', async () => {
+      const confirmed = window.confirm(
+        `Remover o perfil de ${currentStudent?.firstName ?? 'aluno'}? Isso não pode ser desfeito.`
+      )
+      if (!confirmed) return
+      await deleteStudent(selectedStudentId)
+      students = await listStudents()
+      selectedStudentId = students[0]?.id ?? null
+      render()
     })
 
     const panels = container.querySelector('#subject-panels')

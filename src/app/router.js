@@ -1,4 +1,5 @@
 import { renderProfileSelect } from '../screens/profile-select/profile-select.js'
+import { renderCreateProfile } from '../screens/profile-select/create-profile.js'
 import { renderStudentHome } from '../screens/student-home/student-home.js'
 import { renderSheet } from '../screens/sheet/sheet.js'
 import { renderSheetResult } from '../screens/sheet-result/sheet-result.js'
@@ -6,6 +7,7 @@ import { renderGuardian } from '../screens/guardian/guardian.js'
 
 const routes = {
   '#/': renderProfileSelect,
+  '#/novo-aluno': renderCreateProfile,
   '#/aluno': renderStudentHome,
   '#/folha': renderSheet,
   '#/resultado': renderSheetResult,

@@ -59,6 +59,13 @@
   color: #fff;
 }
 
+.remove-student-button {
+  background: #ffebee;
+  color: #c62828;
+  border: 2px solid #c62828;
+  margin-bottom: 16px;
+}
+
 .guardian-subject-panel {
   background: var(--color-card-bg);
   border: 1px solid var(--color-primary);

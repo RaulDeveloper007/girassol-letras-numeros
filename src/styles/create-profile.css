@@ -1,0 +1,65 @@
+.screen-create-profile {
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.field-label {
+  font-weight: bold;
+  margin: 8px 0 0;
+}
+
+.text-input {
+  width: 100%;
+  min-height: var(--touch-min);
+  font-size: 1.2rem;
+  padding: 8px 12px;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.age-stepper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.age-stepper button {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  font-size: 1.4rem;
+}
+
+#age-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  min-width: 48px;
+  text-align: center;
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.icon-option {
+  font-size: 1.8rem;
+  min-height: var(--touch-min);
+  background: var(--color-card-bg);
+  border: 2px solid var(--color-primary);
+}
+
+.icon-option.is-selected {
+  background: var(--color-primary);
+}
+
+.form-error {
+  color: #c62828;
+  font-weight: bold;
+  min-height: 24px;
+}
