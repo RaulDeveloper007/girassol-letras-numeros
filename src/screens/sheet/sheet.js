@@ -44,8 +44,27 @@ export function renderSheet(root) {
   let timer = null
   let currentIndex = 0
   let exerciseStartedAt = Date.now()
+  let advanceTimeoutId = null
   const exerciseResults = []
   let sheet = null
+
+  const AUTO_ADVANCE_DELAY_GRADED = 1200
+  const AUTO_ADVANCE_DELAY_TRACE = 700
+
+  function clearAutoAdvance() {
+    if (advanceTimeoutId !== null) {
+      clearTimeout(advanceTimeoutId)
+      advanceTimeoutId = null
+    }
+  }
+
+  function scheduleAutoAdvance(delay) {
+    clearAutoAdvance()
+    advanceTimeoutId = setTimeout(() => {
+      advanceTimeoutId = null
+      handleNext()
+    }, delay)
+  }
 
   root.innerHTML = `
     <main class="screen screen-sheet">
@@ -75,6 +94,7 @@ export function renderSheet(root) {
     `
     root.querySelector('#go-back').addEventListener('click', () => navigateTo('#/aluno'))
     root.querySelector('#go-prev').addEventListener('click', () => {
+      clearAutoAdvance()
       if (currentIndex > 0) {
         currentIndex -= 1
         renderCurrentExercise()
@@ -84,6 +104,8 @@ export function renderSheet(root) {
   }
 
   async function handleNext() {
+    clearAutoAdvance()
+
     if (currentIndex < sheet.exercises.length - 1) {
       currentIndex += 1
       renderCurrentExercise()
@@ -98,6 +120,7 @@ export function renderSheet(root) {
   }
 
   function renderCurrentExercise() {
+    clearAutoAdvance()
     const exercise = sheet.exercises[currentIndex]
     const existingResult = exerciseResults[currentIndex] ?? null
     exerciseStartedAt = Date.now()
@@ -140,6 +163,10 @@ export function renderSheet(root) {
         timeSpentSeconds: Math.round((Date.now() - exerciseStartedAt) / 1000),
       }
       root.querySelector('#go-next').disabled = !exerciseResults[currentIndex].answered
+
+      if (exerciseResults[currentIndex].answered) {
+        scheduleAutoAdvance(result.graded ? AUTO_ADVANCE_DELAY_GRADED : AUTO_ADVANCE_DELAY_TRACE)
+      }
     }
 
     if (exercise.interaction === 'trace') {
@@ -204,6 +231,7 @@ export function renderSheet(root) {
   init()
 
   return () => {
+    clearAutoAdvance()
     if (timer) timer.destroy()
     if (writingCanvas) writingCanvas.destroy()
     if (currentKeyboard) currentKeyboard.destroy()
