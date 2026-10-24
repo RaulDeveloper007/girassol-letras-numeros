@@ -1,0 +1,45 @@
+.big-keyboard {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.big-keyboard__display {
+  min-height: 48px;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 4px;
+  background: #ffffff;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius);
+  padding: 8px;
+  text-align: center;
+}
+
+.big-keyboard__row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.key {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  font-size: 1.2rem;
+  background: var(--color-card-bg);
+  border: 2px solid var(--color-primary);
+}
+
+.key--control {
+  background: #ffe0b2;
+}
+
+.key--submit {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: bold;
+}

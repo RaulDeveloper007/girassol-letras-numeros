@@ -111,3 +111,32 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+.exercise-feedback {
+  min-height: 32px;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.exercise-feedback.is-correct {
+  color: #2e7d32;
+}
+
+.exercise-feedback.is-wrong {
+  color: #c62828;
+}
+
+.trace-done-button {
+  margin-top: 8px;
+}
+
+.result-summary {
+  font-size: 1.2rem;
+  max-width: 480px;
+}
+
+.level-up-banner {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-primary-dark);
+}

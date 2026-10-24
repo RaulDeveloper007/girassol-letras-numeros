@@ -1,8 +1,8 @@
 const state = {
   activeStudentId: null,
   activeSubject: null,
-  activeLevel: null,
   currentSheetId: null,
+  lastSheetSummary: null,
 }
 
 export function getState() {
