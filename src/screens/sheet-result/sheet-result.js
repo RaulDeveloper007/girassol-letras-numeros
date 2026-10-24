@@ -1,5 +1,6 @@
 import { navigateTo } from '../../app/router.js'
 import { getState, setState } from '../../app/state.js'
+import { playLevelUpSound } from '../../components/sound-effects.js'
 
 export function renderSheetResult(root) {
   const { lastSheetSummary } = getState()
@@ -12,6 +13,8 @@ export function renderSheetResult(root) {
   const { correctCount, totalGraded, totalExercises, elapsedSeconds, leveledUp, newStage } = lastSheetSummary
   const minutes = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0')
   const seconds = String(elapsedSeconds % 60).padStart(2, '0')
+
+  if (leveledUp) playLevelUpSound()
 
   root.innerHTML = `
     <main class="screen screen-sheet-result">

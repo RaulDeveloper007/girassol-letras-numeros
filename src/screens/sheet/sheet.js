@@ -12,6 +12,7 @@ import { buildEnglishSheet } from '../../levels/english-levels.js'
 import { ensureProgress } from '../../data/subject-progress-repo.js'
 import { getLastSheet } from '../../data/sheets-repo.js'
 import { completeSheet } from '../../app/complete-sheet.js'
+import { playCorrectSound, playWrongSound, playTraceDoneSound } from '../../components/sound-effects.js'
 
 const SUBJECT_LABELS = {
   math: 'Matemática',
@@ -175,6 +176,7 @@ export function renderSheet(root) {
       doneButton.className = 'trace-done-button'
       doneButton.textContent = existingResult?.answered ? 'Traçado concluído ✓' : 'Concluí o traçado ✓'
       doneButton.addEventListener('click', () => {
+        playTraceDoneSound()
         recordResult({ graded: false, answered: true, isCorrect: null, studentAnswer: null })
         doneButton.textContent = 'Traçado concluído ✓'
       })
@@ -186,6 +188,7 @@ export function renderSheet(root) {
           area.querySelectorAll('.choice-button').forEach((b) => b.classList.remove('is-selected'))
           btn.classList.add('is-selected')
           const isCorrect = btn.dataset.value === exercise.correctValue
+          isCorrect ? playCorrectSound() : playWrongSound()
           showFeedback(isCorrect)
           recordResult({ graded: true, answered: true, isCorrect, studentAnswer: btn.dataset.value })
         })
@@ -198,6 +201,7 @@ export function renderSheet(root) {
         onSubmit: (value) => {
           if (!value) return
           const isCorrect = String(value).trim().toUpperCase() === String(exercise.expectedAnswer).trim().toUpperCase()
+          isCorrect ? playCorrectSound() : playWrongSound()
           showFeedback(isCorrect)
           recordResult({ graded: true, answered: true, isCorrect, studentAnswer: value })
         },
