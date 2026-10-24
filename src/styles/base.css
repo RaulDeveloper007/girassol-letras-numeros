@@ -1,0 +1,112 @@
+:root {
+  --color-bg: #fff8e1;
+  --color-primary: #f9a825;
+  --color-primary-dark: #c17900;
+  --color-text: #4e342e;
+  --color-card-bg: #ffffff;
+  --radius: 16px;
+  --touch-min: 48px;
+  font-size: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+button {
+  font-size: 1.1rem;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:active {
+  background: var(--color-primary-dark);
+}
+
+.link-button {
+  background: transparent;
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.back-button {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--color-card-bg);
+  color: var(--color-text);
+}
+
+.profile-grid,
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.profile-card,
+.subject-card {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+  font-size: 1.4rem;
+  padding: 24px;
+}
+
+.placeholder-note {
+  opacity: 0.7;
+  font-style: italic;
+  max-width: 480px;
+}
+
+/* PC / paisagem: aproveita a largura extra sem esticar o conteúdo */
+@media (min-width: 900px) and (orientation: landscape) {
+  .screen {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
