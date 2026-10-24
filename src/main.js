@@ -1,4 +1,5 @@
 import './styles/base.css'
+import './styles/voice-check.css'
 import { startRouter } from './app/router.js'
 
 startRouter(document.querySelector('#app'))

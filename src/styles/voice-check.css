@@ -1,0 +1,70 @@
+.voice-check-screen {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.voice-check-screen h1 {
+  color: var(--color-primary-dark);
+  margin-bottom: 4px;
+}
+
+.voice-check-screen section {
+  background: var(--color-card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.voice-check-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.voice-check-row button {
+  min-height: var(--touch-min);
+  padding: 0 16px;
+  border-radius: 12px;
+  border: none;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.voice-check-row button:active {
+  background: var(--color-primary-dark);
+}
+
+.voice-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.voice-table th,
+.voice-table td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.voice-hint {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.voice-result,
+.voice-phrase {
+  font-weight: 600;
+  min-height: 1.4em;
+}
+
+#voice-summary {
+  list-style: none;
+  padding: 0;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}

@@ -4,6 +4,7 @@ import { renderStudentHome } from '../screens/student-home/student-home.js'
 import { renderSheet } from '../screens/sheet/sheet.js'
 import { renderSheetResult } from '../screens/sheet-result/sheet-result.js'
 import { renderGuardian } from '../screens/guardian/guardian.js'
+import { renderVoiceCheck } from '../screens/voice-check/voice-check.js'
 
 const routes = {
   '#/': renderProfileSelect,
@@ -12,6 +13,7 @@ const routes = {
   '#/folha': renderSheet,
   '#/resultado': renderSheetResult,
   '#/responsavel': renderGuardian,
+  '#/verificar-voz': renderVoiceCheck,
 }
 
 let rootEl = null
