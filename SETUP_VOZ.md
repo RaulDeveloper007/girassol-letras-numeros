@@ -85,11 +85,11 @@ A tela mostra:
 
 | Item | Redmi 9 | Windows 11 |
 |---|:---:|:---:|
-| Síntese pt-BR (offline) | ⬜ | ⬜ |
-| Síntese en-US (offline) | ⬜ | ⬜ |
-| Reconhecimento pt-BR | ⬜ | ⬜ |
-| Reconhecimento en-US | ⬜ | ⬜ |
-| Permissão de microfone concedida ao navegador | ⬜ | ⬜ |
+| Síntese pt-BR (offline) | ⬜ | ✅ |
+| Síntese en-US (offline) | ⬜ | ✅ |
+| Reconhecimento pt-BR | ⬜ | ✅ |
+| Reconhecimento en-US | ⬜ | ✅ |
+| Permissão de microfone concedida ao navegador | ⬜ | ✅ |
 
 ## O que esta etapa NÃO faz
 
