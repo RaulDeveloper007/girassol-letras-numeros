@@ -13,6 +13,7 @@ import { ensureProgress } from '../../data/subject-progress-repo.js'
 import { getLastSheet } from '../../data/sheets-repo.js'
 import { completeSheet } from '../../app/complete-sheet.js'
 import { playCorrectSound, playWrongSound, playTraceDoneSound } from '../../components/sound-effects.js'
+import { isSingleDigitExercise, recognizeFromCanvas } from '../../recognition/index.js'
 
 const SUBJECT_LABELS = {
   math: 'Matemática',
@@ -134,6 +135,7 @@ export function renderSheet(root) {
       ${renderExerciseDisplay(exercise)}
       <div class="exercise-feedback" id="exercise-feedback"></div>
       <div id="answer-area"></div>
+      <div id="recognize-area"></div>
     `
 
     const speakButton = createSpeakButton({ text: exercise.speak, lang: SPEECH_LANG[activeSubject] })
@@ -156,6 +158,55 @@ export function renderSheet(root) {
       }
       feedbackEl.textContent = isCorrect ? '✅ Muito bem!' : '❌ Tente de novo!'
       feedbackEl.className = `exercise-feedback ${isCorrect ? 'is-correct' : 'is-wrong'}`
+    }
+
+    function setupRecognizeButton(container) {
+      container.innerHTML = `
+        <button type="button" id="recognize-button" class="recognize-button">🔍 Reconhecer o que eu escrevi</button>
+        <div class="recognize-status" id="recognize-status"></div>
+      `
+      const button = container.querySelector('#recognize-button')
+      const status = container.querySelector('#recognize-status')
+
+      button.addEventListener('click', async () => {
+        button.disabled = true
+        status.textContent = 'Preparando…'
+
+        const canvasEl = writingCanvas.getCanvasElement()
+        const result = await recognizeFromCanvas(canvasEl, (message) => {
+          status.textContent = message
+        })
+
+        button.disabled = false
+
+        if (!result) {
+          status.textContent = 'Desenhe o número no quadro primeiro!'
+          return
+        }
+
+        status.innerHTML = ''
+        const confirmText = document.createElement('p')
+        confirmText.textContent = `Você escreveu ${result.digit}?`
+
+        const yesButton = document.createElement('button')
+        yesButton.type = 'button'
+        yesButton.textContent = '✅ Sim'
+        yesButton.addEventListener('click', () => {
+          currentKeyboard?.setValue(String(result.digit))
+          status.innerHTML = ''
+        })
+
+        const noButton = document.createElement('button')
+        noButton.type = 'button'
+        noButton.textContent = '❌ Não'
+        noButton.addEventListener('click', () => {
+          status.innerHTML = ''
+        })
+
+        status.appendChild(confirmText)
+        status.appendChild(yesButton)
+        status.appendChild(noButton)
+      })
     }
 
     function recordResult(result) {
@@ -209,6 +260,10 @@ export function renderSheet(root) {
       if (existingResult?.studentAnswer) {
         currentKeyboard.setValue(existingResult.studentAnswer)
         showFeedback(existingResult.isCorrect)
+      }
+
+      if (isSingleDigitExercise(exercise)) {
+        setupRecognizeButton(area.querySelector('#recognize-area'))
       }
     }
 

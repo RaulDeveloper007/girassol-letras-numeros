@@ -205,6 +205,7 @@ export function createWritingCanvas(container, options = {}) {
     undo,
     setMode,
     hasDrawing,
+    getCanvasElement: () => canvas,
     destroy() {
       resizeObserver.disconnect()
       canvas.removeEventListener('pointerdown', handlePointerDown)

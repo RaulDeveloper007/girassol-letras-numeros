@@ -137,6 +137,28 @@
   max-width: 480px;
 }
 
+.recognize-button {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 2px dashed var(--color-primary);
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.recognize-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-height: 24px;
+  margin-top: 8px;
+}
+
+.recognize-status button {
+  font-size: 1rem;
+}
+
 .result-actions {
   display: flex;
   flex-direction: column;

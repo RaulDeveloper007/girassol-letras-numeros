@@ -17,7 +17,12 @@ mouse), e roda instalado tanto no celular quanto no PC.
 - **Canvas de escrita manuscrita** (Pointer Events) com borracha, desfazer
   e limpar.
 - **Resposta em duas camadas**: rascunho manuscrito livre + teclado grande
-  (numérico ou alfabético) para confirmar a resposta.
+  (numérico ou alfabético) para confirmar a resposta. Em exercícios de
+  matemática com resposta de 1 dígito, a criança também pode pedir pro app
+  tentar *reconhecer* o número que ela escreveu (TensorFlow.js, treinado
+  no próprio aparelho) — sempre pedindo confirmação antes de preencher.
+- **Efeitos sonoros** sintetizados (Web Audio API, sem arquivos de áudio de
+  terceiros) para acerto, erro, traçado concluído e avanço de nível.
 - **Correção automática**, avanço sequencial entre exercícios, e regra de
   avanço de nível configurável (X folhas seguidas, acerto ≥ Y%, tempo ≤ Z).
 - **Painel do responsável** protegido por PIN: histórico, acerto médio,
