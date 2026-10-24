@@ -1,0 +1,113 @@
+.sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sheet-stage {
+  font-size: 0.9rem;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-primary);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.timer {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.sheet-progress {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.exercise-prompt {
+  font-size: 1.3rem;
+  max-width: 480px;
+  white-space: pre-line;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.speak-button {
+  font-size: 1.3rem;
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  background: var(--color-card-bg);
+  border: 2px solid var(--color-primary);
+  vertical-align: middle;
+}
+
+.exercise-display {
+  margin: 8px 0 16px;
+  font-size: 2rem;
+}
+
+.exercise-display--icons {
+  font-size: 2.4rem;
+  line-height: 1.4;
+  max-width: 420px;
+}
+
+.exercise-display--sequence {
+  font-size: 2rem;
+  letter-spacing: 4px;
+}
+
+.exercise-display--equation,
+.exercise-display--letter {
+  font-size: 3.5rem;
+  font-weight: bold;
+}
+
+.exercise-display--reading {
+  font-size: 1.2rem;
+  text-align: left;
+  max-width: 480px;
+}
+
+.exercise-display--reading .question {
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.exercise-display--fill-blank,
+.exercise-display--word-prompt,
+.exercise-display--syllables {
+  font-size: 2.6rem;
+  letter-spacing: 4px;
+  font-weight: bold;
+}
+
+.exercise-display--choices {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.choice-button {
+  font-size: 1.6rem;
+  min-width: 64px;
+  min-height: 64px;
+  background: var(--color-card-bg);
+  border: 3px solid var(--color-primary);
+}
+
+.choice-button.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.sheet-nav {
+  display: flex;
+  gap: 16px;
+}
+
+.sheet-nav button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

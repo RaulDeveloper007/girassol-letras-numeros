@@ -1,6 +1,7 @@
 const state = {
   activeStudentId: null,
   activeSubject: null,
+  activeLevel: null,
   currentSheetId: null,
 }
 
