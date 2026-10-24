@@ -57,6 +57,137 @@
           "tiposDeItem": ["tracado-guiado", "numerico"]
         }
       ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Quantidades de 1 a 20",
+      "blocos": [
+        {
+          "id": "mat-f01-n02-b01",
+          "habilidade": "contar quantidades representadas por pontos, de 11 a 20",
+          "exemploResolvido": {
+            "enunciado": "Quantos pontos você vê? ● ● ● ● ● ● ● ● ● ● ● ●",
+            "passoAPasso": [
+              "Conte de 10 em diante: ...9, 10, 11, 12.",
+              "● ● ● ● ● ● ● ● ● ● ● ● são 12 pontos."
+            ]
+          },
+          "geradorId": "matematica.contagem",
+          "parametrosGerador": { "min": 11, "max": 20 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Leitura e escrita de números maiores",
+      "blocos": [
+        {
+          "id": "mat-f01-n03-b01",
+          "habilidade": "ler e escrever números de 11 a 30",
+          "exemploResolvido": {
+            "enunciado": "Escreva o número: 18",
+            "passoAPasso": ["Ouça o número com o botão 🔊, se precisar.", "Digite 18 no teclado."]
+          },
+          "geradorId": "matematica.leitura-numero",
+          "parametrosGerador": { "min": 11, "max": 30 },
+          "tempoPadraoSegundos": 240,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f01-n03-b02",
+          "habilidade": "ler e escrever números de 31 a 50",
+          "exemploResolvido": {
+            "enunciado": "Escreva o número: 42",
+            "passoAPasso": ["Ouça o número com o botão 🔊, se precisar.", "Digite 42 no teclado."]
+          },
+          "geradorId": "matematica.leitura-numero",
+          "parametrosGerador": { "min": 31, "max": 50 },
+          "tempoPadraoSegundos": 240,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f01-n03-b03",
+          "habilidade": "ler e escrever números de 51 a 100",
+          "exemploResolvido": {
+            "enunciado": "Escreva o número: 76",
+            "passoAPasso": ["Ouça o número com o botão 🔊, se precisar.", "Digite 76 no teclado."]
+          },
+          "geradorId": "matematica.leitura-numero",
+          "parametrosGerador": { "min": 51, "max": 100 },
+          "tempoPadraoSegundos": 240,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Sucessor e antecessor",
+      "blocos": [
+        {
+          "id": "mat-f01-n04-b01",
+          "habilidade": "identificar o sucessor e o antecessor de números até 50",
+          "exemploResolvido": {
+            "enunciado": "Qual é o sucessor de 24?",
+            "passoAPasso": ["Sucessor é o número que vem depois.", "Depois de 24 vem 25."]
+          },
+          "geradorId": "matematica.sucessor-antecessor",
+          "parametrosGerador": { "min": 1, "max": 50 },
+          "tempoPadraoSegundos": 240,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f01-n04-b02",
+          "habilidade": "identificar o sucessor e o antecessor de números até 100",
+          "exemploResolvido": {
+            "enunciado": "Qual é o antecessor de 50?",
+            "passoAPasso": ["Antecessor é o número que vem antes.", "Antes de 50 vem 49."]
+          },
+          "geradorId": "matematica.sucessor-antecessor",
+          "parametrosGerador": { "min": 1, "max": 100 },
+          "tempoPadraoSegundos": 240,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 5,
+      "titulo": "Sequências numéricas",
+      "blocos": [
+        {
+          "id": "mat-f01-n05-b01",
+          "habilidade": "completar sequências numéricas com passo 1, até 100",
+          "exemploResolvido": {
+            "enunciado": "Qual número completa a sequência? 7, 8, ❓, 10, 11",
+            "passoAPasso": ["Cada número é 1 a mais que o anterior.", "Depois do 8 vem o 9."]
+          },
+          "geradorId": "matematica.sequencia",
+          "parametrosGerador": { "maxInicio": 90, "passos": [1], "tamanho": 5 },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f01-n05-b02",
+          "habilidade": "completar sequências numéricas com passos 2, 5 ou 10, até 1000",
+          "exemploResolvido": {
+            "enunciado": "Qual número completa a sequência? 10, 20, ❓, 40, 50",
+            "passoAPasso": ["Aqui o passo é de 10 em 10.", "Depois do 20 vem o 30."]
+          },
+          "geradorId": "matematica.sequencia",
+          "parametrosGerador": { "maxInicio": 900, "passos": [2, 5, 10], "tamanho": 5 },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
     }
   ]
 }

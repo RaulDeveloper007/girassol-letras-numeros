@@ -22,7 +22,7 @@ describe('carregarFase', () => {
 
 describe('listarFasesDisponiveis', () => {
   it('lista as fases existentes de matemática em ordem', () => {
-    expect(listarFasesDisponiveis('matematica')).toEqual([1])
+    expect(listarFasesDisponiveis('matematica')).toEqual([1, 2, 3, 4, 5])
   })
 
   it('retorna lista vazia para uma disciplina sem nenhum arquivo ainda', () => {
@@ -48,8 +48,13 @@ describe('buscarBloco / proximoBlocoId', () => {
     expect(proximoBlocoId(fase, 'mat-f01-n01-b01')).toBe('mat-f01-n01-b02')
   })
 
-  it('retorna null quando é o último bloco da fase', async () => {
+  it('atravessa a fronteira entre níveis dentro da mesma fase', async () => {
     const fase = await carregarFase('matematica', 1)
-    expect(proximoBlocoId(fase, 'mat-f01-n01-b03')).toBeNull()
+    expect(proximoBlocoId(fase, 'mat-f01-n01-b03')).toBe('mat-f01-n02-b01')
+  })
+
+  it('retorna null quando é o último bloco da fase inteira', async () => {
+    const fase = await carregarFase('matematica', 1)
+    expect(proximoBlocoId(fase, 'mat-f01-n05-b02')).toBeNull()
   })
 })

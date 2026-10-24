@@ -1,0 +1,68 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 5,
+  "titulo": "Divisão",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Divisão exata por 2, 5 e 10",
+      "blocos": [
+        {
+          "id": "mat-f05-n01-b01",
+          "habilidade": "divisão exata por 2, 5 ou 10",
+          "exemploResolvido": {
+            "enunciado": "10 ÷ 2 = ?",
+            "passoAPasso": ["Pergunte: quantas vezes o 2 cabe no 10?", "2, 4, 6, 8, 10 -- são 5 vezes.", "10 ÷ 2 = 5."]
+          },
+          "geradorId": "matematica.divisao",
+          "parametrosGerador": { "divisores": [2, 5, 10], "quocienteMax": 10, "comResto": false },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Divisão exata por qualquer número de 2 a 10",
+      "blocos": [
+        {
+          "id": "mat-f05-n02-b01",
+          "habilidade": "divisão exata, divisor de 2 a 10",
+          "exemploResolvido": {
+            "enunciado": "24 ÷ 4 = ?",
+            "passoAPasso": ["Pergunte: quantas vezes o 4 cabe no 24?", "4, 8, 12, 16, 20, 24 -- são 6 vezes.", "24 ÷ 4 = 6."]
+          },
+          "geradorId": "matematica.divisao",
+          "parametrosGerador": { "divisores": [2, 3, 4, 5, 6, 7, 8, 9, 10], "quocienteMax": 10, "comResto": false },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Divisão com resto",
+      "blocos": [
+        {
+          "id": "mat-f05-n03-b01",
+          "habilidade": "divisão com resto, divisor de 2 a 10 (responde a parte inteira)",
+          "exemploResolvido": {
+            "enunciado": "17 ÷ 5 = ? (parte inteira)",
+            "passoAPasso": [
+              "Quantas vezes o 5 cabe inteiro no 17?",
+              "5, 10, 15 -- são 3 vezes (sobra 2, mas por enquanto só a parte inteira).",
+              "17 ÷ 5 = 3 (resto 2)."
+            ]
+          },
+          "geradorId": "matematica.divisao",
+          "parametrosGerador": { "divisores": [2, 3, 4, 5, 6, 7, 8, 9, 10], "quocienteMax": 10, "comResto": true },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

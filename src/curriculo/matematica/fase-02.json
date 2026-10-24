@@ -1,0 +1,123 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 2,
+  "titulo": "Adição",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Somar 1, 2 ou 3 (até 10)",
+      "blocos": [
+        {
+          "id": "mat-f02-n01-b01",
+          "habilidade": "somar +1 a números até 9",
+          "exemploResolvido": {
+            "enunciado": "5 + 1 = ?",
+            "passoAPasso": ["Some 1 é só dizer o próximo número.", "Depois do 5 vem o 6.", "5 + 1 = 6."]
+          },
+          "geradorId": "matematica.adicao",
+          "parametrosGerador": { "maxA": 9, "maxB": 1, "comReserva": false },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f02-n01-b02",
+          "habilidade": "somar +1 a +3 a números até 9",
+          "exemploResolvido": {
+            "enunciado": "4 + 3 = ?",
+            "passoAPasso": ["Comece no 4.", "Conte mais 3 pra frente: 5, 6, 7.", "4 + 3 = 7."]
+          },
+          "geradorId": "matematica.adicao",
+          "parametrosGerador": { "maxA": 9, "maxB": 3, "comReserva": false },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Somas até 10, sem reserva",
+      "blocos": [
+        {
+          "id": "mat-f02-n02-b01",
+          "habilidade": "somar dois números de 1 dígito, resultado até 10, sem reserva",
+          "exemploResolvido": {
+            "enunciado": "3 + 4 = ?",
+            "passoAPasso": ["Comece no 3.", "Conte mais 4: 4, 5, 6, 7.", "3 + 4 = 7."]
+          },
+          "geradorId": "matematica.adicao",
+          "parametrosGerador": { "maxA": 9, "maxB": 9, "comReserva": false },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Somas até 20, sem reserva",
+      "blocos": [
+        {
+          "id": "mat-f02-n03-b01",
+          "habilidade": "somar números até 18, resultado até 20, sem reserva",
+          "exemploResolvido": {
+            "enunciado": "12 + 6 = ?",
+            "passoAPasso": ["Separe o 12 em 10 + 2.", "2 + 6 = 8.", "10 + 8 = 18."]
+          },
+          "geradorId": "matematica.adicao",
+          "parametrosGerador": { "maxA": 18, "maxB": 18, "comReserva": false },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Somas até 20, com reserva",
+      "blocos": [
+        {
+          "id": "mat-f02-n04-b01",
+          "habilidade": "somar números até 18, podendo passar de uma dezena (com reserva)",
+          "exemploResolvido": {
+            "enunciado": "8 + 7 = ?",
+            "passoAPasso": [
+              "Complete o 8 até 10: falta 2.",
+              "Tire 2 do 7, sobra 5.",
+              "10 + 5 = 15."
+            ]
+          },
+          "geradorId": "matematica.adicao",
+          "parametrosGerador": { "maxA": 18, "maxB": 18, "comReserva": true },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 5,
+      "titulo": "Somas até 100, com múltiplos dígitos",
+      "blocos": [
+        {
+          "id": "mat-f02-n05-b01",
+          "habilidade": "somar números de até 2 dígitos, resultado até 100, com reserva",
+          "exemploResolvido": {
+            "enunciado": "37 + 28 = ?",
+            "passoAPasso": [
+              "Some as unidades: 7 + 8 = 15 (vai 1, fica 5).",
+              "Some as dezenas: 3 + 2 + 1 = 6.",
+              "37 + 28 = 65."
+            ]
+          },
+          "geradorId": "matematica.adicao",
+          "parametrosGerador": { "maxA": 80, "maxB": 80, "comReserva": true },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

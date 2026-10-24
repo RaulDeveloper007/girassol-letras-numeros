@@ -1,0 +1,83 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 4,
+  "titulo": "Multiplicação",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Tabuada do 2 e do 5",
+      "blocos": [
+        {
+          "id": "mat-f04-n01-b01",
+          "habilidade": "tabuada do 2 e do 5",
+          "exemploResolvido": {
+            "enunciado": "2 × 4 = ?",
+            "passoAPasso": ["Multiplicar por 2 é somar o número com ele mesmo.", "4 + 4 = 8.", "2 × 4 = 8."]
+          },
+          "geradorId": "matematica.tabuada",
+          "parametrosGerador": { "tabelas": [2, 5], "multiplicadorMax": 10 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Tabuada do 3 e do 4",
+      "blocos": [
+        {
+          "id": "mat-f04-n02-b01",
+          "habilidade": "tabuada do 3 e do 4",
+          "exemploResolvido": {
+            "enunciado": "3 × 5 = ?",
+            "passoAPasso": ["3 × 5 é 3 somado 5 vezes.", "3 + 3 + 3 + 3 + 3 = 15.", "3 × 5 = 15."]
+          },
+          "geradorId": "matematica.tabuada",
+          "parametrosGerador": { "tabelas": [3, 4], "multiplicadorMax": 10 },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Tabuada do 6 ao 10",
+      "blocos": [
+        {
+          "id": "mat-f04-n03-b01",
+          "habilidade": "tabuada do 6, 7, 8, 9 e 10",
+          "exemploResolvido": {
+            "enunciado": "6 × 3 = ?",
+            "passoAPasso": ["6 × 3 é 6 somado 3 vezes.", "6 + 6 + 6 = 18.", "6 × 3 = 18."]
+          },
+          "geradorId": "matematica.tabuada",
+          "parametrosGerador": { "tabelas": [6, 7, 8, 9, 10], "multiplicadorMax": 10 },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Todas as tabuadas misturadas",
+      "blocos": [
+        {
+          "id": "mat-f04-n04-b01",
+          "habilidade": "tabuada de 2 a 10, qualquer uma",
+          "exemploResolvido": {
+            "enunciado": "7 × 8 = ?",
+            "passoAPasso": ["Pense em 7 grupos de 8.", "7 × 8 = 56."]
+          },
+          "geradorId": "matematica.tabuada",
+          "parametrosGerador": { "tabelas": [2, 3, 4, 5, 6, 7, 8, 9, 10], "multiplicadorMax": 10 },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}

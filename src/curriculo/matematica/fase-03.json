@@ -1,0 +1,123 @@
+{
+  "disciplina": "matematica",
+  "faseNumero": 3,
+  "titulo": "Subtração",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Subtrair 1, 2 ou 3 (até 10)",
+      "blocos": [
+        {
+          "id": "mat-f03-n01-b01",
+          "habilidade": "subtrair -1 de números até 10",
+          "exemploResolvido": {
+            "enunciado": "6 - 1 = ?",
+            "passoAPasso": ["Tirar 1 é só dizer o número anterior.", "Antes do 6 vem o 5.", "6 - 1 = 5."]
+          },
+          "geradorId": "matematica.subtracao",
+          "parametrosGerador": { "maxA": 10, "maxB": 1, "comEmprestimo": false },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        },
+        {
+          "id": "mat-f03-n01-b02",
+          "habilidade": "subtrair -1 a -3 de números até 10",
+          "exemploResolvido": {
+            "enunciado": "8 - 3 = ?",
+            "passoAPasso": ["Comece no 8.", "Conte 3 pra trás: 7, 6, 5.", "8 - 3 = 5."]
+          },
+          "geradorId": "matematica.subtracao",
+          "parametrosGerador": { "maxA": 10, "maxB": 3, "comEmprestimo": false },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Subtrações até 10, sem empréstimo",
+      "blocos": [
+        {
+          "id": "mat-f03-n02-b01",
+          "habilidade": "subtrair números de 1 dígito, sem empréstimo",
+          "exemploResolvido": {
+            "enunciado": "9 - 4 = ?",
+            "passoAPasso": ["Comece no 9.", "Conte 4 pra trás: 8, 7, 6, 5.", "9 - 4 = 5."]
+          },
+          "geradorId": "matematica.subtracao",
+          "parametrosGerador": { "maxA": 9, "maxB": 9, "comEmprestimo": false },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Subtrações até 20, sem empréstimo",
+      "blocos": [
+        {
+          "id": "mat-f03-n03-b01",
+          "habilidade": "subtrair números até 18, sem empréstimo",
+          "exemploResolvido": {
+            "enunciado": "18 - 5 = ?",
+            "passoAPasso": ["Separe o 18 em 10 + 8.", "8 - 5 = 3.", "10 + 3 = 13."]
+          },
+          "geradorId": "matematica.subtracao",
+          "parametrosGerador": { "maxA": 18, "maxB": 9, "comEmprestimo": false },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titulo": "Subtrações até 20, com empréstimo",
+      "blocos": [
+        {
+          "id": "mat-f03-n04-b01",
+          "habilidade": "subtrair números até 18, podendo precisar de empréstimo",
+          "exemploResolvido": {
+            "enunciado": "15 - 8 = ?",
+            "passoAPasso": [
+              "Empreste 1 dezena: 15 vira 10 + 5.",
+              "Tire 8 de 15 contando pra trás: 14, 13, 12, 11, 10, 9, 8, 7.",
+              "15 - 8 = 7."
+            ]
+          },
+          "geradorId": "matematica.subtracao",
+          "parametrosGerador": { "maxA": 18, "maxB": 9, "comEmprestimo": true },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    },
+    {
+      "numero": 5,
+      "titulo": "Subtrações até 100, com empréstimo",
+      "blocos": [
+        {
+          "id": "mat-f03-n05-b01",
+          "habilidade": "subtrair números de até 2 dígitos, com empréstimo",
+          "exemploResolvido": {
+            "enunciado": "62 - 37 = ?",
+            "passoAPasso": [
+              "Nas unidades, 2 é menor que 7: empreste 1 dezena (vira 12 - 7 = 5).",
+              "Nas dezenas, ficou 5 - 3 = 2.",
+              "62 - 37 = 25."
+            ]
+          },
+          "geradorId": "matematica.subtracao",
+          "parametrosGerador": { "maxA": 80, "maxB": 60, "comEmprestimo": true },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["numerico"]
+        }
+      ]
+    }
+  ]
+}
