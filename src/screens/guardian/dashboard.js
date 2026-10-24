@@ -153,6 +153,10 @@ export function renderDashboard(container) {
         </label>
         <p class="placeholder-note" id="backup-status"></p>
       </div>
+      <div class="guardian-backup">
+        <h2>Diagnóstico técnico</h2>
+        <a href="#/verificar-voz">🎤 Verificar voz (síntese e reconhecimento)</a>
+      </div>
     `
 
     container.querySelectorAll('.guardian-tab').forEach((btn) => {
