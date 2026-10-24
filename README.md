@@ -79,7 +79,7 @@ push na branch `main`. Para ativar:
    **Actions → Deploy to GitHub Pages → Run workflow**).
 3. O endereço publicado aparece em **Settings → Pages** e no resumo da
    execução do workflow, no formato
-   `https://<seu-usuario>.github.io/girassol-letras-numeros/`.
+   `https://RaulDeveloper007.github.io/girassol-letras-numeros/`.
 
 O GitHub Pages serve tudo por HTTPS automaticamente, o que é obrigatório
 para o service worker funcionar.
