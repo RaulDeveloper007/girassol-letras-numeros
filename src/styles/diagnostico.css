@@ -1,0 +1,33 @@
+.screen-diagnostico {
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.diagnostico-disciplinas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.diagnostico-disciplina-btn {
+  min-height: var(--touch-min);
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+}
+
+.diagnostico-progresso {
+  opacity: 0.75;
+  margin-bottom: 4px;
+}
+
+.diagnostico-resultado {
+  background: var(--color-card-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius);
+  padding: 16px;
+}

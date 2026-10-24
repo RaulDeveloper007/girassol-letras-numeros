@@ -6,6 +6,7 @@ import { renderSheetResult } from '../screens/sheet-result/sheet-result.js'
 import { renderGuardian } from '../screens/guardian/guardian.js'
 import { renderVoiceCheck } from '../screens/voice-check/voice-check.js'
 import { renderFolhaDigital } from '../screens/folha-digital/folha-digital.js'
+import { renderDiagnostico } from '../screens/diagnostico/diagnostico.js'
 
 const routes = {
   '#/': renderProfileSelect,
@@ -16,6 +17,7 @@ const routes = {
   '#/responsavel': renderGuardian,
   '#/verificar-voz': renderVoiceCheck,
   '#/folha-digital': renderFolhaDigital,
+  '#/diagnostico': renderDiagnostico,
 }
 
 let rootEl = null

@@ -157,6 +157,7 @@ export function renderDashboard(container) {
         <h2>Diagnóstico técnico</h2>
         <p><a href="#/verificar-voz">🎤 Verificar voz (síntese e reconhecimento)</a></p>
         <p><a href="#/folha-digital">📄 Pré-visualizar Folha Digital (Passo Certo)</a></p>
+        <p><a href="#/diagnostico">🧭 Pré-visualizar teste diagnóstico</a></p>
       </div>
     `
 
