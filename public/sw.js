@@ -1,4 +1,4 @@
-const CACHE_NAME = 'girassol-shell-v1'
+const CACHE_NAME = 'girassol-shell-v2'
 
 const CORE_ASSETS = ['./', './index.html', './manifest.webmanifest']
 
@@ -20,6 +20,25 @@ self.addEventListener('fetch', (event) => {
   const { request } = event
   if (request.method !== 'GET') return
 
+  // O documento HTML (navegação) usa network-first: ele é a única URL
+  // estável que diz quais arquivos JS/CSS (com hash no nome) carregar. Se
+  // ficasse em cache-first como o resto, o app nunca buscaria uma versão
+  // publicada depois da primeira -- ficaria preso para sempre na primeira
+  // vez que alguém abriu o site. JS/CSS com hash no nome são seguros em
+  // cache-first, porque qualquer mudança de conteúdo já gera um nome novo.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const clone = response.clone()
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
+          return response
+        })
+        .catch(() => caches.match(request).then((cached) => cached ?? caches.match('./index.html')))
+    )
+    return
+  }
+
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached
@@ -32,12 +51,7 @@ self.addEventListener('fetch', (event) => {
           }
           return response
         })
-        .catch(() => {
-          if (request.mode === 'navigate') {
-            return caches.match('./index.html')
-          }
-          return Response.error()
-        })
+        .catch(() => Response.error())
     })
   )
 })
