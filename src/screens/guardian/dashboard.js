@@ -155,7 +155,8 @@ export function renderDashboard(container) {
       </div>
       <div class="guardian-backup">
         <h2>Diagnóstico técnico</h2>
-        <a href="#/verificar-voz">🎤 Verificar voz (síntese e reconhecimento)</a>
+        <p><a href="#/verificar-voz">🎤 Verificar voz (síntese e reconhecimento)</a></p>
+        <p><a href="#/folha-digital">📄 Pré-visualizar Folha Digital (Passo Certo)</a></p>
       </div>
     `
 

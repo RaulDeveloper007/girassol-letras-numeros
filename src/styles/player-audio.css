@@ -1,0 +1,21 @@
+.player-audio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.player-audio__tocar {
+  min-height: var(--touch-min);
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+}
+
+.player-audio__velocidade {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}

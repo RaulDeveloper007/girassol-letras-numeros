@@ -1,6 +1,9 @@
 import '../styles/writing-canvas.css'
 
 const MIN_STROKE_WIDTH = 4
+// Rejeição de palma: enquanto a caneta estiver em uso (ou tiver sido usada
+// há pouco), ignora toques -- evita que a mão apoiada na tela vire traço.
+const JANELA_REJEICAO_PALMA_MS = 700
 
 export function createWritingCanvas(container, options = {}) {
   const {
@@ -34,6 +37,7 @@ export function createWritingCanvas(container, options = {}) {
   let activePointerId = null
   let cssWidth = 0
   let cssHeight = 0
+  let ultimaCanetaEm = 0
 
   function toPixel(point) {
     return { x: point.x * cssWidth, y: point.y * cssHeight }
@@ -140,6 +144,15 @@ export function createWritingCanvas(container, options = {}) {
 
   function handlePointerDown(event) {
     if (activePointerId !== null) return
+
+    if (event.pointerType === 'pen') {
+      ultimaCanetaEm = Date.now()
+    } else if (event.pointerType === 'touch' && Date.now() - ultimaCanetaEm < JANELA_REJEICAO_PALMA_MS) {
+      // Toque logo depois (ou durante) o uso da caneta: provavelmente a
+      // palma da mão apoiada na tela, não uma intenção de desenhar.
+      return
+    }
+
     activePointerId = event.pointerId
     canvas.setPointerCapture(event.pointerId)
     const point = pointFromEvent(event)
@@ -154,6 +167,7 @@ export function createWritingCanvas(container, options = {}) {
 
   function handlePointerMove(event) {
     if (event.pointerId !== activePointerId || !currentStroke) return
+    if (event.pointerType === 'pen') ultimaCanetaEm = Date.now()
     const point = pointFromEvent(event)
     const lastPoint = currentStroke.points[currentStroke.points.length - 1]
     currentStroke.points.push(point)

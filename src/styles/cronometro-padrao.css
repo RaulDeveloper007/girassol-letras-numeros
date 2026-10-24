@@ -1,0 +1,20 @@
+.cronometro-padrao {
+  font-weight: bold;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.cronometro-padrao--verde {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.cronometro-padrao--amarelo {
+  background: #fff8e1;
+  color: #ef6c00;
+}
+
+.cronometro-padrao--vermelho {
+  background: #ffebee;
+  color: #c62828;
+}
