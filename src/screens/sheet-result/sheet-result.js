@@ -22,9 +22,17 @@ export function renderSheetResult(root) {
         em <strong>${minutes}:${seconds}</strong>.
       </p>
       ${leveledUp ? `<p class="level-up-banner">🎉 Você avançou para <strong>${newStage.label}</strong>!</p>` : ''}
-      <button id="go-home">Voltar para a trilha</button>
+      <div class="result-actions">
+        <button id="go-continue">Continuar estudando →</button>
+        <button id="go-home" class="link-button">Voltar para a trilha</button>
+      </div>
     </main>
   `
+
+  root.querySelector('#go-continue').addEventListener('click', () => {
+    setState({ lastSheetSummary: null })
+    navigateTo('#/folha')
+  })
 
   root.querySelector('#go-home').addEventListener('click', () => {
     setState({ lastSheetSummary: null })

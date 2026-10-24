@@ -7,6 +7,21 @@ const CVC_WORDS = [
   { word: 'HAT', icon: '🎩' },
   { word: 'PIG', icon: '🐷' },
   { word: 'BUS', icon: '🚌' },
+  { word: 'BAT', icon: '🦇' },
+  { word: 'RAT', icon: '🐀' },
+  { word: 'MAP', icon: '🗺️' },
+  { word: 'CUP', icon: '☕' },
+  { word: 'BED', icon: '🛏️' },
+  { word: 'BAG', icon: '👜' },
+  { word: 'PEN', icon: '🖊️' },
+  { word: 'BOX', icon: '📦' },
+  { word: 'JAR', icon: '🫙' },
+  { word: 'NET', icon: '🥅' },
+  { word: 'VAN', icon: '🚐' },
+  { word: 'HEN', icon: '🐔' },
+  { word: 'POT', icon: '🍲' },
+  { word: 'WEB', icon: '🕸️' },
+  { word: 'LOG', icon: '🪵' },
 ]
 
 export function generateCvcWord(rng) {

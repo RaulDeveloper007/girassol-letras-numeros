@@ -1,6 +1,12 @@
 import { pickOne, pickInt } from '../shared/random.js'
 
-const WORDS = ['CAT', 'DOG', 'SUN', 'BOOK', 'FISH', 'BIRD', 'STAR', 'TREE']
+const WORDS = [
+  'CAT', 'DOG', 'SUN', 'BOOK', 'FISH', 'BIRD', 'STAR', 'TREE',
+  'FROG', 'DUCK', 'HORSE', 'SHEEP', 'MOUSE', 'LION', 'BEAR', 'HEN', 'PIG',
+  'COW', 'BAT', 'RAT', 'MAP', 'CUP', 'BED', 'BAG', 'PEN', 'BOX', 'JAR',
+  'NET', 'VAN', 'POT', 'WEB', 'LOG', 'RED', 'BLUE', 'GREEN', 'PINK',
+  'MILK', 'SMALL', 'BROWN', 'POND',
+]
 
 export function generateSpellingEn(rng) {
   const word = pickOne(rng, WORDS)

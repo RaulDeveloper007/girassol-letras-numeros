@@ -30,11 +30,23 @@ export function buildSheet({ subject, level, size = 8, excludeSignature = null, 
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     const rng = createRng(randomSeed() + attempt)
+    const usedPrompts = new Set()
     const exercises = Array.from({ length: size }, () => {
-      const type = pickWeighted(rng, config.weights)
-      const generate = generators[type]
-      if (!generate) throw new Error(`Gerador não encontrado para o tipo "${type}" em "${subject}"`)
-      const exercise = generate(rng, config[type] ?? {})
+      let exercise
+      let tries = 0
+
+      // Tenta não repetir o mesmo enunciado duas vezes dentro da mesma
+      // folha (bancos pequenos em níveis iniciais podem forçar uma
+      // repetição ocasional depois de várias tentativas — aceitável).
+      do {
+        const type = pickWeighted(rng, config.weights)
+        const generate = generators[type]
+        if (!generate) throw new Error(`Gerador não encontrado para o tipo "${type}" em "${subject}"`)
+        exercise = generate(rng, config[type] ?? {})
+        tries += 1
+      } while (usedPrompts.has(exercise.prompt) && tries < 8)
+
+      usedPrompts.add(exercise.prompt)
       return { ...exercise, id: createId(), subject }
     })
 

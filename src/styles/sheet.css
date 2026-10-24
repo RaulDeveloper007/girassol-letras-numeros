@@ -137,6 +137,13 @@
   max-width: 480px;
 }
 
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 .level-up-banner {
   font-size: 1.2rem;
   font-weight: bold;

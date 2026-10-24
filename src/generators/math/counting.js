@@ -1,6 +1,6 @@
 import { pickInt, pickOne } from '../shared/random.js'
 
-const ICONS = ['🍎', '🌻', '🐝', '⭐', '🍪', '🐞']
+const ICONS = ['🍎', '🌻', '🐝', '⭐', '🍪', '🐞', '🍊', '🚗', '🎈', '🐠', '🍇', '🦋']
 
 export function generateCounting(rng, { maxCount = 10 } = {}) {
   const icon = pickOne(rng, ICONS)
