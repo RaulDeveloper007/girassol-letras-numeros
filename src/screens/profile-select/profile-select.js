@@ -19,7 +19,10 @@ export function renderProfileSelect(root) {
   ensureSeedStudents().then((students) => {
     const grid = root.querySelector('#profile-grid')
     grid.innerHTML = students
-      .map((student) => `<button class="profile-card" data-student="${student.id}">${student.avatarIcon} ${student.firstName}</button>`)
+      .map(
+        (student) =>
+          `<button class="profile-card" data-student="${student.id}"><span class="card-icon">${student.avatarIcon}</span><span class="card-label">${student.firstName}</span></button>`
+      )
       .join('')
 
     grid.querySelectorAll('.profile-card').forEach((btn) => {

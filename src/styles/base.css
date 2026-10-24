@@ -90,11 +90,26 @@ button:active {
 
 .profile-card,
 .subject-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
   background: var(--color-card-bg);
   color: var(--color-text);
   border: 2px solid var(--color-primary);
-  font-size: 1.4rem;
-  padding: 24px;
+  padding: 20px 12px;
+}
+
+.card-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.card-label {
+  font-size: 1.1rem;
+  line-height: 1.2;
 }
 
 .placeholder-note {

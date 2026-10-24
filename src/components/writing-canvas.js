@@ -91,14 +91,19 @@ export function createWritingCanvas(container, options = {}) {
   }
 
   function resize() {
-    const rect = wrapper.getBoundingClientRect()
+    // O tamanho do canvas na tela é definido só pelo CSS (não por conta
+    // daqui). Medir o próprio canvas, em vez do wrapper (que inclui o
+    // canvas + a barra de ferramentas), evita um laço de realimentação:
+    // se escrevêssemos de volta uma altura derivada do wrapper, o canvas
+    // cresceria, o wrapper cresceria com ele, e o observer disparava de
+    // novo — crescendo sem fim.
+    const rect = canvas.getBoundingClientRect()
+    if (rect.width === 0 || rect.height === 0) return
     cssWidth = rect.width
-    cssHeight = Math.max(rect.height - toolbar.offsetHeight, 180)
+    cssHeight = rect.height
     const dpr = window.devicePixelRatio || 1
     canvas.width = Math.round(cssWidth * dpr)
     canvas.height = Math.round(cssHeight * dpr)
-    canvas.style.width = `${cssWidth}px`
-    canvas.style.height = `${cssHeight}px`
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     redrawAll()
   }

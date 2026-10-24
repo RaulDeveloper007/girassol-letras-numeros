@@ -7,8 +7,9 @@
 }
 
 .writing-canvas__surface {
+  display: block;
   width: 100%;
-  height: 280px;
+  height: clamp(180px, 32vh, 320px);
   background: #ffffff;
   border: 2px solid var(--color-primary);
   border-radius: var(--radius);
