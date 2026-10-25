@@ -1,3 +1,5 @@
+import { navigateTo } from '../../app/router.js'
+import { setState } from '../../app/state.js'
 import { listarAlunos, removerAluno } from '../../dados/alunos.js'
 import { listarProgressoPorAluno, obterOuCriarProgresso, salvarProgresso } from '../../dados/progresso.js'
 import { listarProducoesPendentesDeRevisao, marcarCorrecaoRevisada } from '../../dados/correcoes.js'
@@ -6,6 +8,8 @@ import { listarRevisoesDevidas } from '../../dados/revisoes-agendadas.js'
 import { listarComentarios, salvarComentario, salvarConfiguracoesOrientador } from '../../dados/orientador.js'
 import { exportarBackup, baixarArquivoDeBackup, importarBackup } from '../../dados/backup.js'
 import { buscarBloco, carregarFase, primeiroBlocoDaProximaFase, proximoBlocoId } from '../../curriculo/loader.js'
+import { listarFolhasPorBloco } from '../../dados/sessao.js'
+import { calcularTendenciaSct } from '../../progressao/sct.js'
 
 const DISCIPLINAS = ['matematica', 'portugues', 'ingles']
 const NOMES_DISCIPLINA = { matematica: 'Matemática', portugues: 'Português', ingles: 'Inglês' }
@@ -19,9 +23,17 @@ async function avancarManualmente(progresso) {
   const fase = await carregarFase(progresso.disciplina, progresso.faseAtual)
   const proximoId = proximoBlocoId(fase, progresso.blocoAtualId)
 
+  // O avanço manual é uma decisão explícita do responsável, por cima da
+  // progressão automática -- qualquer reforço pendente do nível/bloco
+  // anterior perde sentido depois dele.
   if (proximoId) {
     const encontrado = buscarBloco(fase, proximoId)
-    return salvarProgresso({ ...progresso, nivelAtual: encontrado?.nivel.numero ?? progresso.nivelAtual, blocoAtualId: proximoId })
+    return salvarProgresso({
+      ...progresso,
+      nivelAtual: encontrado?.nivel.numero ?? progresso.nivelAtual,
+      blocoAtualId: proximoId,
+      blocosDeReforcoPendentes: [],
+    })
   }
 
   const proximaFase = await primeiroBlocoDaProximaFase(progresso.disciplina, progresso.faseAtual)
@@ -32,12 +44,14 @@ async function avancarManualmente(progresso) {
     faseAtual: proximaFase.faseNumero,
     nivelAtual: proximaFase.nivelNumero,
     blocoAtualId: proximaFase.blocoId,
+    blocosDeReforcoPendentes: [],
   })
 }
 
-function renderSubjectPanel({ disciplina, progresso, bloco, onChange }) {
+function renderSubjectPanel({ disciplina, progresso, bloco, tendenciaSct, onChange }) {
   const section = document.createElement('section')
   section.className = 'guardian-subject-panel'
+  const reforcoPendente = progresso.blocosDeReforcoPendentes?.length ?? 0
   section.innerHTML = `
     <h2>${NOMES_DISCIPLINA[disciplina]}</h2>
     <p>Posição atual: <strong>Fase ${progresso.faseAtual} · Nível ${progresso.nivelAtual}</strong></p>
@@ -45,6 +59,16 @@ function renderSubjectPanel({ disciplina, progresso, bloco, onChange }) {
     <p class="placeholder-note">Diagnóstico: ${
       { pendente: 'ainda não feito', 'em-andamento': 'em andamento', concluido: 'concluído' }[progresso.statusDiagnostico]
     }</p>
+    ${
+      tendenciaSct
+        ? `<p class="placeholder-note">Tempo Padrão de Conclusão (SCT) recente: ${tendenciaSct.percentualDoTempoPadrao}% do tempo padrão.</p>`
+        : ''
+    }
+    ${
+      reforcoPendente > 0
+        ? `<p class="placeholder-note">Reforço pendente: ${reforcoPendente} assunto(s) antes do próximo teste de conclusão.</p>`
+        : ''
+    }
     <div class="level-adjust">
       <button type="button" class="avancar-manual-button">Avançar manualmente →</button>
     </div>
@@ -199,7 +223,7 @@ export function renderDashboard(container) {
       <div class="guardian-backup">
         <h2>Diagnóstico técnico</h2>
         <p><a href="#/verificar-voz">🎤 Verificar voz (síntese e reconhecimento)</a></p>
-        <p><a href="#/diagnostico">🧭 Teste diagnóstico adaptativo</a></p>
+        <button type="button" id="ir-diagnostico">🧭 Teste diagnóstico adaptativo</button>
       </div>
     `
 
@@ -208,6 +232,19 @@ export function renderDashboard(container) {
         selectedStudentId = btn.dataset.student
         render()
       })
+    })
+
+    // A tela de diagnóstico lê o aluno ativo do estado global (ver
+    // app/state.js) -- esta aba do painel guarda o aluno selecionado só
+    // localmente, então sem isto o diagnóstico rodaria pro aluno errado
+    // (ou nenhum).
+    container.querySelector('#ir-diagnostico').addEventListener('click', () => {
+      // diagnosticoObrigatorio: false explícito -- se um fluxo obrigatório
+      // (aluno novo) foi abandonado no meio, essa flag pode ter ficado
+      // presa no estado global; sem isto, este botão (manual, por
+      // disciplina escolhida à mão) herdaria o modo obrigatório por engano.
+      setState({ activeStudentId: selectedStudentId, diagnosticoObrigatorio: false })
+      navigateTo('#/diagnostico')
     })
 
     container.querySelector('#remove-student').addEventListener('click', async () => {
@@ -224,7 +261,19 @@ export function renderDashboard(container) {
       const progresso = progressoPorDisciplina[disciplina] ?? (await obterOuCriarProgresso(selectedStudentId, disciplina))
       const fase = await carregarFase(disciplina, progresso.faseAtual)
       const encontrado = buscarBloco(fase, progresso.blocoAtualId)
-      panels.appendChild(renderSubjectPanel({ disciplina, progresso, bloco: encontrado?.bloco, onChange: render }))
+
+      const folhasDoBlocoAtual = encontrado ? await listarFolhasPorBloco(selectedStudentId, encontrado.bloco.id) : []
+      const tendenciaSct = calcularTendenciaSct(
+        folhasDoBlocoAtual
+          .filter((folha) => folha.finalizadaEm)
+          .map((folha) => ({
+            notaPrimeiraTentativa: folha.notaPrimeiraTentativa,
+            tempoSegundos: folha.tempoGastoSegundos,
+            tempoPadraoSegundos: folha.tempoPadraoSegundos,
+          }))
+      )
+
+      panels.appendChild(renderSubjectPanel({ disciplina, progresso, bloco: encontrado?.bloco, tendenciaSct, onChange: render }))
     }
 
     const tentativasDeFala = await listarTentativasDeFalaEncaminhadas()

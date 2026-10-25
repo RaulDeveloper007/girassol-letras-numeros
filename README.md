@@ -11,8 +11,10 @@ do navegador), e roda instalado tanto no celular quanto no PC.
 ## Visão geral
 
 - **Perfis de aluno** criados com nome e idade (idade só para calibração
-  visual do responsável — nunca decide o nível). Todo perfil novo começa na
-  Fase 1 · Nível 1 de cada disciplina e avança pelo próprio desempenho.
+  visual do responsável — nunca decide o nível). Todo perfil novo passa,
+  na hora da criação, por um diagnóstico adaptativo obrigatório nas três
+  disciplinas (ver abaixo), que decide a posição real de partida — nunca
+  a idade informada — e depois avança pelo próprio desempenho.
 - **Currículo declarativo em Fases e Níveis** (`src/curriculo/`): cada
   disciplina (Matemática, Português, Inglês) é uma sequência de Fases, cada
   Fase uma sequência de Níveis, cada Nível um ou mais blocos de exercício —
@@ -30,9 +32,18 @@ do navegador), e roda instalado tanto no celular quanto no PC.
   um nível conforme regra configurável (X folhas seguidas, acerto ≥ Y%,
   tempo ≤ Z); ao fim de um nível, aplica um teste de conclusão cobrindo
   todos os seus blocos antes de liberar o próximo nível ou fase; também
-  agenda revisão espaçada (estilo Leitner) dos blocos já dominados.
+  agenda revisão espaçada (estilo Leitner) dos blocos já dominados. Não
+  há limite de quantas folhas o aluno pode fazer por dia -- o aluno
+  pratica quanto quiser, e cada folha concluída é salva imediatamente.
+  Teste de conclusão reprovado gera uma fila de **reforço direcionado**
+  só aos assuntos (blocos) que o aluno errou, em vez de repetir o nível
+  inteiro. O **Tempo Padrão de Conclusão (SCT)** de cada bloco já entra
+  no critério de domínio e tem sua tendência recente mostrada ao aluno
+  (fim da folha) e ao responsável (painel).
 - **Diagnóstico adaptativo** (`src/diagnostico/`): busca binária por posição
-  inicial no currículo quando necessário, sem depender da idade informada.
+  inicial no currículo, sem depender da idade informada. Obrigatório, nas
+  três disciplinas em sequência, na criação de cada perfil; o responsável
+  também pode reabri-lo depois para uma disciplina específica, pelo painel.
 - **Canvas de escrita manuscrita** (Pointer Events) com borracha, desfazer
   e limpar, **teclado grande** (numérico ou alfabético) para confirmar a
   resposta, e **reconhecimento de caligrafia** (`src/reconhecimento/`, nível
@@ -48,7 +59,8 @@ do navegador), e roda instalado tanto no celular quanto no PC.
   conclusão, tentativas de fala, regras de avanço, revisões agendadas e
   comentários do responsável — nada sai do aparelho exceto por backup manual.
 - **Painel do responsável** protegido por PIN: progresso real por
-  disciplina (fase/nível/status de diagnóstico), avanço manual, fila de
+  disciplina (fase/nível/status de diagnóstico), tendência de SCT
+  recente, reforço pendente, avanço manual, fila de
   produções livres pendentes de revisão, fila de tentativas de fala
   encaminhadas, revisões espaçadas devidas, recado para o aluno, e
   backup/restauração em JSON.
@@ -126,9 +138,7 @@ push na branch `main`. Para ativar:
    **Actions → Deploy to GitHub Pages → Run workflow**).
 3. O endereço publicado aparece em **Settings → Pages** e no resumo da
    execução do workflow, no formato
-   `https://RaulDeveloper007.github.io/girassol-letras-numeros/`
-   (o nome do repositório no GitHub não foi alterado nesta troca de marca,
-   então o endereço continua o mesmo).
+   `https://RaulDeveloper007.github.io/passo-certo/`.
 
 O GitHub Pages serve tudo por HTTPS automaticamente, o que é obrigatório
 para o service worker funcionar.
@@ -164,8 +174,9 @@ public/
 - Reconhecimento de caligrafia cobre só dígitos e símbolos matemáticos
   básicos (nível 1); letras e palavras manuscritas não são reconhecidas —
   nesses casos o teclado grande é a única entrada.
-- Teste de conclusão reprovado faz o aluno repetir o mesmo bloco até dominar
-  de novo, em vez de gerar um bloco de reforço direcionado aos erros
-  específicos.
 - A fila de tentativas de fala encaminhadas no painel do responsável é
   somente leitura (não há como marcá-las como revisadas ainda).
+- A revisão espaçada (estilo Leitner) só é calculada e mostrada ao
+  responsável (`Revisão espaçada devida hoje`, no painel) -- ela nunca é
+  servida de volta ao aluno dentro de uma folha, então um bloco "devido"
+  não entra sozinho na prática do dia.

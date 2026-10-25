@@ -22,7 +22,9 @@ export async function obterOuCriarProgresso(
   banco: BancoPassoCerto = obterBanco()
 ): Promise<ProgressoDisciplina> {
   const existente = await banco.progressoDisciplina.get([alunoId, disciplina])
-  if (existente) return existente
+  // Registros criados antes de blocosDeReforcoPendentes existir não têm o
+  // campo -- normaliza aqui pra quem lê nunca precisar lidar com undefined.
+  if (existente) return { ...existente, blocosDeReforcoPendentes: existente.blocosDeReforcoPendentes ?? [] }
 
   const progresso: ProgressoDisciplina = {
     alunoId,
@@ -32,6 +34,7 @@ export async function obterOuCriarProgresso(
     blocoAtualId: await primeiroBlocoDaFase1(disciplina),
     statusDiagnostico: 'pendente',
     ultimaAtividadeEm: new Date().toISOString(),
+    blocosDeReforcoPendentes: [],
   }
   await banco.progressoDisciplina.put(progresso)
   return progresso

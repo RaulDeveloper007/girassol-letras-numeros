@@ -1,6 +1,12 @@
 import { navigateTo } from '../../app/router.js'
 import { getState, setState } from '../../app/state.js'
 
+const DISCIPLINAS = [
+  { id: 'matematica', icone: '➕', nome: 'Matemática' },
+  { id: 'portugues', icone: '📝', nome: 'Português' },
+  { id: 'ingles', icone: '🔤', nome: 'Inglês' },
+]
+
 export function renderStudentHome(root) {
   const { activeStudentId } = getState()
 
@@ -14,9 +20,14 @@ export function renderStudentHome(root) {
       <button class="back-button" id="go-back" aria-label="Voltar">←</button>
       <h1>O que vamos estudar?</h1>
       <div class="subject-grid">
-        <button class="subject-card" data-subject="matematica"><span class="card-icon">➕</span><span class="card-label">Matemática</span></button>
-        <button class="subject-card" data-subject="portugues"><span class="card-icon">📝</span><span class="card-label">Português</span></button>
-        <button class="subject-card" data-subject="ingles"><span class="card-icon">🔤</span><span class="card-label">Inglês</span></button>
+        ${DISCIPLINAS.map(
+          (d) => `
+          <button class="subject-card" data-subject="${d.id}">
+            <span class="card-icon">${d.icone}</span>
+            <span class="card-label">${d.nome}</span>
+          </button>
+        `
+        ).join('')}
       </div>
     </main>
   `

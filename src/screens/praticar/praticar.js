@@ -6,9 +6,10 @@ import { registrarTodosOsGeradores } from '../../geracao/registrar-todos.js'
 import { avaliaNumerico, avaliaSimbolico } from '../../correcao/simbolico.js'
 import { avaliaTextual } from '../../correcao/textual.js'
 import { TOLERANCIA_PADRAO_POR_ESTAGIO } from '../../correcao/fala.js'
-import { avaliaTesteDeConclusao } from '../../progressao/teste-de-conclusao.js'
+import { avaliaTesteDeConclusao, blocosComErro } from '../../progressao/teste-de-conclusao.js'
 import { decidirProximoPassoNoCurriculo } from '../../progressao/orquestracao.js'
 import { contarSequenciaAtual } from '../../progressao/dominio.js'
+import { calcularTendenciaSct } from '../../progressao/sct.js'
 import { obterOuCriarProgresso, salvarProgresso } from '../../dados/progresso.js'
 import { finalizarFolha, iniciarFolha, iniciarTesteDeConclusao, listarFolhasPorBloco, registrarTentativa } from '../../dados/sessao.js'
 import { salvarCorrecao } from '../../dados/correcoes.js'
@@ -57,6 +58,14 @@ function formatarTempo(segundos) {
   return `${minutos}:${segs}`
 }
 
+function renderizarEnunciadoEm(el, item) {
+  if (item.dados?.operador) {
+    renderizarMatematica(el, `${item.dados.a} ${item.dados.operador} ${item.dados.b} = \\,?`)
+  } else {
+    el.textContent = item.enunciado
+  }
+}
+
 function telaFinal(root, { titulo, linhas }) {
   root.innerHTML = `
     <main class="screen screen-folha-digital">
@@ -101,6 +110,7 @@ export function renderPraticar(root) {
   let faseInfo = null
   let blocoAtual = null
   let nivelDoTesteAtual = null
+  let blocosDoNivelDoTeste = []
   let folhaDb = null
   let itensDb = []
   let resultados = []
@@ -108,6 +118,7 @@ export function renderPraticar(root) {
   let modoRefazer = false
   let filaRefazer = []
   let ehTesteDeConclusao = false
+  let modoReforco = false
   let inicioDoItemEm = 0
 
   function limparControlesDeResposta() {
@@ -137,6 +148,30 @@ export function renderPraticar(root) {
     }
   }
 
+  // Estado visual de cada linha da folha sequencial: 'ativa' é a linha que
+  // o aluno está respondendo agora; 'pendente', ainda não chegou nela;
+  // 'certa'/'errada', já foi respondida (nesta passada ou numa correção).
+  function estadoDaLinha(indice, indiceAtivo) {
+    if (indice === indiceAtivo) return 'ativa'
+    const resultado = resultados[indice]
+    if (!resultado.respondido) return 'pendente'
+    return resultado.corretoFinal ? 'certa' : 'errada'
+  }
+
+  function atualizarLinhas(indiceAtivo) {
+    itensDb.forEach((_, indice) => {
+      const li = root.querySelector(`#linha-${indice}`)
+      if (!li) return
+      const estado = estadoDaLinha(indice, indiceAtivo)
+      li.className = `folha-linha folha-linha--${estado}`
+      const marcador = li.querySelector('.folha-linha-marcador')
+      marcador.textContent = estado === 'certa' ? '✓' : estado === 'errada' ? '✗' : ''
+    })
+
+    const linhaAtiva = root.querySelector(`#linha-${indiceAtivo}`)
+    if (linhaAtiva) linhaAtiva.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   function renderCasca() {
     root.innerHTML = `
       <main class="screen screen-folha-digital">
@@ -145,7 +180,8 @@ export function renderPraticar(root) {
           <div>
             <h1>Passo Certo</h1>
             <p class="folha-meta">
-              ${NOMES_DISCIPLINA[disciplina] ?? disciplina} · ${ehTesteDeConclusao ? 'Teste de conclusão de nível' : `${faseInfo.titulo} · Fase ${faseInfo.faseNumero}`}
+              ${NOMES_DISCIPLINA[disciplina] ?? disciplina} ·
+              ${ehTesteDeConclusao ? 'Teste de conclusão de nível' : modoReforco ? 'Reforço direcionado' : `${faseInfo.titulo} · Fase ${faseInfo.faseNumero}`}
             </p>
           </div>
           <span id="cronometro-slot"></span>
@@ -153,16 +189,39 @@ export function renderPraticar(root) {
         ${
           ehTesteDeConclusao
             ? '<p class="placeholder-note">Esse teste mistura um item de cada bloco do nível, pra confirmar que o domínio é de verdade. Precisa de 100% pra passar.</p>'
-            : '<section id="exemplo-resolvido" class="exemplo-resolvido"></section>'
+            : modoReforco
+              ? '<p class="placeholder-note">Reforço do assunto que ficou pendente no teste de conclusão -- termine esta folha com 100% para seguir.</p>'
+              : '<section id="exemplo-resolvido" class="exemplo-resolvido"></section>'
         }
         <p class="sheet-progress" id="progresso-texto"></p>
-        <div id="area-item"></div>
-        <div id="canvas-slot"></div>
+        <ol class="folha-sequencial" id="folha-sequencial">
+          ${itensDb
+            .map(
+              (_, indice) => `
+            <li class="folha-linha folha-linha--pendente" id="linha-${indice}">
+              <span class="folha-linha-numero">${indice + 1}</span>
+              <div class="folha-linha-enunciado" id="enunciado-${indice}"></div>
+              <span class="folha-linha-marcador"></span>
+            </li>
+          `
+            )
+            .join('')}
+        </ol>
+        <div class="folha-barra-resposta">
+          <div id="item-player-slot"></div>
+          <div id="item-resposta"></div>
+          <div class="item-feedback" id="item-feedback"></div>
+          <div id="canvas-slot"></div>
+        </div>
       </main>
     `
     root.querySelector('#go-back').addEventListener('click', () => navigateTo('#/aluno'))
 
-    if (!ehTesteDeConclusao) {
+    itensDb.forEach((item, indice) => {
+      renderizarEnunciadoEm(root.querySelector(`#enunciado-${indice}`), item)
+    })
+
+    if (!ehTesteDeConclusao && !modoReforco) {
       root.querySelector('#exemplo-resolvido').innerHTML = `
         <h2>Exemplo</h2>
         <p>${blocoAtual.exemploResolvido.enunciado}</p>
@@ -206,25 +265,18 @@ export function renderPraticar(root) {
     // Sempre começa do zero pra cada item -- nenhum controle do item
     // anterior deve sobreviver (senão ouvintes/canvas antigos se acumulam).
     limparControlesDeResposta()
+    atualizarLinhas(indice)
 
     root.querySelector('#progresso-texto').textContent = modoRefazer
-      ? `Refazendo: faltam ${filaRefazer.length} item(ns) errado(s)`
-      : `Item ${currentIndex + 1} de ${itensDb.length}`
+      ? `Corrigindo: faltam ${filaRefazer.length} item(ns) errado(s)`
+      : ''
 
-    const area = root.querySelector('#area-item')
-    area.innerHTML = `
-      <div class="item-enunciado" id="item-enunciado"></div>
-      <div id="item-player-slot"></div>
-      <div id="item-resposta"></div>
-      <div class="item-feedback" id="item-feedback"></div>
-    `
-
-    const enunciadoEl = area.querySelector('#item-enunciado')
-    if (item.dados?.operador) {
-      renderizarMatematica(enunciadoEl, `${item.dados.a} ${item.dados.operador} ${item.dados.b} = \\,?`)
-    } else {
-      enunciadoEl.textContent = item.enunciado
-    }
+    const area = root.querySelector('.folha-barra-resposta')
+    area.querySelector('#item-player-slot').innerHTML = ''
+    area.querySelector('#item-resposta').innerHTML = ''
+    const feedbackEl = area.querySelector('#item-feedback')
+    feedbackEl.textContent = ''
+    feedbackEl.className = 'item-feedback'
 
     const precisaDeAudio = Boolean(item.dados?.textoFala) || item.tipo === 'fala-repetir' || item.tipo === 'escuta-escolha'
     if (precisaDeAudio) {
@@ -234,9 +286,8 @@ export function renderPraticar(root) {
       })
     }
 
-    const feedbackEl = area.querySelector('#item-feedback')
     function mostrarFeedback(correto) {
-      feedbackEl.textContent = correto ? '✅ Muito bem!' : '❌ Tente de novo!'
+      feedbackEl.textContent = correto ? '✅ Certo!' : '❌ Tente de novo!'
       feedbackEl.className = `item-feedback ${correto ? 'is-correct' : 'is-wrong'}`
     }
 
@@ -251,7 +302,7 @@ export function renderPraticar(root) {
           await registrarTentativa(item, { texto, pontuacoesPorCriterio }, false, tempoGastoNoItemSegundos())
           await salvarCorrecao({ itemId: item.id, metodo: 'rubrica', correto: false, revisadoPeloOrientador: false })
           registrarResultado(indice, false)
-          feedbackEl.textContent = '📨 Enviado para revisão do responsável.'
+          feedbackEl.textContent = 'Enviado para revisão do responsável.'
           feedbackEl.className = 'item-feedback'
           agendarAvanco(avancarOuFinalizarPasse)
         },
@@ -301,6 +352,7 @@ export function renderPraticar(root) {
 
           mostrarFeedback(resultado.correto)
           registrarResultado(indice, resultado.correto)
+          atualizarLinhas(indice)
           if (modoRefazer) {
             if (resultado.correto) agendarAvanco(avancarFilaRefazer)
           } else {
@@ -366,6 +418,13 @@ export function renderPraticar(root) {
       }))
   }
 
+  function resumoDaFolha() {
+    const acertosPrimeiraTentativa = resultados.filter((r) => r.corretoPrimeiraTentativa).length
+    const notaPrimeiraTentativa = Math.round((acertosPrimeiraTentativa / resultados.length) * 100)
+    const itensQueFalharamPrimeiro = resultados.map((r, i) => (!r.corretoPrimeiraTentativa ? itensDb[i].id : null)).filter(Boolean)
+    return { notaPrimeiraTentativa, itensQueFalharamPrimeiro }
+  }
+
   async function finalizarSessao() {
     if (cronometro) cronometro.parar()
     const tempoGasto = cronometro ? cronometro.getSegundos() : 0
@@ -373,6 +432,10 @@ export function renderPraticar(root) {
 
     if (ehTesteDeConclusao) {
       return finalizarTesteDeConclusao()
+    }
+
+    if (modoReforco) {
+      return finalizarReforco(tempoGasto)
     }
 
     if (blocoAtual.tiposDeItem.includes('producao-livre')) {
@@ -383,7 +446,7 @@ export function renderPraticar(root) {
         itensQueFalharamPrimeiro: [],
       })
       telaFinal(root, {
-        titulo: 'Resposta enviada! 📨',
+        titulo: 'Resposta enviada',
         linhas: [
           'Sua produção foi enviada para a revisão do responsável.',
           'Esse tipo de atividade não avança sozinha -- o responsável decide quando avançar, no painel.',
@@ -392,9 +455,7 @@ export function renderPraticar(root) {
       return
     }
 
-    const acertosPrimeiraTentativa = resultados.filter((r) => r.corretoPrimeiraTentativa).length
-    const notaPrimeiraTentativa = Math.round((acertosPrimeiraTentativa / resultados.length) * 100)
-    const itensQueFalharamPrimeiro = resultados.map((r, i) => (!r.corretoPrimeiraTentativa ? itensDb[i].id : null)).filter(Boolean)
+    const { notaPrimeiraTentativa, itensQueFalharamPrimeiro } = resumoDaFolha()
 
     await finalizarFolha(folhaDb.id, {
       notaPrimeiraTentativa,
@@ -425,25 +486,64 @@ export function renderPraticar(root) {
         ? (() => {
             const sequencia = contarSequenciaAtual(folhasRecentes, blocoAtual.criterioDominio)
             return sequencia > 0
-              ? `Continue praticando este mesmo assunto -- você já está com ${sequencia} de ${blocoAtual.criterioDominio.folhasConsecutivas} folhas perfeitas seguidas!`
-              : 'Continue praticando este mesmo assunto -- quase lá!'
+              ? `Continue praticando este mesmo assunto -- você já está com ${sequencia} de ${blocoAtual.criterioDominio.folhasConsecutivas} folhas perfeitas seguidas.`
+              : 'Continue praticando este mesmo assunto -- quase lá.'
           })()
         : passo.tipo === 'avancar-bloco'
-          ? 'Você avançou pro próximo assunto. 🎉'
+          ? 'Você avançou para o próximo assunto.'
           : 'Você vai fazer um teste de conclusão deste nível na próxima vez.'
 
+    const tendenciaSct = calcularTendenciaSct(folhasRecentes)
+
     telaFinal(root, {
-      titulo: 'Folha concluída! ✅',
+      titulo: 'Folha concluída',
       linhas: [
         `Nota da primeira tentativa: <strong>${notaPrimeiraTentativa}%</strong>`,
         `Tempo: <strong>${formatarTempo(tempoGasto)}</strong> (padrão: ${formatarTempo(blocoAtual.tempoPadraoSegundos)})`,
+        ...(tendenciaSct
+          ? [`Tempo Padrão de Conclusão (SCT) nas últimas folhas: ${tendenciaSct.percentualDoTempoPadrao}% do tempo padrão.`]
+          : []),
         mensagem,
       ],
     })
   }
 
+  async function finalizarReforco(tempoGasto) {
+    const { notaPrimeiraTentativa, itensQueFalharamPrimeiro } = resumoDaFolha()
+
+    await finalizarFolha(folhaDb.id, {
+      notaPrimeiraTentativa,
+      tempoGastoSegundos: tempoGasto,
+      houveRefazer: itensQueFalharamPrimeiro.length > 0,
+      itensQueFalharamPrimeiro,
+    })
+
+    // O ciclo de refazer (ver avancarOuFinalizarPasse) já garante 100% de
+    // acerto final antes de chegar aqui -- então este bloco de reforço
+    // está feito e sai da fila, mesmo que a primeira tentativa não tenha
+    // sido perfeita.
+    const progresso = await obterOuCriarProgresso(alunoId, disciplina)
+    const restantes = progresso.blocosDeReforcoPendentes.filter((id) => id !== blocoAtual.id)
+    await salvarProgresso({ ...progresso, blocosDeReforcoPendentes: restantes })
+
+    telaFinal(root, {
+      titulo: 'Reforço concluído',
+      linhas: [
+        `Nota da primeira tentativa: <strong>${notaPrimeiraTentativa}%</strong>`,
+        restantes.length > 0
+          ? `Ainda restam ${restantes.length} assunto(s) de reforço antes do teste de conclusão.`
+          : 'Reforço completo -- na próxima vez você vai tentar o teste de conclusão de novo.',
+      ],
+    })
+  }
+
   async function finalizarTesteDeConclusao() {
-    const resultado = avaliaTesteDeConclusao(resultados.map((r, i) => ({ id: itensDb[i].id, correto: r.corretoFinal })))
+    const itensComBloco = itensDb.map((item, i) => ({
+      id: item.id,
+      correto: resultados[i].corretoFinal,
+      blocoId: blocosDoNivelDoTeste[i]?.id,
+    }))
+    const resultado = avaliaTesteDeConclusao(itensComBloco)
     await registrarTesteDeConclusao({
       alunoId,
       disciplina,
@@ -454,11 +554,15 @@ export function renderPraticar(root) {
     })
 
     if (resultado === 'reprovado') {
+      const blocosParaReforcar = blocosComErro(itensComBloco)
+      const progresso = await obterOuCriarProgresso(alunoId, disciplina)
+      await salvarProgresso({ ...progresso, blocosDeReforcoPendentes: blocosParaReforcar })
+
       telaFinal(root, {
-        titulo: 'Quase lá! 💪',
+        titulo: 'Teste de conclusão não aprovado ainda',
         linhas: [
-          'O teste de conclusão não passou dessa vez -- sem problema, vamos reforçar.',
-          'Você vai continuar praticando o mesmo assunto antes de tentar o teste de novo.',
+          `${blocosParaReforcar.length} assunto(s) precisam de reforço antes da próxima tentativa.`,
+          'Você vai praticar só esses assuntos específicos até dominá-los de novo, não o nível inteiro.',
         ],
       })
       return
@@ -469,8 +573,13 @@ export function renderPraticar(root) {
 
     if (proximoIdNaFase) {
       const encontrado = buscarBloco(faseInfo, proximoIdNaFase)
-      await salvarProgresso({ ...progresso, nivelAtual: encontrado.nivel.numero, blocoAtualId: proximoIdNaFase })
-      telaFinal(root, { titulo: 'Nível concluído! 🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pro próximo nível.'] })
+      await salvarProgresso({
+        ...progresso,
+        nivelAtual: encontrado.nivel.numero,
+        blocoAtualId: proximoIdNaFase,
+        blocosDeReforcoPendentes: [],
+      })
+      telaFinal(root, { titulo: 'Nível concluído', linhas: ['Você passou no teste com 100% de acerto e avançou para o próximo nível.'] })
       return
     }
 
@@ -481,19 +590,22 @@ export function renderPraticar(root) {
         faseAtual: proximaFase.faseNumero,
         nivelAtual: proximaFase.nivelNumero,
         blocoAtualId: proximaFase.blocoId,
+        blocosDeReforcoPendentes: [],
       })
-      telaFinal(root, { titulo: 'Fase concluída! 🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pra próxima fase!'] })
+      telaFinal(root, { titulo: 'Fase concluída', linhas: ['Você passou no teste com 100% de acerto e avançou para a próxima fase.'] })
       return
     }
 
+    await salvarProgresso({ ...progresso, blocosDeReforcoPendentes: [] })
     telaFinal(root, {
-      titulo: 'Parabéns! 🎉',
+      titulo: 'Currículo concluído',
       linhas: ['Você concluiu todo o currículo disponível nesta disciplina até agora.'],
     })
   }
 
-  async function iniciarBlocoNormal(bloco) {
+  async function iniciarBlocoNormal(bloco, { reforco = false } = {}) {
     ehTesteDeConclusao = false
+    modoReforco = reforco
     blocoAtual = bloco
     const quantidade = bloco.tiposDeItem.includes('producao-livre') ? 1 : QUANTIDADE_ITENS_POR_FOLHA
     const sessao = await iniciarFolha(alunoId, bloco, quantidade)
@@ -511,13 +623,17 @@ export function renderPraticar(root) {
 
   async function iniciarTeste(nivel) {
     ehTesteDeConclusao = true
+    modoReforco = false
     nivelDoTesteAtual = nivel.numero
+    blocosDoNivelDoTeste = nivel.blocos
     blocoAtual = nivel.blocos.at(-1)
     const sessao = await iniciarTesteDeConclusao(alunoId, nivel.blocos, blocoAtual.id)
     folhaDb = sessao.folha
     itensDb = sessao.itens
     resultados = itensDb.map(() => ({ respondido: false, corretoPrimeiraTentativa: null, corretoFinal: null }))
     currentIndex = 0
+    modoRefazer = false
+    filaRefazer = []
 
     renderCasca()
     cronometro = criarCronometroPadrao(root.querySelector('#cronometro-slot'), { tempoPadraoSegundos: folhaDb.tempoPadraoSegundos })
@@ -534,6 +650,19 @@ export function renderPraticar(root) {
     // o responsável quem decide avançar, no painel.
     if (encontrado.bloco.tiposDeItem.includes('producao-livre')) {
       return iniciarBlocoNormal(encontrado.bloco)
+    }
+
+    // Teste de conclusão reprovado deixou assuntos específicos pendentes
+    // de reforço -- zera essa fila (um por vez) antes de voltar ao fluxo
+    // normal do nível (que, como nada mudou em blocoAtualId, vai cair de
+    // novo no teste de conclusão quando a fila acabar).
+    if (progresso.blocosDeReforcoPendentes.length > 0) {
+      const proximoIdDeReforco = progresso.blocosDeReforcoPendentes[0]
+      const blocoDeReforco = buscarBloco(faseInfo, proximoIdDeReforco)?.bloco
+      if (blocoDeReforco) {
+        return iniciarBlocoNormal(blocoDeReforco, { reforco: true })
+      }
+      await salvarProgresso({ ...progresso, blocosDeReforcoPendentes: [] })
     }
 
     const folhasRecentes = await calcularFolhasRecentesPara(encontrado.bloco)

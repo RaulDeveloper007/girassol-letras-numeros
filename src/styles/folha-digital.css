@@ -43,10 +43,89 @@
   padding-left: 20px;
 }
 
-.item-enunciado {
-  font-size: 1.6rem;
+.sheet-progress {
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin: 4px 0;
+}
+
+/* A folha como uma planilha sequencial contínua: todos os itens visíveis
+   desde o início, numerados como numa folha de papel, com só a linha
+   ativa recebendo controles de resposta (ver .folha-barra-resposta). */
+.folha-sequencial {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.folha-linha {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+  background: var(--color-card-bg);
+  transition: background-color 0.2s ease;
+}
+
+.folha-linha:last-child {
+  border-bottom: none;
+}
+
+.folha-linha-numero {
+  font-weight: bold;
+  opacity: 0.6;
   text-align: center;
-  margin: 12px 0;
+}
+
+.folha-linha-enunciado {
+  font-size: 1.1rem;
+}
+
+.folha-linha-marcador {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.folha-linha--pendente {
+  opacity: 0.45;
+}
+
+.folha-linha--ativa {
+  background: color-mix(in srgb, var(--color-primary) 16%, var(--color-card-bg));
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.folha-linha--ativa .folha-linha-enunciado {
+  font-weight: bold;
+}
+
+.folha-linha--certa .folha-linha-marcador {
+  color: #2e7d32;
+}
+
+.folha-linha--errada .folha-linha-marcador {
+  color: #c62828;
+}
+
+/* Painel fixo de resposta da linha ativa -- teclado, canvas, microfone ou
+   autoavaliação, sempre no mesmo lugar abaixo da folha, nunca sobrepondo
+   os itens já visíveis acima. */
+.folha-barra-resposta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  margin-top: 4px;
+  background: var(--color-card-bg);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius);
 }
 
 .item-feedback {

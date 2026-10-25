@@ -14,6 +14,10 @@ export type ProximoPasso =
 export interface ItemDeTeste {
   id: string
   correto: boolean
+  // Opcional: só precisa ser informado quando o chamador quer apurar
+  // blocosComErro (reforço direcionado). avaliaTesteDeConclusao/itensErrados
+  // não dependem dele.
+  blocoId?: string
 }
 
 export type { CriterioDominio }
