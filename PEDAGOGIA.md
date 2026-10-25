@@ -10,12 +10,12 @@ domínio próprio. A exibição ao aluno e ao responsável usa sempre o formato
 **"Fase X · Nível Y"** — nomenclatura própria do app, sem relação com
 nenhuma marca de terceiros.
 
-Todo perfil novo começa em **Fase 1 · Nível 1** nas três disciplinas,
-independentemente da idade informada. Não há cálculo de nível inicial por
-idade/série: o diagnóstico adaptativo (ver abaixo) é o único mecanismo que
-pode posicionar um aluno mais adiante, e só quando o responsável o
-inicia. Cada aluno progride de forma independente, por disciplina — pode
-estar na Fase 9 em Matemática e na Fase 2 em Português, por exemplo.
+Todo perfil novo faz, logo na criação, um **diagnóstico adaptativo**
+obrigatório (ver abaixo) nas três disciplinas, em sequência — é esse
+diagnóstico, nunca a idade informada, que decide a Fase/Nível de
+partida de cada uma. Não há cálculo de nível inicial por idade/série.
+Cada aluno progride de forma independente, por disciplina — pode estar
+na Fase 9 em Matemática e na Fase 2 em Português, por exemplo.
 
 A trilha cobre, nas três disciplinas, do primeiro contato com o conteúdo
 (contagem, sílabas, alfabeto) até um nível avançado (cálculo diferencial e
@@ -56,14 +56,21 @@ avançar manualmente o nível de um aluno em qualquer disciplina.
 
 ## Diagnóstico adaptativo
 
-Quando um aluno já tem conhecimento prévio da matéria (por exemplo, um
-responsável cadastrando um filho mais velho, ou um adulto retomando os
-estudos), o responsável pode iniciar um **diagnóstico** pela tela
-dedicada: uma busca binária por posição no currículo da disciplina, que
-aplica alguns itens de blocos espaçados ao longo da trilha para estimar
-rapidamente até onde o aluno já domina o conteúdo, em vez de obrigá-lo a
-refazer do zero. Blocos de produção livre nunca entram no diagnóstico (não
-têm correção objetiva imediata).
+Toda vez que um perfil é criado, o app aplica um **diagnóstico**
+obrigatório nas três disciplinas, em sequência, antes de liberar a tela
+inicial do aluno: uma busca binária por posição no currículo de cada
+disciplina, que aplica alguns itens de blocos espaçados ao longo da
+trilha para estimar rapidamente até onde o aluno já domina o conteúdo —
+seja ele uma criança começando do zero (fica mesmo em Fase 1 · Nível 1)
+ou alguém com conhecimento prévio (um filho mais velho, um adulto
+retomando os estudos), sem obrigar ninguém a refazer do zero o que já
+sabe. Blocos de produção livre nunca entram no diagnóstico (não têm
+correção objetiva imediata).
+
+O responsável também pode reabrir o diagnóstico de uma disciplina
+específica a qualquer momento pelo painel protegido por PIN (por
+exemplo, depois de uma pausa longa nos estudos) — nesse caso ele só
+afeta a disciplina escolhida, não as três.
 
 ## Correção
 

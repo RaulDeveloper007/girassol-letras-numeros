@@ -1,6 +1,6 @@
 import '../../styles/diagnostico.css'
 import { navigateTo } from '../../app/router.js'
-import { getState } from '../../app/state.js'
+import { getState, setState } from '../../app/state.js'
 import { obterOuCriarProgresso, salvarProgresso } from '../../dados/progresso.js'
 import { listarBlocosLineares } from '../../diagnostico/orquestracao.js'
 import { calcularIndiceDePartida, diagnosticoConcluido, iniciarDiagnostico, registrarResposta } from '../../diagnostico/algoritmo.js'
@@ -54,23 +54,31 @@ export function renderDiagnostico(root) {
     geradoresRegistrados = true
   }
 
-  const { activeStudentId } = getState()
+  const { activeStudentId, diagnosticoObrigatorio } = getState()
   if (!activeStudentId) {
     navigateTo('#/')
     return
   }
+
+  // Modo obrigatório: todo perfil novo passa pelas 3 disciplinas em
+  // sequência antes de liberar a tela inicial (ver create-profile.js) --
+  // sem escolha de disciplina, sem pular. Fora desse fluxo (link do
+  // painel do responsável), o diagnóstico continua opcional e por
+  // disciplina escolhida à mão.
+  const modoObrigatorio = Boolean(diagnosticoObrigatorio)
+  let indiceObrigatorioAtual = 0
 
   root.innerHTML = `
     <main class="screen screen-diagnostico">
       <button class="back-button" id="go-back" aria-label="Voltar">←</button>
       <h1>Teste diagnóstico</h1>
       <p>O ponto de partida é definido só pelo que o aluno já sabe — nunca
-      pela idade. Escolha a disciplina para começar.</p>
-      <div class="diagnostico-disciplinas" id="area-disciplinas"></div>
+      pela idade.${modoObrigatorio ? ' Antes de começar, vamos descobrir onde o aluno já está em cada disciplina.' : ' Escolha a disciplina para começar.'}</p>
+      ${modoObrigatorio ? '' : '<div class="diagnostico-disciplinas" id="area-disciplinas"></div>'}
       <div id="area-diagnostico"></div>
     </main>
   `
-  root.querySelector('#go-back').addEventListener('click', () => navigateTo('#/responsavel'))
+  root.querySelector('#go-back').addEventListener('click', () => navigateTo(modoObrigatorio ? '#/' : '#/responsavel'))
 
   let writingCanvas = null
   let currentKeyboard = null
@@ -101,14 +109,16 @@ export function renderDiagnostico(root) {
     }
   }
 
-  const areaDisciplinas = root.querySelector('#area-disciplinas')
-  areaDisciplinas.innerHTML = DISCIPLINAS.map(
-    (d) => `<button type="button" class="diagnostico-disciplina-btn" data-disciplina="${d.id}">${d.label}</button>`
-  ).join('')
+  if (!modoObrigatorio) {
+    const areaDisciplinas = root.querySelector('#area-disciplinas')
+    areaDisciplinas.innerHTML = DISCIPLINAS.map(
+      (d) => `<button type="button" class="diagnostico-disciplina-btn" data-disciplina="${d.id}">${d.label}</button>`
+    ).join('')
 
-  areaDisciplinas.querySelectorAll('.diagnostico-disciplina-btn').forEach((btn) => {
-    btn.addEventListener('click', () => iniciarParaDisciplina(btn.dataset.disciplina))
-  })
+    areaDisciplinas.querySelectorAll('.diagnostico-disciplina-btn').forEach((btn) => {
+      btn.addEventListener('click', () => iniciarParaDisciplina(btn.dataset.disciplina))
+    })
+  }
 
   async function iniciarParaDisciplina(disciplina) {
     limparControles()
@@ -118,13 +128,33 @@ export function renderDiagnostico(root) {
     const pontos = await listarBlocosLineares(disciplina)
 
     if (pontos.length === 0) {
+      // No modo obrigatório não existe seletor de disciplina pra escapar
+      // disto -- sem um botão de continuar, o aluno ficaria preso aqui
+      // pra sempre se algum currículo estivesse vazio.
+      const proximaDisciplina = modoObrigatorio ? DISCIPLINAS[indiceObrigatorioAtual + 1] : null
       areaDiagnostico.innerHTML = `
         <p class="placeholder-note">
           Ainda não há currículo declarado para esta disciplina (isso é
           trabalho das Etapas 8/9/10). O diagnóstico aqui fica disponível
           assim que houver pelo menos um bloco.
         </p>
+        ${
+          modoObrigatorio
+            ? `<button type="button" id="pular-disciplina">${proximaDisciplina ? `Continuar para ${proximaDisciplina.label} →` : 'Começar a praticar'}</button>`
+            : ''
+        }
       `
+      if (modoObrigatorio) {
+        indiceObrigatorioAtual += 1
+        areaDiagnostico.querySelector('#pular-disciplina').addEventListener('click', () => {
+          if (proximaDisciplina) {
+            iniciarParaDisciplina(proximaDisciplina.id)
+          } else {
+            setState({ diagnosticoObrigatorio: false })
+            navigateTo('#/aluno')
+          }
+        })
+      }
       return
     }
 
@@ -160,13 +190,51 @@ export function renderDiagnostico(root) {
         blocosDeReforcoPendentes: [],
       })
 
+      const resumoComum = `
+        <p>Ponto de partida: <strong>Fase ${pontoDePartida.faseNumero} · Nível ${pontoDePartida.nivelNumero}</strong></p>
+        <p class="placeholder-note">Bloco: ${pontoDePartida.bloco.habilidade}</p>
+        <p class="placeholder-note">Respondeu ${estado.tentativas.length} pergunta(s) de calibração.</p>
+        <p class="placeholder-note">Progresso do aluno nesta disciplina já foi atualizado para esse ponto.</p>
+      `
+
+      if (modoObrigatorio) {
+        const disciplinaAtual = DISCIPLINAS[indiceObrigatorioAtual]
+        indiceObrigatorioAtual += 1
+        const proximaDisciplina = DISCIPLINAS[indiceObrigatorioAtual]
+
+        if (proximaDisciplina) {
+          areaDiagnostico.innerHTML = `
+            <div class="diagnostico-resultado">
+              <h2>Diagnóstico de ${disciplinaAtual.label} concluído ✅</h2>
+              ${resumoComum}
+              <button type="button" id="proxima-disciplina">Continuar para ${proximaDisciplina.label} →</button>
+            </div>
+          `
+          areaDiagnostico
+            .querySelector('#proxima-disciplina')
+            .addEventListener('click', () => iniciarParaDisciplina(proximaDisciplina.id))
+          return
+        }
+
+        // As 3 disciplinas foram diagnosticadas -- acabou o fluxo
+        // obrigatório, libera a tela inicial do aluno de verdade.
+        setState({ diagnosticoObrigatorio: false })
+        areaDiagnostico.innerHTML = `
+          <div class="diagnostico-resultado">
+            <h2>Diagnóstico de ${disciplinaAtual.label} concluído ✅</h2>
+            ${resumoComum}
+            <p>Pronto! O aluno já está posicionado no ponto certo nas três disciplinas.</p>
+            <button type="button" id="ir-aluno">Começar a praticar</button>
+          </div>
+        `
+        areaDiagnostico.querySelector('#ir-aluno').addEventListener('click', () => navigateTo('#/aluno'))
+        return
+      }
+
       areaDiagnostico.innerHTML = `
         <div class="diagnostico-resultado">
           <h2>Diagnóstico concluído ✅</h2>
-          <p>Ponto de partida: <strong>Fase ${pontoDePartida.faseNumero} · Nível ${pontoDePartida.nivelNumero}</strong></p>
-          <p class="placeholder-note">Bloco: ${pontoDePartida.bloco.habilidade}</p>
-          <p class="placeholder-note">Respondeu ${estado.tentativas.length} pergunta(s) de calibração.</p>
-          <p class="placeholder-note">Progresso do aluno nesta disciplina já foi atualizado para esse ponto.</p>
+          ${resumoComum}
           <button type="button" id="go-responsavel">Voltar ao painel</button>
         </div>
       `
@@ -236,6 +304,10 @@ export function renderDiagnostico(root) {
         onReconhecido: (texto) => currentKeyboard.setValue(texto),
       })
     }
+  }
+
+  if (modoObrigatorio) {
+    iniciarParaDisciplina(DISCIPLINAS[0].id)
   }
 
   return () => limparControles()

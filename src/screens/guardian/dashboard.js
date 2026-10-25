@@ -239,7 +239,11 @@ export function renderDashboard(container) {
     // localmente, então sem isto o diagnóstico rodaria pro aluno errado
     // (ou nenhum).
     container.querySelector('#ir-diagnostico').addEventListener('click', () => {
-      setState({ activeStudentId: selectedStudentId })
+      // diagnosticoObrigatorio: false explícito -- se um fluxo obrigatório
+      // (aluno novo) foi abandonado no meio, essa flag pode ter ficado
+      // presa no estado global; sem isto, este botão (manual, por
+      // disciplina escolhida à mão) herdaria o modo obrigatório por engano.
+      setState({ activeStudentId: selectedStudentId, diagnosticoObrigatorio: false })
       navigateTo('#/diagnostico')
     })
 

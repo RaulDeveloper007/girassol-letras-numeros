@@ -80,12 +80,14 @@ export function renderCreateProfile(root) {
 
     const aluno = await criarAluno({ nomeExibicao: firstName, idade: age, avatarIcone: selectedIcon })
     // Progresso inicial em Fase 1 · Nível 1 pras três disciplinas -- a
-    // posição real de cada uma só é decidida pelo desempenho (ou pelo
-    // diagnóstico adaptativo), nunca pela idade.
+    // posição real de cada uma só é decidida pelo desempenho ou pelo
+    // diagnóstico adaptativo, nunca pela idade. Todo perfil novo passa
+    // pelo diagnóstico obrigatório (ver screens/diagnostico/diagnostico.js)
+    // antes de chegar na tela inicial do aluno.
     await Promise.all(DISCIPLINAS.map((disciplina) => obterOuCriarProgresso(aluno.id, disciplina)))
 
-    setState({ activeStudentId: aluno.id })
-    navigateTo('#/aluno')
+    setState({ activeStudentId: aluno.id, diagnosticoObrigatorio: true })
+    navigateTo('#/diagnostico')
   })
 
   return () => {}

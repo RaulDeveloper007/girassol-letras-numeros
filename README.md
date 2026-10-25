@@ -11,8 +11,10 @@ do navegador), e roda instalado tanto no celular quanto no PC.
 ## Visão geral
 
 - **Perfis de aluno** criados com nome e idade (idade só para calibração
-  visual do responsável — nunca decide o nível). Todo perfil novo começa na
-  Fase 1 · Nível 1 de cada disciplina e avança pelo próprio desempenho.
+  visual do responsável — nunca decide o nível). Todo perfil novo passa,
+  na hora da criação, por um diagnóstico adaptativo obrigatório nas três
+  disciplinas (ver abaixo), que decide a posição real de partida — nunca
+  a idade informada — e depois avança pelo próprio desempenho.
 - **Currículo declarativo em Fases e Níveis** (`src/curriculo/`): cada
   disciplina (Matemática, Português, Inglês) é uma sequência de Fases, cada
   Fase uma sequência de Níveis, cada Nível um ou mais blocos de exercício —
@@ -39,7 +41,9 @@ do navegador), e roda instalado tanto no celular quanto no PC.
   no critério de domínio e tem sua tendência recente mostrada ao aluno
   (fim da folha) e ao responsável (painel).
 - **Diagnóstico adaptativo** (`src/diagnostico/`): busca binária por posição
-  inicial no currículo quando necessário, sem depender da idade informada.
+  inicial no currículo, sem depender da idade informada. Obrigatório, nas
+  três disciplinas em sequência, na criação de cada perfil; o responsável
+  também pode reabri-lo depois para uma disciplina específica, pelo painel.
 - **Canvas de escrita manuscrita** (Pointer Events) com borracha, desfazer
   e limpar, **teclado grande** (numérico ou alfabético) para confirmar a
   resposta, e **reconhecimento de caligrafia** (`src/reconhecimento/`, nível
