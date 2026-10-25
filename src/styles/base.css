@@ -117,6 +117,20 @@ button:active {
   line-height: 1.2;
 }
 
+.reconhecer-escrita-btn {
+  min-height: var(--touch-min);
+  margin-top: 8px;
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 2px solid var(--color-primary);
+}
+
+.reconhecer-escrita-status {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  min-height: 1.2em;
+}
+
 .placeholder-note {
   opacity: 0.7;
   font-style: italic;

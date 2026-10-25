@@ -11,6 +11,7 @@ import { createBigKeyboard } from '../../components/big-keyboard.js'
 import { criarCronometroPadrao } from '../../components/cronometro-padrao.js'
 import { criarPlayerAudio } from '../../components/player-audio.js'
 import { criarMicrofone } from '../../components/microfone.js'
+import { criarBotaoReconhecerEscrita } from '../../components/botao-reconhecer-escrita.js'
 import { renderizarMatematica } from '../../components/katex-render.js'
 
 let geradoresRegistrados = false
@@ -66,6 +67,7 @@ export function renderFolhaDigital(root) {
   let microfone = null
   let player = null
   let cronometro = null
+  let botaoReconhecer = null
 
   let faseInfo = null
   let blocoAtual = null
@@ -91,6 +93,10 @@ export function renderFolhaDigital(root) {
     if (player) {
       player.destroy()
       player = null
+    }
+    if (botaoReconhecer) {
+      botaoReconhecer.destroy()
+      botaoReconhecer = null
     }
   }
 
@@ -189,6 +195,10 @@ export function renderFolhaDigital(root) {
       microfone.destroy()
       microfone = null
     }
+    if (botaoReconhecer) {
+      botaoReconhecer.destroy()
+      botaoReconhecer = null
+    }
 
     const feedbackEl = area.querySelector('#item-feedback')
     function mostrarFeedback(correto) {
@@ -230,6 +240,13 @@ export function renderFolhaDigital(root) {
       if (resultadoExistente.respondido && !modoRefazer) {
         mostrarFeedback(resultadoExistente.corretoFinal)
       }
+
+      // Toda a Folha Digital hoje é Matemática (ver iniciar()) -- o
+      // reconhecimento cobre dígitos e símbolos (ver reconhecimento/alfabeto.ts).
+      botaoReconhecer = criarBotaoReconhecerEscrita(root.querySelector('#canvas-slot'), {
+        writingCanvas,
+        onReconhecido: (texto) => currentKeyboard.setValue(texto),
+      })
     }
 
     atualizarNav(indice)

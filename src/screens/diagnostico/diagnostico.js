@@ -11,6 +11,7 @@ import { createWritingCanvas } from '../../components/writing-canvas.js'
 import { createBigKeyboard } from '../../components/big-keyboard.js'
 import { criarPlayerAudio } from '../../components/player-audio.js'
 import { criarMicrofone } from '../../components/microfone.js'
+import { criarBotaoReconhecerEscrita } from '../../components/botao-reconhecer-escrita.js'
 
 let geradoresRegistrados = false
 
@@ -67,6 +68,7 @@ export function renderDiagnostico(root) {
   let currentKeyboard = null
   let player = null
   let microfone = null
+  let botaoReconhecer = null
 
   function limparControles() {
     if (writingCanvas) {
@@ -84,6 +86,10 @@ export function renderDiagnostico(root) {
     if (microfone) {
       microfone.destroy()
       microfone = null
+    }
+    if (botaoReconhecer) {
+      botaoReconhecer.destroy()
+      botaoReconhecer = null
     }
   }
 
@@ -190,6 +196,16 @@ export function renderDiagnostico(root) {
         avancarComResultado(resultado.correto)
       },
     })
+
+    // O reconhecimento de escrita só cobre dígitos e símbolos de Matemática
+    // (ver reconhecimento/alfabeto.ts) -- Português/Inglês continuam só
+    // pelo teclado até existir reconhecimento de letras manuscritas.
+    if (disciplina === 'matematica') {
+      botaoReconhecer = criarBotaoReconhecerEscrita(canvasSlot, {
+        writingCanvas,
+        onReconhecido: (texto) => currentKeyboard.setValue(texto),
+      })
+    }
   }
 
   return () => limparControles()
