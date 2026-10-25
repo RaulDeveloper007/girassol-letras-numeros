@@ -1,0 +1,97 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 7,
+  "titulo": "Vocabulário intermediário (A2 / B1)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Comida",
+      "blocos": [
+        {
+          "id": "ing-f07-n01-b01",
+          "habilidade": "traduzir o nome de alimentos comuns para o inglês",
+          "exemploResolvido": {
+            "enunciado": "Como se diz \"pão\" em inglês?",
+            "passoAPasso": ["Pense no alimento em português.", "Lembre da palavra em inglês.", "Escreva a palavra em inglês."]
+          },
+          "geradorId": "ingles.traducao",
+          "parametrosGerador": {
+            "pares": [
+              { "portugues": "pão", "ingles": "bread" },
+              { "portugues": "arroz", "ingles": "rice" },
+              { "portugues": "carne", "ingles": "meat" },
+              { "portugues": "leite", "ingles": "milk" },
+              { "portugues": "queijo", "ingles": "cheese" },
+              { "portugues": "ovo", "ingles": "egg" },
+              { "portugues": "frango", "ingles": "chicken" },
+              { "portugues": "sopa", "ingles": "soup" }
+            ]
+          },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Casa e objetos do dia a dia",
+      "blocos": [
+        {
+          "id": "ing-f07-n02-b01",
+          "habilidade": "traduzir o nome de objetos domésticos comuns para o inglês",
+          "exemploResolvido": {
+            "enunciado": "Como se diz \"janela\" em inglês?",
+            "passoAPasso": ["Pense no objeto em português.", "Lembre da palavra em inglês.", "Escreva a palavra em inglês."]
+          },
+          "geradorId": "ingles.traducao",
+          "parametrosGerador": {
+            "pares": [
+              { "portugues": "janela", "ingles": "window" },
+              { "portugues": "porta", "ingles": "door" },
+              { "portugues": "cadeira", "ingles": "chair" },
+              { "portugues": "cama", "ingles": "bed" },
+              { "portugues": "chave", "ingles": "key" },
+              { "portugues": "espelho", "ingles": "mirror" },
+              { "portugues": "relógio", "ingles": "clock" },
+              { "portugues": "sabão", "ingles": "soap" }
+            ]
+          },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Profissões",
+      "blocos": [
+        {
+          "id": "ing-f07-n03-b01",
+          "habilidade": "traduzir o nome de profissões comuns para o inglês",
+          "exemploResolvido": {
+            "enunciado": "Como se diz \"professor\" em inglês?",
+            "passoAPasso": ["Pense na profissão em português.", "Lembre da palavra em inglês.", "Escreva a palavra em inglês."]
+          },
+          "geradorId": "ingles.traducao",
+          "parametrosGerador": {
+            "pares": [
+              { "portugues": "professor", "ingles": "teacher" },
+              { "portugues": "médico", "ingles": "doctor" },
+              { "portugues": "cozinheiro", "ingles": "cook" },
+              { "portugues": "bombeiro", "ingles": "firefighter" },
+              { "portugues": "motorista", "ingles": "driver" },
+              { "portugues": "enfermeira", "ingles": "nurse" },
+              { "portugues": "engenheiro", "ingles": "engineer" },
+              { "portugues": "artista", "ingles": "artist" }
+            ]
+          },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

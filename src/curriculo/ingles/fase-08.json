@@ -1,0 +1,47 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 8,
+  "titulo": "Interpretação de texto em inglês (B1)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Perguntas literais sobre um texto curto em inglês",
+      "blocos": [
+        {
+          "id": "ing-f08-n01-b01",
+          "habilidade": "ler um texto curto em inglês e responder por escrito a uma pergunta direta sobre ele",
+          "exemploResolvido": {
+            "enunciado": "Leia o texto e responda à pergunta.\n\nTom has a small dog. The dog's name is Max.\n\nPergunta: What is the name of Tom's dog?",
+            "passoAPasso": ["Releia a pergunta com atenção.", "Procure a resposta exata no texto.", "Escreva só a resposta."]
+          },
+          "geradorId": "ingles.interpretacao-texto",
+          "parametrosGerador": {
+            "itens": [
+              {
+                "texto": "Tom has a small dog. The dog's name is Max.",
+                "pergunta": "What is the name of Tom's dog?",
+                "resposta": "max",
+                "variantesAceitas": ["his name is max", "the dog's name is max"]
+              },
+              {
+                "texto": "Maria lives in a big city. She works at a hospital.",
+                "pergunta": "Where does Maria work?",
+                "resposta": "at a hospital",
+                "variantesAceitas": ["hospital", "she works at a hospital"]
+              },
+              {
+                "texto": "On Saturday, the children played in the park. They had a lot of fun.",
+                "pergunta": "When did the children play in the park?",
+                "resposta": "on saturday",
+                "variantesAceitas": ["saturday"]
+              }
+            ]
+          },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

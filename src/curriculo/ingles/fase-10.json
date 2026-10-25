@@ -1,0 +1,69 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 10,
+  "titulo": "Produção escrita e conversação (B2 / C1)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Resposta falada a uma pergunta pessoal",
+      "blocos": [
+        {
+          "id": "ing-f10-n01-b01",
+          "habilidade": "responder em voz alta, em inglês, a uma pergunta pessoal simples",
+          "exemploResolvido": {
+            "enunciado": "Ouça a pergunta e responda em voz alta.",
+            "passoAPasso": ["Ouça a pergunta em inglês com atenção.", "Monte a resposta em inglês na sua cabeça.", "Fale a resposta em voz alta e clara."]
+          },
+          "geradorId": "ingles.compreensao-auditiva",
+          "parametrosGerador": {
+            "perguntas": [
+              { "pergunta": "What is your favorite color?", "resposta": "blue" },
+              { "pergunta": "What day comes after Monday?", "resposta": "tuesday" },
+              { "pergunta": "What is the opposite of big?", "resposta": "small" }
+            ],
+            "idioma": "en-US"
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-resposta"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Produção escrita curta em inglês",
+      "blocos": [
+        {
+          "id": "ing-f10-n02-b01",
+          "habilidade": "escrever um pequeno texto em inglês sobre um tema dado",
+          "exemploResolvido": {
+            "enunciado": "Write a short text (3 to 5 sentences) about the topic.\n\nTopic: My favorite hobby",
+            "passoAPasso": [
+              "Pense em 2 ou 3 ideias sobre o tema.",
+              "Escreva uma frase em inglês pra cada ideia.",
+              "Releia e corrija a gramática e a pontuação antes de enviar."
+            ]
+          },
+          "geradorId": "ingles.producao-livre",
+          "parametrosGerador": {
+            "temas": [
+              { "tema": "My favorite hobby", "instrucao": "Write a short text (3 to 5 sentences) about the topic." },
+              { "tema": "A place I would like to visit", "instrucao": "Write a short text (3 to 5 sentences) about the topic." }
+            ],
+            "rubrica": {
+              "id": "redacao-ingles-padrao",
+              "criterios": [
+                { "id": "tema", "descricao": "O texto fala sobre o tema pedido", "pontos": 2 },
+                { "id": "gramatica", "descricao": "Poucos ou nenhum erro de gramática básica", "pontos": 2 },
+                { "id": "coerencia", "descricao": "As frases fazem sentido e se conectam bem", "pontos": 2 }
+              ]
+            }
+          },
+          "tempoPadraoSegundos": 900,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["producao-livre"]
+        }
+      ]
+    }
+  ]
+}

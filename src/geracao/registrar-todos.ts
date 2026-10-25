@@ -33,6 +33,7 @@ import { sistema2x2 } from './matematica/sistema-2x2.js'
 import { subtracao } from './matematica/subtracao.js'
 import { sucessorAntecessor } from './matematica/sucessor-antecessor.js'
 import { tabuada } from './matematica/tabuada.js'
+import { completarFrase } from './ingles/completar-frase.js'
 import { letraOuvir } from './ingles/letra-ouvir.js'
 import { traducao } from './ingles/traducao.js'
 import { compreensaoAuditiva } from './portugues/compreensao-auditiva.js'
@@ -99,4 +100,7 @@ export function registrarTodosOsGeradores(): void {
   registrarGerador('ingles.leitura-palavra', leituraPalavra)
   registrarGerador('ingles.leitura-frase', leituraFrase)
   registrarGerador('ingles.compreensao-auditiva', compreensaoAuditiva)
+  registrarGerador('ingles.interpretacao-texto', interpretacaoTexto)
+  registrarGerador('ingles.producao-livre', producaoLivre)
+  registrarGerador('ingles.completar-frase', completarFrase)
 }

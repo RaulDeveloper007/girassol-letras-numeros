@@ -1,0 +1,89 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 6,
+  "titulo": "Gramática básica (A2)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Verbo to be",
+      "blocos": [
+        {
+          "id": "ing-f06-n01-b01",
+          "habilidade": "completar frases com a forma correta do verbo to be (am/is/are)",
+          "exemploResolvido": {
+            "enunciado": "Complete a frase: I ___ happy.",
+            "passoAPasso": ["\"I\" sempre usa \"am\".", "I am happy."]
+          },
+          "geradorId": "ingles.completar-frase",
+          "parametrosGerador": {
+            "frases": [
+              { "frase": "I ___ happy.", "resposta": "am" },
+              { "frase": "She ___ a teacher.", "resposta": "is" },
+              { "frase": "They ___ my friends.", "resposta": "are" },
+              { "frase": "He ___ hungry.", "resposta": "is" },
+              { "frase": "We ___ at school.", "resposta": "are" },
+              { "frase": "It ___ a sunny day.", "resposta": "is" }
+            ]
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Plural dos substantivos",
+      "blocos": [
+        {
+          "id": "ing-f06-n02-b01",
+          "habilidade": "formar o plural de substantivos simples em inglês",
+          "exemploResolvido": {
+            "enunciado": "Complete a frase: I have two ___. (cat)",
+            "passoAPasso": ["A maioria dos plurais em inglês só acrescenta \"s\".", "cat -> cats.", "I have two cats."]
+          },
+          "geradorId": "ingles.completar-frase",
+          "parametrosGerador": {
+            "frases": [
+              { "frase": "I have two ___. (cat)", "resposta": "cats" },
+              { "frase": "She has three ___. (book)", "resposta": "books" },
+              { "frase": "There are five ___ in the garden. (dog)", "resposta": "dogs" },
+              { "frase": "We bought two ___. (table)", "resposta": "tables" },
+              { "frase": "He has four ___. (friend)", "resposta": "friends" }
+            ]
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Artigos a / an",
+      "blocos": [
+        {
+          "id": "ing-f06-n03-b01",
+          "habilidade": "usar \"a\" ou \"an\" corretamente antes de um substantivo",
+          "exemploResolvido": {
+            "enunciado": "Complete a frase: She has ___ apple.",
+            "passoAPasso": ["\"Apple\" começa com som de vogal, então usamos \"an\".", "She has an apple."]
+          },
+          "geradorId": "ingles.completar-frase",
+          "parametrosGerador": {
+            "frases": [
+              { "frase": "She has ___ apple.", "resposta": "an" },
+              { "frase": "He has ___ dog.", "resposta": "a" },
+              { "frase": "I saw ___ elephant at the zoo.", "resposta": "an" },
+              { "frase": "This is ___ book.", "resposta": "a" },
+              { "frase": "That is ___ orange.", "resposta": "an" }
+            ]
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

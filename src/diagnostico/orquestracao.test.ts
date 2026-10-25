@@ -16,8 +16,10 @@ describe('listarBlocosLineares', () => {
   })
 
   it('nunca inclui um bloco de produção livre (não tem certo/errado síncrono pra calibrar)', async () => {
-    const pontos = await listarBlocosLineares('portugues')
-    const temProducaoLivre = pontos.some((p) => p.bloco.tiposDeItem.includes('producao-livre'))
-    expect(temProducaoLivre).toBe(false)
+    const pontosPortugues = await listarBlocosLineares('portugues')
+    const pontosIngles = await listarBlocosLineares('ingles')
+    for (const pontos of [pontosPortugues, pontosIngles]) {
+      expect(pontos.some((p) => p.bloco.tiposDeItem.includes('producao-livre'))).toBe(false)
+    }
   })
 })

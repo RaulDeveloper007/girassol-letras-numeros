@@ -1,0 +1,61 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 9,
+  "titulo": "Tempos verbais (B1 / B2)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Presente simples vs. presente contínuo",
+      "blocos": [
+        {
+          "id": "ing-f09-n01-b01",
+          "habilidade": "escolher entre presente simples e presente contínuo conforme o contexto",
+          "exemploResolvido": {
+            "enunciado": "Complete a frase: Look! She ___ (run) to the bus.",
+            "passoAPasso": ["\"Look!\" indica algo acontecendo agora -- presente contínuo.", "She is running to the bus."]
+          },
+          "geradorId": "ingles.completar-frase",
+          "parametrosGerador": {
+            "frases": [
+              { "frase": "Look! She ___ (run) to the bus.", "resposta": "is running" },
+              { "frase": "He usually ___ (eat) breakfast at 7am.", "resposta": "eats" },
+              { "frase": "Right now, they ___ (play) soccer.", "resposta": "are playing" },
+              { "frase": "I ___ (go) to school every day.", "resposta": "go" },
+              { "frase": "Listen! The baby ___ (cry).", "resposta": "is crying" }
+            ]
+          },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Passado simples",
+      "blocos": [
+        {
+          "id": "ing-f09-n02-b01",
+          "habilidade": "conjugar verbos no passado simples (regulares e irregulares comuns)",
+          "exemploResolvido": {
+            "enunciado": "Complete a frase: Yesterday, I ___ (go) to the market.",
+            "passoAPasso": ["\"Go\" é irregular no passado.", "go -> went.", "Yesterday, I went to the market."]
+          },
+          "geradorId": "ingles.completar-frase",
+          "parametrosGerador": {
+            "frases": [
+              { "frase": "Yesterday, I ___ (go) to the market.", "resposta": "went" },
+              { "frase": "She ___ (watch) a movie last night.", "resposta": "watched" },
+              { "frase": "They ___ (eat) pizza on Friday.", "resposta": "ate" },
+              { "frase": "We ___ (play) basketball last weekend.", "resposta": "played" },
+              { "frase": "He ___ (see) his friend yesterday.", "resposta": "saw" }
+            ]
+          },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}
