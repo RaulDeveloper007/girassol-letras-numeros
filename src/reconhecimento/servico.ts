@@ -23,7 +23,7 @@ async function treinarNovoModelo(tf: Tf, aoProgredir?: (mensagem: string) => voi
 
   const modelo = construirModelo(tf, ALFABETO.length)
   await modelo.fit(imagensDeTreino, rotulosDeTreino, {
-    epochs: 8,
+    epochs: 10,
     batchSize: 64,
     validationData: [imagensDeTeste, rotulosDeTeste],
   })

@@ -5,6 +5,7 @@
 // alfabeto novo. Convenção de cor igual ao MNIST: fundo preto (0), traço
 // branco (1).
 import { ALFABETO } from './alfabeto.js'
+import { borrar, dilatar } from './pos-processamento.js'
 
 const FONTES = ['Arial', 'Segoe UI', 'Verdana', 'Georgia', '"Times New Roman"', '"Courier New"', 'sans-serif', 'serif']
 const TAMANHO_IMAGEM = 28
@@ -40,7 +41,15 @@ function desenharAmostra(rng: () => number, caractere: string): Float32Array {
   for (let i = 0; i < pixels.length; i++) {
     pixels[i] = imageData.data[i * 4]! / 255
   }
-  return pixels
+
+  // A fonte renderiza um traço fino e com borda limpa; um traço real de
+  // caneta/dedo, depois de recortado e reamostrado (recorte.ts), fica mais
+  // grosso e borrado. Sem aproximar essa textura aqui, o modelo generaliza
+  // mal pra escrita real -- risco já descrito no plano original desta
+  // feature. Varia por amostra (nem toda caligrafia é igualmente grossa).
+  const raioDilatacao = rng() < 0.7 ? (rng() < 0.5 ? 1 : 2) : 0
+  const passesDeBorrao = 1 + Math.floor(rng() * 2)
+  return borrar(dilatar(pixels, TAMANHO_IMAGEM, raioDilatacao), TAMANHO_IMAGEM, passesDeBorrao)
 }
 
 export function gerarDatasetSintetico(

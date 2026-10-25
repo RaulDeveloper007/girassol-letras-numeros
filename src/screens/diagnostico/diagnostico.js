@@ -133,7 +133,7 @@ export function renderDiagnostico(root) {
       const pontoDePartida = pontos[indicePartida]
       areaDiagnostico.innerHTML = `
         <div class="diagnostico-resultado">
-          <h2>Diagnóstico concluído 🌻</h2>
+          <h2>Diagnóstico concluído ✅</h2>
           <p>Ponto de partida: <strong>Fase ${pontoDePartida.faseNumero} · Nível ${pontoDePartida.nivelNumero}</strong></p>
           <p class="placeholder-note">Bloco: ${pontoDePartida.bloco.habilidade}</p>
           <p class="placeholder-note">Respondeu ${estado.tentativas.length} pergunta(s) de calibração.</p>

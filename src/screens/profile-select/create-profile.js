@@ -6,7 +6,9 @@ import { obterOuCriarProgresso } from '../../dados/progresso.js'
 
 const DISCIPLINAS = ['matematica', 'portugues', 'ingles']
 
-const ICONS = ['🌼', '🌻', '🌸', '🌷', '🌺', '🌹']
+// Ícones neutros, sem ligação com o visual antigo (girassol/flores) -- o
+// app atende de 3 a 90 anos, então evita algo que pareça só pra criança.
+const ICONS = ['⭐', '🦉', '🐢', '🦊', '🐧', '🐱']
 // Faixa etária do app é 3 a 90 (aprendizagem ao longo da vida, não só
 // crianças) -- o limite de 12 aqui era um resquício de antes do app
 // cobrir adultos.

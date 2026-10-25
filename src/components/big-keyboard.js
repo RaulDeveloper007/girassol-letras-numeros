@@ -6,12 +6,16 @@ import '../styles/big-keyboard.css'
 const DIGIT_ROWS = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9', '0'], [',', '/']]
 // Português usa acento o tempo todo (e é frequentemente o que o item de
 // ortografia está testando) -- sem essa linha, "café" ou "não" não dão
-// pra ser digitados de forma correta.
+// pra ser digitados de forma correta. Guardadas em minúscula (forma mais
+// comum de resposta); maiúsculas vêm de .toUpperCase() quando o modo
+// Maiúsculas está ativo -- ver caixaAlta abaixo. Isso é indispensável pra
+// Português Fase 9 (pontuação e maiúsculas), onde a diferença de caixa é
+// exatamente o que o item avalia (avaliaTextual com normalizarCaixa:false).
 const LETTER_ROWS = [
-  'QWERTYUIOP'.split(''),
-  'ASDFGHJKL'.split(''),
-  'ZXCVBNM'.split(''),
-  'ÁÀÂÃÉÊÍÓÔÕÚÇ'.split(''),
+  'qwertyuiop'.split(''),
+  'asdfghjkl'.split(''),
+  'zxcvbnm'.split(''),
+  'áàâãéêíóôõúç'.split(''),
 ]
 
 export function createBigKeyboard(container, { mode = 'alpha', onSubmit } = {}) {
@@ -27,6 +31,7 @@ export function createBigKeyboard(container, { mode = 'alpha', onSubmit } = {}) 
   wrapper.appendChild(keysArea)
 
   let value = ''
+  let caixaAlta = false
 
   function updateDisplay() {
     display.textContent = value || '…'
@@ -59,11 +64,12 @@ export function createBigKeyboard(container, { mode = 'alpha', onSubmit } = {}) 
       const rowEl = document.createElement('div')
       rowEl.className = 'big-keyboard__row'
       row.forEach((key) => {
+        const tecla = mode === 'alpha' && caixaAlta ? key.toUpperCase() : key
         const btn = document.createElement('button')
         btn.type = 'button'
         btn.className = 'key'
-        btn.textContent = key
-        btn.addEventListener('click', () => appendChar(key))
+        btn.textContent = tecla
+        btn.addEventListener('click', () => appendChar(tecla))
         rowEl.appendChild(btn)
       })
       keysArea.appendChild(rowEl)
@@ -73,6 +79,17 @@ export function createBigKeyboard(container, { mode = 'alpha', onSubmit } = {}) 
     controlsRow.className = 'big-keyboard__row'
 
     if (mode !== 'numeric') {
+      const shiftBtn = document.createElement('button')
+      shiftBtn.type = 'button'
+      shiftBtn.className = `key key--control key--shift ${caixaAlta ? 'is-active' : ''}`
+      shiftBtn.setAttribute('aria-label', 'Alternar maiúsculas e minúsculas')
+      shiftBtn.textContent = caixaAlta ? '⇧ ABC' : '⇧ abc'
+      shiftBtn.addEventListener('click', () => {
+        caixaAlta = !caixaAlta
+        renderKeys()
+      })
+      controlsRow.appendChild(shiftBtn)
+
       const spaceBtn = document.createElement('button')
       spaceBtn.type = 'button'
       spaceBtn.className = 'key key--control key--space'

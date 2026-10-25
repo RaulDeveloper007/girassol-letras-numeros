@@ -5,7 +5,7 @@ import { listarAlunos } from '../../dados/alunos.js'
 export function renderProfileSelect(root) {
   root.innerHTML = `
     <main class="screen screen-profile-select">
-      <h1>🌻 Passo Certo</h1>
+      <h1>👣 Passo Certo</h1>
       <p>Quem vai estudar hoje?</p>
       <div class="profile-grid" id="profile-grid"></div>
       <button class="link-button" id="go-guardian">⚙ Responsável</button>
