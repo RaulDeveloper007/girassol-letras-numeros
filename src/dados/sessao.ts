@@ -58,6 +58,54 @@ export async function iniciarFolha(
   return { folha, itens }
 }
 
+/**
+ * Teste de conclusão de nível: uma folha com 1 item de CADA bloco do
+ * nível (não N itens de um só bloco, como numa folha normal). blocoId
+ * guarda o bloco que disparou o teste (o último do nível), só como
+ * referência -- a cobertura real está nos itens, um por bloco.
+ */
+export async function iniciarTesteDeConclusao(
+  alunoId: string,
+  blocosDoNivel: BlocoDeclarado[],
+  blocoQueDisparouId: string,
+  banco: BancoPassoCerto = obterBanco()
+): Promise<FolhaIniciada> {
+  const itensGerados = blocosDoNivel.map((bloco) => montarFolha({ bloco, quantidadeItens: 1 }).itens[0]!)
+
+  const folha: Folha = {
+    id: createId(),
+    alunoId,
+    blocoId: blocoQueDisparouId,
+    numeroDaTentativaNoBloco: 0, // teste de conclusão não conta pro domínio de um bloco específico
+    itensIds: [],
+    iniciadaEm: new Date().toISOString(),
+    finalizadaEm: null,
+    tempoPadraoSegundos: blocosDoNivel.reduce((soma, bloco) => soma + bloco.tempoPadraoSegundos, 0),
+    tempoGastoSegundos: null,
+    notaPrimeiraTentativa: null,
+    cicloDeRefazer: { ativo: false, itensPendentesIds: [] },
+  }
+
+  const itens: Item[] = itensGerados.map((itemGerado) => ({
+    id: createId(),
+    folhaId: folha.id,
+    tipo: itemGerado.tipo,
+    enunciado: itemGerado.enunciado,
+    dados: itemGerado.dados,
+    gabarito: itemGerado.gabarito,
+    respostaPrimeiraTentativaId: null,
+    respostaFinalId: null,
+  }))
+  folha.itensIds = itens.map((item) => item.id)
+
+  await banco.transaction('rw', [banco.folhas, banco.itens], async () => {
+    await banco.folhas.put(folha)
+    await banco.itens.bulkPut(itens)
+  })
+
+  return { folha, itens }
+}
+
 async function obterAssinaturaDaFolha(folhaId: string, banco: BancoPassoCerto): Promise<string> {
   const itens = await banco.itens.where('folhaId').equals(folhaId).toArray()
   return itens.map((item) => `${item.enunciado}::${JSON.stringify(item.gabarito)}`).join('|')

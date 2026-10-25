@@ -62,3 +62,32 @@ export function proximoBlocoId(fase: FaseArquivo, blocoAtualId: string): string 
   if (indiceAtual === -1 || indiceAtual === todosOsBlocos.length - 1) return null
   return todosOsBlocos[indiceAtual + 1] ?? null
 }
+
+export interface PosicaoNoCurriculo {
+  faseNumero: number
+  nivelNumero: number
+  blocoId: string
+}
+
+/**
+ * Primeiro bloco da fase seguinte (quando um teste de conclusão é aprovado
+ * no último bloco de uma fase inteira). Retorna null quando não há mais
+ * fase declarada -- ou seja, o aluno completou todo o currículo existente
+ * da disciplina (um "fim de linha" raro, mas que a UI precisa tratar sem
+ * quebrar, já que o currículo é "sem teto" apenas até onde foi escrito).
+ */
+export async function primeiroBlocoDaProximaFase(
+  disciplina: DisciplinaId,
+  faseAtualNumero: number
+): Promise<PosicaoNoCurriculo | null> {
+  const fasesDisponiveis = listarFasesDisponiveis(disciplina)
+  const proximaFaseNumero = fasesDisponiveis.find((numero) => numero > faseAtualNumero)
+  if (proximaFaseNumero === undefined) return null
+
+  const proximaFase = await carregarFase(disciplina, proximaFaseNumero)
+  const primeiroNivel = proximaFase.niveis[0]
+  const primeiroBloco = primeiroNivel?.blocos[0]
+  if (!primeiroNivel || !primeiroBloco) return null
+
+  return { faseNumero: proximaFaseNumero, nivelNumero: primeiroNivel.numero, blocoId: primeiroBloco.id }
+}

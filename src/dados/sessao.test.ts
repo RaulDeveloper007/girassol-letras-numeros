@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { carregarFase } from '../curriculo/loader.js'
 import { registrarTodosOsGeradores } from '../geracao/registrar-todos.js'
 import { criarBancoParaTeste } from './banco.js'
-import { finalizarFolha, iniciarFolha, listarFolhasPorBloco, registrarTentativa } from './sessao.js'
+import { finalizarFolha, iniciarFolha, iniciarTesteDeConclusao, listarFolhasPorBloco, registrarTentativa } from './sessao.js'
 
 registrarTodosOsGeradores()
 
@@ -85,6 +85,18 @@ describe('sessao', () => {
 
     const folhasDoAluno1 = await listarFolhasPorBloco('aluno-1', bloco.id, banco)
     expect(folhasDoAluno1).toHaveLength(2)
+    banco.close()
+  })
+
+  it('iniciarTesteDeConclusao gera um item de cada bloco do nível, não N itens de um só bloco', async () => {
+    const banco = bancoDeTeste()
+    const fase = await carregarFase('matematica', 1)
+    const blocosDoNivel1 = fase.niveis[0]!.blocos
+
+    const { folha, itens } = await iniciarTesteDeConclusao('aluno-1', blocosDoNivel1, blocosDoNivel1.at(-1)!.id, banco)
+    expect(itens).toHaveLength(blocosDoNivel1.length)
+    expect(folha.blocoId).toBe(blocosDoNivel1.at(-1)!.id)
+    expect(folha.numeroDaTentativaNoBloco).toBe(0)
     banco.close()
   })
 })

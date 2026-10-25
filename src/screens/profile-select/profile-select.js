@@ -1,11 +1,11 @@
 import { navigateTo } from '../../app/router.js'
 import { setState } from '../../app/state.js'
-import { listStudents } from '../../data/students-repo.js'
+import { listarAlunos } from '../../dados/alunos.js'
 
 export function renderProfileSelect(root) {
   root.innerHTML = `
     <main class="screen screen-profile-select">
-      <h1>🌻 Girassol das Letras e Números</h1>
+      <h1>🌻 Passo Certo</h1>
       <p>Quem vai estudar hoje?</p>
       <div class="profile-grid" id="profile-grid"></div>
       <button class="link-button" id="go-guardian">⚙ Responsável</button>
@@ -16,12 +16,12 @@ export function renderProfileSelect(root) {
     navigateTo('#/responsavel')
   })
 
-  listStudents().then((students) => {
+  listarAlunos().then((alunos) => {
     const grid = root.querySelector('#profile-grid')
-    const studentCards = students
+    const studentCards = alunos
       .map(
-        (student) =>
-          `<button class="profile-card" data-student="${student.id}"><span class="card-icon">${student.avatarIcon}</span><span class="card-label">${student.firstName}</span></button>`
+        (aluno) =>
+          `<button class="profile-card" data-student="${aluno.id}"><span class="card-icon">${aluno.avatarIcone}</span><span class="card-label">${aluno.nomeExibicao}</span></button>`
       )
       .join('')
     const addCard = `<button class="profile-card profile-card--add" id="add-student"><span class="card-icon">➕</span><span class="card-label">Novo aluno</span></button>`

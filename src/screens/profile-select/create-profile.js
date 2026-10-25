@@ -1,7 +1,10 @@
 import '../../styles/create-profile.css'
 import { navigateTo } from '../../app/router.js'
 import { setState } from '../../app/state.js'
-import { createStudentProfile } from '../../app/onboarding.js'
+import { criarAluno } from '../../dados/alunos.js'
+import { obterOuCriarProgresso } from '../../dados/progresso.js'
+
+const DISCIPLINAS = ['matematica', 'portugues', 'ingles']
 
 const ICONS = ['🌼', '🌻', '🌸', '🌷', '🌺', '🌹']
 // Faixa etária do app é 3 a 90 (aprendizagem ao longo da vida, não só
@@ -73,8 +76,13 @@ export function renderCreateProfile(root) {
       return
     }
 
-    const student = await createStudentProfile({ firstName, age, avatarIcon: selectedIcon })
-    setState({ activeStudentId: student.id })
+    const aluno = await criarAluno({ nomeExibicao: firstName, idade: age, avatarIcone: selectedIcon })
+    // Progresso inicial em Fase 1 · Nível 1 pras três disciplinas -- a
+    // posição real de cada uma só é decidida pelo desempenho (ou pelo
+    // diagnóstico adaptativo), nunca pela idade.
+    await Promise.all(DISCIPLINAS.map((disciplina) => obterOuCriarProgresso(aluno.id, disciplina)))
+
+    setState({ activeStudentId: aluno.id })
     navigateTo('#/aluno')
   })
 

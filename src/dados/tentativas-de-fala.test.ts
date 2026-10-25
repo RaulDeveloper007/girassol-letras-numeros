@@ -7,12 +7,11 @@ function bancoDeTeste() {
 }
 
 describe('tentativas de fala', () => {
-  it('salva a transcrição, nunca o áudio', async () => {
+  it('salva a transcrição, nunca o áudio, e numera a tentativa automaticamente', async () => {
     const banco = bancoDeTeste()
-    const tentativa = await salvarTentativaDeFala(
+    const primeira = await salvarTentativaDeFala(
       {
         itemId: 'item-1',
-        numero: 1,
         transcricao: 'eu gosto de estudar',
         idioma: 'pt-BR',
         camadaUsada: 1,
@@ -22,8 +21,23 @@ describe('tentativas de fala', () => {
       },
       banco
     )
-    expect(tentativa.id).toBeTruthy()
-    expect(tentativa).not.toHaveProperty('audio')
+    expect(primeira.id).toBeTruthy()
+    expect(primeira.numero).toBe(1)
+    expect(primeira).not.toHaveProperty('audio')
+
+    const segunda = await salvarTentativaDeFala(
+      {
+        itemId: 'item-1',
+        transcricao: 'eu gosto de estudar',
+        idioma: 'pt-BR',
+        camadaUsada: 1,
+        similaridade: 1,
+        aceito: true,
+        encaminhadoParaOrientador: false,
+      },
+      banco
+    )
+    expect(segunda.numero).toBe(2)
     banco.close()
   })
 
@@ -32,7 +46,6 @@ describe('tentativas de fala', () => {
     await salvarTentativaDeFala(
       {
         itemId: 'item-aceito',
-        numero: 1,
         transcricao: 'certo',
         idioma: 'pt-BR',
         camadaUsada: 1,
@@ -45,7 +58,6 @@ describe('tentativas de fala', () => {
     await salvarTentativaDeFala(
       {
         itemId: 'item-encaminhado',
-        numero: 3,
         transcricao: 'errado de novo',
         idioma: 'pt-BR',
         camadaUsada: 1,

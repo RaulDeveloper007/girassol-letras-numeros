@@ -14,9 +14,9 @@ export function renderStudentHome(root) {
       <button class="back-button" id="go-back" aria-label="Voltar">←</button>
       <h1>O que vamos estudar?</h1>
       <div class="subject-grid">
-        <button class="subject-card" data-subject="math"><span class="card-icon">➕</span><span class="card-label">Matemática</span></button>
-        <button class="subject-card" data-subject="portuguese"><span class="card-icon">📝</span><span class="card-label">Português</span></button>
-        <button class="subject-card" data-subject="english"><span class="card-icon">🔤</span><span class="card-label">Inglês</span></button>
+        <button class="subject-card" data-subject="matematica"><span class="card-icon">➕</span><span class="card-label">Matemática</span></button>
+        <button class="subject-card" data-subject="portugues"><span class="card-icon">📝</span><span class="card-label">Português</span></button>
+        <button class="subject-card" data-subject="ingles"><span class="card-icon">🔤</span><span class="card-label">Inglês</span></button>
       </div>
     </main>
   `
@@ -26,7 +26,7 @@ export function renderStudentHome(root) {
   root.querySelectorAll('.subject-card').forEach((btn) => {
     btn.addEventListener('click', () => {
       setState({ activeSubject: btn.dataset.subject })
-      navigateTo('#/folha')
+      navigateTo('#/praticar')
     })
   })
 }

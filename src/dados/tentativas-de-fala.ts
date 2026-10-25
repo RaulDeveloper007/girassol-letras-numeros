@@ -3,10 +3,17 @@ import { obterBanco, type BancoPassoCerto } from './banco.js'
 import type { TentativaDeFala } from './tipos.js'
 
 export async function salvarTentativaDeFala(
-  dados: Omit<TentativaDeFala, 'id' | 'criadoEm'>,
+  dados: Omit<TentativaDeFala, 'id' | 'criadoEm' | 'numero'>,
   banco: BancoPassoCerto = obterBanco()
 ): Promise<TentativaDeFala> {
-  const tentativa: TentativaDeFala = { ...dados, id: createId(), criadoEm: new Date().toISOString() }
+  const tentativasAnteriores = await banco.tentativasDeFala.where('itemId').equals(dados.itemId).count()
+
+  const tentativa: TentativaDeFala = {
+    ...dados,
+    numero: tentativasAnteriores + 1,
+    id: createId(),
+    criadoEm: new Date().toISOString(),
+  }
   await banco.tentativasDeFala.put(tentativa)
   return tentativa
 }

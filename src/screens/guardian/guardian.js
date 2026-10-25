@@ -1,6 +1,6 @@
 import '../../styles/guardian.css'
 import { navigateTo } from '../../app/router.js'
-import { getGuardianSettings } from '../../data/guardian-settings-repo.js'
+import { obterConfiguracoesOrientador } from '../../dados/orientador.js'
 import { renderPinSetup, renderPinUnlock } from './pin-gate.js'
 import { renderDashboard } from './dashboard.js'
 
@@ -21,7 +21,7 @@ export function renderGuardian(root) {
   }
 
   async function init() {
-    const settings = await getGuardianSettings()
+    const settings = await obterConfiguracoesOrientador()
     const content = root.querySelector('#guardian-content')
 
     if (!settings.pinHash) {

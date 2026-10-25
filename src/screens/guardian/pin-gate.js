@@ -1,4 +1,4 @@
-import { saveGuardianSettings, getGuardianSettings } from '../../data/guardian-settings-repo.js'
+import { salvarConfiguracoesOrientador, obterConfiguracoesOrientador } from '../../dados/orientador.js'
 import { hashPin } from '../../app/pin-hash.js'
 
 const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
@@ -86,7 +86,7 @@ export function renderPinSetup(container, { onDone }) {
           showCreateStep()
           return
         }
-        await saveGuardianSettings({ pinHash: hashPin(pin) })
+        await salvarConfiguracoesOrientador({ pinHash: hashPin(pin) })
         onDone()
       },
     })
@@ -101,7 +101,7 @@ export function renderPinUnlock(container, { onUnlocked }) {
   renderPinInput(container, {
     label: 'Digite o PIN do responsável',
     onSubmit: async (pin, { reset, showError }) => {
-      const settings = await getGuardianSettings()
+      const settings = await obterConfiguracoesOrientador()
       if (hashPin(pin) === settings.pinHash) {
         onUnlocked()
       } else {

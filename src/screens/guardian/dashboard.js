@@ -1,115 +1,154 @@
-import { listStudents, deleteStudent } from '../../data/students-repo.js'
-import { listProgressByStudent, saveProgress } from '../../data/subject-progress-repo.js'
-import { listAttemptsByStudentSubject } from '../../data/attempts-repo.js'
-import { getRules, saveRules } from '../../data/progression-rules-repo.js'
-import { getStageInfo, MAX_LEVEL } from '../../levels/stage-names.js'
-import { exportBackupData, downloadBackupFile, importBackupData } from '../../app/backup.js'
-import { saveGuardianSettings } from '../../data/guardian-settings-repo.js'
+import { listarAlunos, removerAluno } from '../../dados/alunos.js'
+import { listarProgressoPorAluno, obterOuCriarProgresso, salvarProgresso } from '../../dados/progresso.js'
+import { listarProducoesPendentesDeRevisao, marcarCorrecaoRevisada } from '../../dados/correcoes.js'
+import { listarTentativasDeFalaEncaminhadas } from '../../dados/tentativas-de-fala.js'
+import { listarRevisoesDevidas } from '../../dados/revisoes-agendadas.js'
+import { listarComentarios, salvarComentario, salvarConfiguracoesOrientador } from '../../dados/orientador.js'
+import { exportarBackup, baixarArquivoDeBackup, importarBackup } from '../../dados/backup.js'
+import { buscarBloco, carregarFase, primeiroBlocoDaProximaFase, proximoBlocoId } from '../../curriculo/loader.js'
 
-const SUBJECTS = ['math', 'portuguese', 'english']
-const SUBJECT_LABELS = { math: 'Matemática', portuguese: 'Português', english: 'Inglês' }
+const DISCIPLINAS = ['matematica', 'portugues', 'ingles']
+const NOMES_DISCIPLINA = { matematica: 'Matemática', portugues: 'Português', ingles: 'Inglês' }
 
-const ERROR_TYPE_LABELS = {
-  counting: 'Contagem',
-  sequence: 'Sequência',
-  addition: 'Adição',
-  subtraction: 'Subtração',
-  multiplication: 'Tabuada',
-  'letter-tracing': 'Traçado de letra',
-  'syllable-recognition': 'Sílaba',
-  'word-building': 'Formação de palavra',
-  'short-reading': 'Leitura curta',
-  spelling: 'Ortografia',
-  'alphabet-sound': 'Alfabeto',
-  'thematic-vocabulary': 'Vocabulário',
-  'cvc-word': 'Palavra CVC',
-  'short-phrase': 'Frase curta',
-  'spelling-en': 'Ortografia (inglês)',
+function formatarData(iso) {
+  if (!iso) return '—'
+  return new Date(iso).toLocaleDateString('pt-BR')
 }
 
-function formatMinutesSeconds(totalSeconds) {
-  const minutes = Math.floor(totalSeconds / 60)
-  const seconds = totalSeconds % 60
-  return `${minutes}:${String(seconds).padStart(2, '0')}`
-}
+async function avancarManualmente(progresso) {
+  const fase = await carregarFase(progresso.disciplina, progresso.faseAtual)
+  const proximoId = proximoBlocoId(fase, progresso.blocoAtualId)
 
-function renderSubjectPanel({ subject, progress, attempts, rules, studentId, onChange }) {
-  const stage = getStageInfo(progress.level)
-  const recent = [...attempts].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10)
-
-  const avgAccuracy = recent.length
-    ? Math.round(recent.reduce((sum, attempt) => sum + attempt.accuracyRate, 0) / recent.length)
-    : null
-  const avgTime = recent.length
-    ? Math.round(recent.reduce((sum, attempt) => sum + attempt.elapsedSeconds, 0) / recent.length)
-    : null
-
-  const errorCounts = {}
-  for (const attempt of recent) {
-    for (const tag of attempt.recurrentErrorTags ?? []) {
-      errorCounts[tag] = (errorCounts[tag] ?? 0) + 1
-    }
+  if (proximoId) {
+    const encontrado = buscarBloco(fase, proximoId)
+    return salvarProgresso({ ...progresso, nivelAtual: encontrado?.nivel.numero ?? progresso.nivelAtual, blocoAtualId: proximoId })
   }
-  const topErrors = Object.entries(errorCounts).sort((a, b) => b[1] - a[1]).slice(0, 3)
 
+  const proximaFase = await primeiroBlocoDaProximaFase(progresso.disciplina, progresso.faseAtual)
+  if (!proximaFase) return progresso // já é o último bloco de todo o currículo disponível
+
+  return salvarProgresso({
+    ...progresso,
+    faseAtual: proximaFase.faseNumero,
+    nivelAtual: proximaFase.nivelNumero,
+    blocoAtualId: proximaFase.blocoId,
+  })
+}
+
+function renderSubjectPanel({ disciplina, progresso, bloco, onChange }) {
   const section = document.createElement('section')
   section.className = 'guardian-subject-panel'
   section.innerHTML = `
-    <h2>${SUBJECT_LABELS[subject]}</h2>
-    <p>Estágio atual: <strong>${stage.label}</strong></p>
-
+    <h2>${NOMES_DISCIPLINA[disciplina]}</h2>
+    <p>Posição atual: <strong>Fase ${progresso.faseAtual} · Nível ${progresso.nivelAtual}</strong></p>
+    <p class="placeholder-note">${bloco?.habilidade ?? 'Bloco não encontrado no currículo.'}</p>
+    <p class="placeholder-note">Diagnóstico: ${
+      { pendente: 'ainda não feito', 'em-andamento': 'em andamento', concluido: 'concluído' }[progresso.statusDiagnostico]
+    }</p>
     <div class="level-adjust">
-      <span>Ajustar nível manualmente:</span>
-      <div class="level-stepper">
-        <button type="button" class="level-dec" aria-label="Diminuir nível">−</button>
-        <span class="level-value">${progress.level}</span>
-        <button type="button" class="level-inc" aria-label="Aumentar nível">+</button>
-      </div>
+      <button type="button" class="avancar-manual-button">Avançar manualmente →</button>
     </div>
-
-    <div class="guardian-stats">
-      <p>Últimas ${recent.length} folha(s): acerto médio <strong>${avgAccuracy ?? '—'}${avgAccuracy !== null ? '%' : ''}</strong>,
-         tempo médio <strong>${avgTime !== null ? formatMinutesSeconds(avgTime) : '—'}</strong></p>
-      <p>${
-        topErrors.length
-          ? `Erros mais comuns: ${topErrors.map(([type, count]) => `${ERROR_TYPE_LABELS[type] ?? type} (${count}x)`).join(', ')}`
-          : 'Sem erros recorrentes registrados.'
-      }</p>
-    </div>
-
-    <details class="guardian-rules">
-      <summary>Regra de avanço: ${rules.sheetsRequired} folha(s) seguidas, acerto ≥ ${rules.minAccuracy}%, tempo ≤ ${Math.round(rules.maxTimeSeconds / 60)} min</summary>
-      <div class="rule-fields">
-        <label>Folhas seguidas <input type="number" min="1" max="10" value="${rules.sheetsRequired}" class="rule-sheets" /></label>
-        <label>Acerto mínimo (%) <input type="number" min="1" max="100" value="${rules.minAccuracy}" class="rule-accuracy" /></label>
-        <label>Tempo máximo (min) <input type="number" min="1" max="60" value="${Math.round(rules.maxTimeSeconds / 60)}" class="rule-time" /></label>
-        <button type="button" class="rule-save">Salvar regra</button>
-      </div>
-    </details>
   `
 
-  let currentLevel = progress.level
-
-  async function persistLevel() {
-    section.querySelector('.level-value').textContent = String(currentLevel)
-    await saveProgress({ studentId, subject, level: currentLevel, levelSince: new Date().toISOString() })
+  section.querySelector('.avancar-manual-button').addEventListener('click', async () => {
+    await avancarManualmente(progresso)
     onChange()
-  }
-
-  section.querySelector('.level-dec').addEventListener('click', () => {
-    currentLevel = Math.max(1, currentLevel - 1)
-    persistLevel()
-  })
-  section.querySelector('.level-inc').addEventListener('click', () => {
-    currentLevel = Math.min(MAX_LEVEL, currentLevel + 1)
-    persistLevel()
   })
 
-  section.querySelector('.rule-save').addEventListener('click', async () => {
-    const sheetsRequired = Number(section.querySelector('.rule-sheets').value) || rules.sheetsRequired
-    const minAccuracy = Number(section.querySelector('.rule-accuracy').value) || rules.minAccuracy
-    const maxTimeMinutes = Number(section.querySelector('.rule-time').value) || Math.round(rules.maxTimeSeconds / 60)
-    await saveRules({ subject, sheetsRequired, minAccuracy, maxTimeSeconds: maxTimeMinutes * 60 })
+  return section
+}
+
+function renderFilaDeFala(tentativas) {
+  const section = document.createElement('section')
+  section.className = 'guardian-backup'
+  section.innerHTML = `
+    <h2>Fala pendente de atenção</h2>
+    ${
+      tentativas.length === 0
+        ? '<p class="placeholder-note">Nenhuma tentativa de fala precisando de atenção agora.</p>'
+        : tentativas
+            .map(
+              (t) => `
+          <div class="guardian-fila-item">
+            <p><strong>Transcrição:</strong> "${t.transcricao}" (${t.idioma})</p>
+            <p class="placeholder-note">Similaridade: ${Math.round(t.similaridade * 100)}% · ${formatarData(t.criadoEm)}</p>
+          </div>
+        `
+            )
+            .join('')
+    }
+  `
+  return section
+}
+
+function renderFilaDeProducoes(producoes, onChange) {
+  const section = document.createElement('section')
+  section.className = 'guardian-backup'
+  section.innerHTML = `
+    <h2>Produções livres pendentes de revisão</h2>
+    ${
+      producoes.length === 0
+        ? '<p class="placeholder-note">Nenhuma produção livre pendente agora.</p>'
+        : producoes
+            .map(
+              (p, i) => `
+          <div class="guardian-fila-item">
+            <p><strong>${p.item.enunciado.split('\n')[0]}</strong></p>
+            <p>${p.tentativa?.resposta?.texto ?? '(sem resposta registrada)'}</p>
+            <button type="button" class="marcar-revisado-button" data-indice="${i}">Marcar como revisado</button>
+          </div>
+        `
+            )
+            .join('')
+    }
+  `
+
+  section.querySelectorAll('.marcar-revisado-button').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const producao = producoes[Number(btn.dataset.indice)]
+      await marcarCorrecaoRevisada(producao.correcao.itemId)
+      onChange()
+    })
+  })
+
+  return section
+}
+
+function renderRevisaoEspacada(revisoes) {
+  const section = document.createElement('section')
+  section.className = 'guardian-backup'
+  section.innerHTML = `
+    <h2>Revisão espaçada devida hoje</h2>
+    ${
+      revisoes.length === 0
+        ? '<p class="placeholder-note">Nenhuma revisão devida agora -- tudo em dia.</p>'
+        : `<ul>${revisoes.map((r) => `<li>${r.blocoId} (desde ${formatarData(r.proximaRevisaoEm)})</li>`).join('')}</ul>`
+    }
+  `
+  return section
+}
+
+function renderComentarios(comentarios, alunoId, onChange) {
+  const section = document.createElement('section')
+  section.className = 'guardian-backup'
+  section.innerHTML = `
+    <h2>Recado para o aluno</h2>
+    <textarea id="novo-comentario" rows="3" placeholder="Escreva um recado..." class="autoavaliacao-rubrica__texto"></textarea>
+    <button type="button" id="enviar-comentario">Enviar recado</button>
+    <div class="guardian-comentarios">
+      ${comentarios
+        .slice()
+        .reverse()
+        .map((c) => `<p class="placeholder-note">${formatarData(c.criadoEm)} — ${c.texto} ${c.lidoPeloAluno ? '(lido)' : '(não lido)'}</p>`)
+        .join('')}
+    </div>
+  `
+
+  section.querySelector('#enviar-comentario').addEventListener('click', async () => {
+    const textarea = section.querySelector('#novo-comentario')
+    const texto = textarea.value.trim()
+    if (!texto) return
+    await salvarComentario(alunoId, texto)
     onChange()
   })
 
@@ -117,7 +156,7 @@ function renderSubjectPanel({ subject, progress, attempts, rules, studentId, onC
 }
 
 export function renderDashboard(container) {
-  let students = []
+  let alunos = []
   let selectedStudentId = null
 
   container.innerHTML = `<p class="placeholder-note">Carregando dados…</p>`
@@ -128,21 +167,25 @@ export function renderDashboard(container) {
       return
     }
 
-    const progressList = await listProgressByStudent(selectedStudentId)
-    const progressBySubject = Object.fromEntries(progressList.map((p) => [p.subject, p]))
-    const currentStudent = students.find((student) => student.id === selectedStudentId)
+    const alunoAtual = alunos.find((a) => a.id === selectedStudentId)
+    const progressoList = await listarProgressoPorAluno(selectedStudentId)
+    const progressoPorDisciplina = Object.fromEntries(progressoList.map((p) => [p.disciplina, p]))
 
     container.innerHTML = `
       <div class="guardian-tabs" id="student-tabs">
-        ${students
+        ${alunos
           .map(
-            (student) =>
-              `<button class="guardian-tab ${student.id === selectedStudentId ? 'is-active' : ''}" data-student="${student.id}">${student.avatarIcon} ${student.firstName}</button>`
+            (aluno) =>
+              `<button class="guardian-tab ${aluno.id === selectedStudentId ? 'is-active' : ''}" data-student="${aluno.id}">${aluno.avatarIcone} ${aluno.nomeExibicao}</button>`
           )
           .join('')}
       </div>
-      <button type="button" id="remove-student" class="remove-student-button">🗑 Remover perfil de ${currentStudent?.firstName ?? 'aluno'}</button>
+      <button type="button" id="remove-student" class="remove-student-button">🗑 Remover perfil de ${alunoAtual?.nomeExibicao ?? 'aluno'}</button>
       <div id="subject-panels"></div>
+      <div id="fila-fala"></div>
+      <div id="fila-producoes"></div>
+      <div id="revisao-espacada"></div>
+      <div id="comentarios"></div>
       <div class="guardian-backup">
         <h2>Backup</h2>
         <p class="placeholder-note">Exporte para levar o progresso de um aparelho para outro, e importe para restaurar.</p>
@@ -156,8 +199,7 @@ export function renderDashboard(container) {
       <div class="guardian-backup">
         <h2>Diagnóstico técnico</h2>
         <p><a href="#/verificar-voz">🎤 Verificar voz (síntese e reconhecimento)</a></p>
-        <p><a href="#/folha-digital">📄 Pré-visualizar Folha Digital (Passo Certo)</a></p>
-        <p><a href="#/diagnostico">🧭 Pré-visualizar teste diagnóstico</a></p>
+        <p><a href="#/diagnostico">🧭 Teste diagnóstico adaptativo</a></p>
       </div>
     `
 
@@ -169,30 +211,38 @@ export function renderDashboard(container) {
     })
 
     container.querySelector('#remove-student').addEventListener('click', async () => {
-      const confirmed = window.confirm(
-        `Remover o perfil de ${currentStudent?.firstName ?? 'aluno'}? Isso não pode ser desfeito.`
-      )
+      const confirmed = window.confirm(`Remover o perfil de ${alunoAtual?.nomeExibicao ?? 'aluno'}? Isso não pode ser desfeito.`)
       if (!confirmed) return
-      await deleteStudent(selectedStudentId)
-      students = await listStudents()
-      selectedStudentId = students[0]?.id ?? null
+      await removerAluno(selectedStudentId)
+      alunos = await listarAlunos()
+      selectedStudentId = alunos[0]?.id ?? null
       render()
     })
 
     const panels = container.querySelector('#subject-panels')
-    for (const subject of SUBJECTS) {
-      const progress = progressBySubject[subject] ?? { level: 1 }
-      const attempts = await listAttemptsByStudentSubject(selectedStudentId, subject)
-      const rules = await getRules(subject)
-      panels.appendChild(
-        renderSubjectPanel({ subject, progress, attempts, rules, studentId: selectedStudentId, onChange: render })
-      )
+    for (const disciplina of DISCIPLINAS) {
+      const progresso = progressoPorDisciplina[disciplina] ?? (await obterOuCriarProgresso(selectedStudentId, disciplina))
+      const fase = await carregarFase(disciplina, progresso.faseAtual)
+      const encontrado = buscarBloco(fase, progresso.blocoAtualId)
+      panels.appendChild(renderSubjectPanel({ disciplina, progresso, bloco: encontrado?.bloco, onChange: render }))
     }
 
+    const tentativasDeFala = await listarTentativasDeFalaEncaminhadas()
+    container.querySelector('#fila-fala').replaceWith(renderFilaDeFala(tentativasDeFala))
+
+    const producoesPendentes = await listarProducoesPendentesDeRevisao()
+    container.querySelector('#fila-producoes').replaceWith(renderFilaDeProducoes(producoesPendentes, render))
+
+    const revisoesDevidas = await listarRevisoesDevidas(selectedStudentId)
+    container.querySelector('#revisao-espacada').replaceWith(renderRevisaoEspacada(revisoesDevidas))
+
+    const comentarios = await listarComentarios(selectedStudentId)
+    container.querySelector('#comentarios').replaceWith(renderComentarios(comentarios, selectedStudentId, render))
+
     container.querySelector('#export-backup').addEventListener('click', async () => {
-      const backup = await exportBackupData()
-      downloadBackupFile(backup)
-      await saveGuardianSettings({ lastBackupAt: new Date().toISOString() })
+      const backup = await exportarBackup()
+      baixarArquivoDeBackup(backup)
+      await salvarConfiguracoesOrientador({ ultimoBackupEm: new Date().toISOString() })
       container.querySelector('#backup-status').textContent = 'Backup exportado! Veja a pasta de downloads do navegador.'
     })
 
@@ -203,9 +253,10 @@ export function renderDashboard(container) {
       try {
         const text = await file.text()
         const backup = JSON.parse(text)
-        await importBackupData(backup)
+        await importarBackup(backup)
         statusEl.textContent = 'Backup importado com sucesso!'
-        students = await listStudents()
+        alunos = await listarAlunos()
+        selectedStudentId = alunos[0]?.id ?? null
         render()
       } catch (error) {
         statusEl.textContent = `Erro ao importar: ${error.message}`
@@ -214,8 +265,8 @@ export function renderDashboard(container) {
   }
 
   async function init() {
-    students = await listStudents()
-    selectedStudentId = students[0]?.id ?? null
+    alunos = await listarAlunos()
+    selectedStudentId = alunos[0]?.id ?? null
     render()
   }
 

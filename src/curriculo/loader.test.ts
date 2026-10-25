@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { buscarBloco, carregarFase, FaseNaoEncontradaError, listarFasesDisponiveis, proximoBlocoId } from './loader.js'
+import {
+  buscarBloco,
+  carregarFase,
+  FaseNaoEncontradaError,
+  listarFasesDisponiveis,
+  primeiroBlocoDaProximaFase,
+  proximoBlocoId,
+} from './loader.js'
 
 describe('carregarFase', () => {
   it('carrega a fase 1 de matemática', async () => {
@@ -60,5 +67,19 @@ describe('buscarBloco / proximoBlocoId', () => {
   it('retorna null quando é o último bloco da fase inteira', async () => {
     const fase = await carregarFase('matematica', 1)
     expect(proximoBlocoId(fase, 'mat-f01-n05-b02')).toBeNull()
+  })
+})
+
+describe('primeiroBlocoDaProximaFase', () => {
+  it('acha a posição completa (fase, nível, bloco) do início da fase seguinte', async () => {
+    expect(await primeiroBlocoDaProximaFase('matematica', 1)).toEqual({
+      faseNumero: 2,
+      nivelNumero: 1,
+      blocoId: 'mat-f02-n01-b01',
+    })
+  })
+
+  it('retorna null quando a fase atual é a última disponível na disciplina', async () => {
+    expect(await primeiroBlocoDaProximaFase('matematica', 17)).toBeNull()
   })
 })
