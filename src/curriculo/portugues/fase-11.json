@@ -1,0 +1,44 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 11,
+  "titulo": "Interpretação de texto — oral",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Ouvir uma pequena história e responder em voz alta",
+      "blocos": [
+        {
+          "id": "por-f11-n01-b01",
+          "habilidade": "ouvir uma pequena história e responder a uma pergunta sobre ela, em voz alta",
+          "exemploResolvido": {
+            "enunciado": "Ouça a história e a pergunta. Depois, responda em voz alta.",
+            "passoAPasso": ["Ouça a história inteira com atenção (pode repetir).", "Ouça a pergunta.", "Fale a resposta em voz alta e clara."]
+          },
+          "geradorId": "portugues.interpretacao-oral",
+          "parametrosGerador": {
+            "itens": [
+              {
+                "texto": "Ana adora animais. Ela tem um cachorro chamado Bob e um gato chamado Mimi. Todos os dias, ela passeia com o Bob no parque.",
+                "pergunta": "Com qual animal a Ana passeia no parque?",
+                "resposta": "bob"
+              },
+              {
+                "texto": "Pedro gosta muito de ler. Ontem ele leu uma história sobre dinossauros e, à noite, sonhou com eles.",
+                "pergunta": "Sobre o que era a história que Pedro leu?",
+                "resposta": "dinossauros"
+              },
+              {
+                "texto": "No sábado, a família foi à praia. As crianças construíram um castelo de areia enquanto os pais tomavam sol.",
+                "pergunta": "Onde a família passou o sábado?",
+                "resposta": "na praia"
+              }
+            ]
+          },
+          "tempoPadraoSegundos": 540,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-resposta"]
+        }
+      ]
+    }
+  ]
+}

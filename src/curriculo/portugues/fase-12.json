@@ -1,0 +1,31 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 12,
+  "titulo": "Leitura fluente — textos mais longos",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Textos de 5 a 6 frases",
+      "blocos": [
+        {
+          "id": "por-f12-n01-b01",
+          "habilidade": "ler em voz alta um texto de vários parágrafos, mantendo fluência do início ao fim",
+          "exemploResolvido": {
+            "enunciado": "Leia a frase em voz alta: Era uma vez uma menina chamada Clara. Ela morava numa casinha perto da floresta. Todas as manhãs, Clara ia buscar água no poço. Um dia, ela encontrou um filhote de coelho perdido. Clara decidiu cuidar dele até ele poder voltar para a floresta.",
+            "passoAPasso": ["Leia o texto todo em silêncio primeiro.", "Fale frase por frase, com calma e clareza.", "Mantenha o mesmo ritmo até a última frase."]
+          },
+          "geradorId": "portugues.leitura-frase",
+          "parametrosGerador": {
+            "frases": [
+              "Era uma vez uma menina chamada Clara. Ela morava numa casinha perto da floresta. Todas as manhãs, Clara ia buscar água no poço. Um dia, ela encontrou um filhote de coelho perdido. Clara decidiu cuidar dele até ele poder voltar para a floresta.",
+              "Lucas sempre quis ter uma bicicleta nova. Ele juntou moedinhas durante muitos meses. Quando finalmente conseguiu comprar a bicicleta, saiu para andar com os amigos. Foi um dos dias mais felizes do ano. No fim da tarde, voltou para casa cansado e contente."
+            ]
+          },
+          "tempoPadraoSegundos": 600,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    }
+  ]
+}

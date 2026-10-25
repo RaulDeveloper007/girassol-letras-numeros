@@ -21,6 +21,12 @@ export async function listarBlocosLineares(disciplina: DisciplinaId): Promise<Po
     const fase = await carregarFase(disciplina, faseNumero)
     for (const nivel of fase.niveis) {
       for (const bloco of nivel.blocos) {
+        // Blocos de produção livre (redação etc.) não têm um "certo/errado"
+        // imediato -- dependem de revisão humana (rubrica + orientador).
+        // A busca binária do diagnóstico precisa de um sinal síncrono pra
+        // cada pergunta, então esses blocos não servem como ponto de
+        // calibração (continuam normais como prática na Folha Digital).
+        if (bloco.tiposDeItem.includes('producao-livre')) continue
         pontos.push({ faseNumero, nivelNumero: nivel.numero, bloco })
       }
     }

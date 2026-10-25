@@ -1,0 +1,81 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 10,
+  "titulo": "Interpretação de texto — escrita",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Perguntas literais (a resposta está escrita no texto)",
+      "blocos": [
+        {
+          "id": "por-f10-n01-b01",
+          "habilidade": "ler um texto curto e responder por escrito a uma pergunta direta sobre ele",
+          "exemploResolvido": {
+            "enunciado": "Leia o texto e responda à pergunta.\n\nMarcos foi ao mercado comprar pão e leite.\n\nPergunta: O que Marcos foi comprar?",
+            "passoAPasso": ["Releia a pergunta com atenção.", "Procure a resposta exata no texto.", "Escreva só a resposta, sem repetir a pergunta."]
+          },
+          "geradorId": "portugues.interpretacao-texto",
+          "parametrosGerador": {
+            "itens": [
+              {
+                "texto": "Marcos foi ao mercado comprar pão e leite. No caminho, ele encontrou seu amigo Lucas.",
+                "pergunta": "O que Marcos foi comprar no mercado?",
+                "resposta": "pão e leite",
+                "variantesAceitas": ["leite e pão", "pao e leite", "leite e pao"]
+              },
+              {
+                "texto": "Ana adora animais. Ela tem um cachorro chamado Bob e um gato chamado Mimi.",
+                "pergunta": "Qual é o nome do cachorro da Ana?",
+                "resposta": "bob",
+                "variantesAceitas": ["o bob", "o cachorro se chama bob"]
+              },
+              {
+                "texto": "No sábado, a família foi à praia. As crianças construíram um castelo de areia.",
+                "pergunta": "O que as crianças construíram na praia?",
+                "resposta": "um castelo de areia",
+                "variantesAceitas": ["castelo de areia"]
+              }
+            ]
+          },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Perguntas inferenciais (a resposta precisa ser deduzida)",
+      "blocos": [
+        {
+          "id": "por-f10-n02-b01",
+          "habilidade": "ler um texto curto e responder por escrito a uma pergunta que exige um pequeno raciocínio",
+          "exemploResolvido": {
+            "enunciado": "Leia o texto e responda à pergunta.\n\nFelipe estudou a semana toda para a prova.\n\nPergunta: Por que Felipe conseguiu responder a prova com calma?",
+            "passoAPasso": ["O texto não diz a resposta com essas palavras exatas.", "Pense: o que explica o resultado?", "Escreva a explicação com suas palavras."]
+          },
+          "geradorId": "portugues.interpretacao-texto",
+          "parametrosGerador": {
+            "itens": [
+              {
+                "texto": "Felipe estudou a semana toda para a prova de matemática. No dia da prova, ele respondeu todas as questões com calma.",
+                "pergunta": "Por que Felipe conseguiu responder a prova com calma?",
+                "resposta": "porque ele estudou",
+                "variantesAceitas": ["ele estudou", "porque estudou a semana toda", "estudou a semana toda", "porque ele estudou a semana toda"]
+              },
+              {
+                "texto": "Quando começou a chover, Beatriz pegou o guarda-chuva antes de saber do que precisaria.",
+                "pergunta": "Por que Beatriz pegou o guarda-chuva?",
+                "resposta": "porque estava chovendo",
+                "variantesAceitas": ["estava chovendo", "por causa da chuva", "porque começou a chover"]
+              }
+            ]
+          },
+          "tempoPadraoSegundos": 540,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

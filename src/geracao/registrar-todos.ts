@@ -36,9 +36,12 @@ import { tabuada } from './matematica/tabuada.js'
 import { compreensaoAuditiva } from './portugues/compreensao-auditiva.js'
 import { ditadoPalavra } from './portugues/ditado-palavra.js'
 import { formarPalavra } from './portugues/formar-palavra.js'
+import { interpretacaoOral } from './portugues/interpretacao-oral.js'
+import { interpretacaoTexto } from './portugues/interpretacao-texto.js'
 import { leituraFrase } from './portugues/leitura-frase.js'
 import { leituraPalavra } from './portugues/leitura-palavra.js'
 import { pontuacaoCorrigir } from './portugues/pontuacao-corrigir.js'
+import { producaoLivre } from './portugues/producao-livre.js'
 import { silabaOuvir } from './portugues/silaba-ouvir.js'
 import { registrarGerador } from './registro.js'
 
@@ -83,4 +86,7 @@ export function registrarTodosOsGeradores(): void {
   registrarGerador('portugues.ditado-palavra', ditadoPalavra)
   registrarGerador('portugues.compreensao-auditiva', compreensaoAuditiva)
   registrarGerador('portugues.pontuacao-corrigir', pontuacaoCorrigir)
+  registrarGerador('portugues.interpretacao-texto', interpretacaoTexto)
+  registrarGerador('portugues.interpretacao-oral', interpretacaoOral)
+  registrarGerador('portugues.producao-livre', producaoLivre)
 }

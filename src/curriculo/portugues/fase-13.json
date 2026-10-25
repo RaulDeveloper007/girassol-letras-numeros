@@ -1,0 +1,80 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 13,
+  "titulo": "Produção escrita",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Texto descritivo curto",
+      "blocos": [
+        {
+          "id": "por-f13-n01-b01",
+          "habilidade": "escrever um pequeno texto descritivo sobre um tema dado",
+          "exemploResolvido": {
+            "enunciado": "Escreva um pequeno texto (3 a 5 frases) descrevendo o tema.\n\nTema: Meu animal de estimação (ou um animal que eu gostaria de ter)",
+            "passoAPasso": [
+              "Pense em 2 ou 3 características do tema.",
+              "Escreva uma frase pra cada característica.",
+              "Releia e corrija a pontuação e as maiúsculas antes de enviar."
+            ]
+          },
+          "geradorId": "portugues.producao-livre",
+          "parametrosGerador": {
+            "temas": [
+              { "tema": "Meu animal de estimação (ou um animal que eu gostaria de ter)", "instrucao": "Escreva um pequeno texto (3 a 5 frases) descrevendo o tema." },
+              { "tema": "Um lugar que eu gosto de visitar", "instrucao": "Escreva um pequeno texto (3 a 5 frases) descrevendo o tema." },
+              { "tema": "Minha comida favorita", "instrucao": "Escreva um pequeno texto (3 a 5 frases) descrevendo o tema." }
+            ],
+            "rubrica": {
+              "id": "redacao-descritiva-padrao",
+              "criterios": [
+                { "id": "tema", "descricao": "O texto fala sobre o tema pedido", "pontos": 2 },
+                { "id": "coerencia", "descricao": "As frases fazem sentido e se conectam bem", "pontos": 2 },
+                { "id": "ortografia", "descricao": "Poucos ou nenhum erro de ortografia/pontuação", "pontos": 2 }
+              ]
+            }
+          },
+          "tempoPadraoSegundos": 900,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["producao-livre"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Texto narrativo curto",
+      "blocos": [
+        {
+          "id": "por-f13-n02-b01",
+          "habilidade": "escrever uma pequena história sobre um tema dado",
+          "exemploResolvido": {
+            "enunciado": "Conte uma pequena história (4 a 6 frases) sobre o tema.\n\nTema: Um dia diferente",
+            "passoAPasso": [
+              "Pense num começo, meio e fim pra história.",
+              "Escreva o que aconteceu, na ordem certa.",
+              "Releia e corrija a pontuação e as maiúsculas antes de enviar."
+            ]
+          },
+          "geradorId": "portugues.producao-livre",
+          "parametrosGerador": {
+            "temas": [
+              { "tema": "Um dia diferente", "instrucao": "Conte uma pequena história (4 a 6 frases) sobre o tema." },
+              { "tema": "Se eu pudesse voar por um dia", "instrucao": "Conte uma pequena história (4 a 6 frases) sobre o tema." }
+            ],
+            "rubrica": {
+              "id": "redacao-narrativa-padrao",
+              "criterios": [
+                { "id": "estrutura", "descricao": "A história tem começo, meio e fim", "pontos": 2 },
+                { "id": "coerencia", "descricao": "Os acontecimentos seguem uma ordem que faz sentido", "pontos": 2 },
+                { "id": "ortografia", "descricao": "Poucos ou nenhum erro de ortografia/pontuação", "pontos": 2 }
+              ]
+            }
+          },
+          "tempoPadraoSegundos": 960,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["producao-livre"]
+        }
+      ]
+    }
+  ]
+}
