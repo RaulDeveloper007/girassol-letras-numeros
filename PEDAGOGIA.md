@@ -1,106 +1,145 @@
-# Pedagogia: progressão de níveis e regra de avanço
+# Pedagogia: currículo, progressão e avaliação
 
 ## Princípio geral
 
-Cada disciplina (Matemática, Português, Inglês) tem sua própria trilha de
-**30 níveis**, organizados em **6 estágios temáticos** de 5 sub-níveis cada.
-Os nomes dos estágios são próprios do app (sem relação com nenhuma marca de
-terceiros) e acompanham o tema do girassol:
+Cada disciplina (Matemática, Português, Inglês) é uma trilha própria de
+**Fases**, numeradas a partir de 1. Cada Fase tem um ou mais **Níveis**, e
+cada Nível tem um ou mais **blocos de exercício**, cada um com uma
+habilidade específica, um gerador procedural de itens e um critério de
+domínio próprio. A exibição ao aluno e ao responsável usa sempre o formato
+**"Fase X · Nível Y"** — nomenclatura própria do app, sem relação com
+nenhuma marca de terceiros.
 
-| Estágio    | Sub-níveis | Ideia geral |
-|------------|:----------:|--------------|
-| Semente    | 1–5        | primeiro contato com o conteúdo |
-| Broto      | 6–10       | consolidação do básico |
-| Folha      | 11–15      | primeira combinação de habilidades |
-| Botão      | 16–20      | dificuldade intermediária |
-| Flor       | 21–25      | consolidação avançada |
-| Girassol   | 26–30      | mistura de tudo, maior exigência |
+Todo perfil novo começa em **Fase 1 · Nível 1** nas três disciplinas,
+independentemente da idade informada. Não há cálculo de nível inicial por
+idade/série: o diagnóstico adaptativo (ver abaixo) é o único mecanismo que
+pode posicionar um aluno mais adiante, e só quando o responsável o
+inicia. Cada aluno progride de forma independente, por disciplina — pode
+estar na Fase 9 em Matemática e na Fase 2 em Português, por exemplo.
 
-Cada aluno tem um nível independente **por disciplina** — uma criança pode
-estar em "Flor" em Português e em "Semente" em Inglês, por exemplo.
+A trilha cobre, nas três disciplinas, do primeiro contato com o conteúdo
+(contagem, sílabas, alfabeto) até um nível avançado (cálculo diferencial e
+integral em Matemática; produção de texto em Português; conversação em
+inglês nível B2/C1) — o app foi desenhado para acompanhar um aluno por toda
+a vida escolar e além, não só a infância.
 
 ## Regra de avanço de nível
 
-O avanço acontece por **dois caminhos**, o que vier primeiro:
+Dentro de um nível, o avanço de um bloco para o próximo acontece por
+**critério de domínio configurável por bloco** (`criterioDominio` no
+currículo), avaliado sobre as folhas mais recentes feitas naquele bloco.
+Tipicamente: um número mínimo de **folhas consecutivas** com **acerto
+mínimo** (frequentemente 100% nos blocos iniciais, mais tolerante nos
+avançados) **dentro do tempo padrão** esperado para aquele bloco. Um
+resultado fraco "reseta" a contagem naturalmente, porque a folha seguinte
+vira a mais recente da janela.
 
-1. **Acerto total**: acertar todos os exercícios corrigíveis de uma folha
-   já avança de nível na hora (exercícios de traçado, que não têm
-   gabarito certo/errado, não entram nessa conta).
-2. **Consistência**, configurável pelo responsável por disciplina no
-   painel (padrão):
+Ao dominar o último bloco de um nível, o app aplica um **teste de
+conclusão**: uma folha com um item de cada bloco daquele nível, todos ao
+mesmo tempo (não um de cada vez). Só ao aprovar nesse teste o aluno avança
+para o próximo nível (ou, se já era o último nível da fase, para a
+primeira fase seguinte). Se reprovar, volta a praticar o(s) bloco(s) em que
+errou até dominar de novo, e o teste é refeito.
 
-   > **3 folhas seguidas** no mesmo nível, com **acerto ≥ 80%** e
-   > **tempo ≤ 7 minutos** cada.
+Blocos do tipo **produção livre** (redação curta, resposta falada aberta)
+não têm critério de domínio automático — são sempre enviados para revisão
+do responsável, que decide manualmente quando avançar (botão "Avançar
+manualmente" no painel).
 
-   As 3 folhas precisam ser as 3 mais recentes feitas naquele nível — um
-   resultado fraco "reseta" a contagem naturalmente, porque a folha
-   seguinte vira a mais recente da janela.
+Blocos já dominados entram em **revisão espaçada** (estilo Leitner): o app
+agenda uma revisão futura automaticamente, com intervalo que cresce a cada
+acerto e encurta a cada erro, para consolidar o que já foi aprendido sem
+precisar repetir tudo o tempo todo.
 
-O responsável pode alterar os três valores da regra de consistência
-(quantidade de folhas, % de acerto mínimo, tempo máximo) ou subir/baixar o
-nível manualmente a qualquer momento, pelo painel protegido por PIN.
+O responsável pode, a qualquer momento pelo painel protegido por PIN,
+avançar manualmente o nível de um aluno em qualquer disciplina.
 
-Cada folha tem entre 5 e 10 exercícios (padrão: 8), sorteados conforme os
-pesos do estágio atual (ver abaixo) — o mesmo conjunto exato de exercícios
-não se repete em folhas consecutivas do mesmo nível.
+## Diagnóstico adaptativo
 
-## Matemática
+Quando um aluno já tem conhecimento prévio da matéria (por exemplo, um
+responsável cadastrando um filho mais velho, ou um adulto retomando os
+estudos), o responsável pode iniciar um **diagnóstico** pela tela
+dedicada: uma busca binária por posição no currículo da disciplina, que
+aplica alguns itens de blocos espaçados ao longo da trilha para estimar
+rapidamente até onde o aluno já domina o conteúdo, em vez de obrigá-lo a
+refazer do zero. Blocos de produção livre nunca entram no diagnóstico (não
+têm correção objetiva imediata).
 
-| Estágio  | Conteúdo | Exemplo |
-|----------|----------|---------|
-| Semente  | Contagem (1 a 10) | "Quantos você vê? 🍎🍎🍎" |
-| Broto    | Contagem (até 20) + sequências (passo 1) | "1, 2, 3, ❓, 5" |
-| Folha    | Sequências (passo 1 ou 2) + adição sem reserva | "4 + 3 = ?" |
-| Botão    | Adição com reserva + subtração sem reserva | "8 + 9 = ?", "15 − 4 = ?" |
-| Flor     | Adição e subtração até 50, com reserva | "37 + 28 = ?" |
-| Girassol | Tabuada (2, 3, 4, 5, 10) + adição/subtração até 80 | "7 × 6 = ?" |
+## Correção
 
-## Português
+- **Itens numéricos/alfabéticos**: comparação exata com o gabarito.
+- **Itens matemáticos com múltiplas formas equivalentes** (ex.: fração
+  simplificável, decimal vs. fração): verificação simbólica via `mathjs`,
+  que aceita qualquer forma matematicamente equivalente à esperada, não só
+  a forma literal do gabarito.
+- **Itens de fala**: comparado o texto transcrito pelo reconhecimento de
+  voz do navegador com o esperado.
+- **Produção livre**: nunca corrigida automaticamente. O aluno faz uma
+  autoavaliação assistida por rubrica (critérios simples, tipo
+  sim/não) e o texto/áudio é sempre enviado para revisão do responsável.
 
-| Estágio  | Conteúdo | Exemplo |
-|----------|----------|---------|
-| Semente  | Traçado das 5 vogais | "Trace a letra A" |
-| Broto    | Traçado de consoantes + reconhecimento de sílaba | "Trace a letra B" |
-| Folha    | Reconhecimento de sílaba + formação de palavra | "Junte: BO - LA" |
-| Botão    | Formação de palavra + leitura curta | "O sapo mora na lagoa..." |
-| Flor     | Leitura curta + ortografia | "Complete: C_DERNO" |
-| Girassol | Leitura curta + ortografia + formação de palavra (mistura) | — |
+## Matemática (17 fases)
 
-## Inglês
+| Fase | Conteúdo |
+|:----:|----------|
+| 1 | Contagem e reconhecimento de numerais |
+| 2 | Adição (sem e com reserva, até 3 dígitos) |
+| 3 | Subtração (sem e com empréstimo, até 3 dígitos) |
+| 4 | Multiplicação (tabuada completa) |
+| 5 | Divisão (exata e com resto) |
+| 6 | Frações (reconhecimento, equivalência, comparação, simplificação) |
+| 7 | Operações com frações (soma, subtração, multiplicação, divisão) |
+| 8 | Números decimais (décimos, centésimos, operações) |
+| 9 | Porcentagem |
+| 10 | Geometria básica: perímetro e área (retângulo, triângulo) |
+| 11 | Equações do 1º grau — um passo |
+| 12 | Equações do 1º grau — dois passos |
+| 13 | Potenciação e radiciação |
+| 14 | Expressões algébricas (substituição, propriedade distributiva) |
+| 15 | Sistemas lineares e inequações do 1º grau |
+| 16 | Equações do 2º grau por fatoração |
+| 17 | Cálculo diferencial e integral (derivada e integral de polinômios) |
 
-Trilha nova, criada para o app. Crianças pequenas começam do zero
-(estágio Semente); para as mais velhas, o app parte de um nível um pouco
-mais avançado, já supondo algum contato prévio com o idioma na escola
-(ver tabela de nível inicial por idade, abaixo) — ajustável pelo
-responsável se não for o caso.
+## Português (13 fases)
 
-| Estágio  | Conteúdo | Exemplo |
-|----------|----------|---------|
-| Semente  | Alfabeto (traçado de letras) | "Trace the letter D" |
-| Broto    | Vocabulário temático (cores, números) | "Listen and tap: RED" |
-| Folha    | Vocabulário (animais) + palavras CVC | "Write the word: 🐱" |
-| Botão    | Palavras CVC + frases curtas | "This is a cat. What animal is it?" |
-| Flor     | Frases curtas + ortografia | "Complete: T_EE" |
-| Girassol | Frases curtas + ortografia + palavras CVC (mistura) | — |
+| Fase | Conteúdo |
+|:----:|----------|
+| 1 | Sílabas simples (consoante por consoante) |
+| 2 | Formação de palavras (2–3 sílabas, dígrafos) |
+| 3 | Leitura em voz alta — palavras |
+| 4 | Leitura em voz alta — frases curtas |
+| 5 | Ortografia — ditado (acentos, til) |
+| 6 | Leitura em voz alta — textos curtos |
+| 7 | Compreensão auditiva |
+| 8 | Ortografia avançada (S/SS/Ç/Z, C-QU/G-J) |
+| 9 | Pontuação e maiúsculas |
+| 10 | Interpretação de texto escrita (literal e inferencial) |
+| 11 | Interpretação de texto oral |
+| 12 | Leitura fluente — textos mais longos |
+| 13 | Produção escrita (descritivo e narrativo curtos) |
 
-## Ajuste inicial recomendado
+## Inglês (10 fases)
 
-## Nível inicial por idade
+Trilha nova, criada para o app, cobrindo aproximadamente de Pré-A1 a
+B2/C1 do quadro comum europeu.
 
-Ao criar um perfil, o app pede o nome e a idade da criança e já calcula um
-nível inicial por disciplina, com base numa correspondência aproximada com
-a série escolar (`src/app/age-level-mapping.js`):
+| Fase | Nível aproximado | Conteúdo |
+|:----:|:---:|----------|
+| 1 | Pré-A1 | Alfabeto |
+| 2 | Pré-A1/A1 | Vocabulário básico (cores, números, animais) |
+| 3 | A1 | Leitura em voz alta — palavras |
+| 4 | A1 | Leitura em voz alta — frases curtas |
+| 5 | A1/A2 | Compreensão auditiva básica |
+| 6 | A2 | Gramática básica (to be, plural, artigos) |
+| 7 | A2/B1 | Vocabulário intermediário (comida, casa, profissões) |
+| 8 | B1 | Interpretação de texto em inglês |
+| 9 | B1/B2 | Tempos verbais (presente simples/contínuo, passado simples) |
+| 10 | B2/C1 | Produção escrita e conversação |
 
-| Idade | Série aproximada | Matemática | Português | Inglês |
-|:-----:|-------------------|:----------:|:---------:|:------:|
-| até 5 | Educação Infantil | Semente (1) | Semente (1) | Semente (1) |
-| 6     | 1º ano EF         | Broto (6)   | Broto (6)   | Semente (1) |
-| 7     | 2º ano EF         | Folha (11)  | Folha (13)  | Semente (1) |
-| 8     | 3º ano EF         | Botão (16)  | Botão (18)  | Broto (6)   |
-| 9     | 4º ano EF         | Flor (21)   | Flor (23)   | Folha (11)  |
-| 10    | 5º ano EF         | Flor (24)   | Flor (26)   | Folha (13)  |
-| 11+   | 6º ano EF ou mais | Girassol (26) | Girassol (28) | Botão (16) |
+## Fonte da verdade
 
-É só um ponto de partida aproximado — o responsável pode corrigir o nível
-manualmente no painel a qualquer momento, por disciplina, se a criança
-estiver mais ou menos avançada do que a média da série.
+O conteúdo exato de cada fase — níveis, blocos, habilidades, parâmetros do
+gerador, tempo padrão e critério de domínio — está declarado em
+`src/curriculo/<disciplina>/fase-NN.json`. Esta tabela é um resumo para
+leitura humana; em caso de qualquer divergência, o JSON é a referência
+válida.

@@ -16,9 +16,9 @@ pelo próprio navegador. Depois de instalado, funciona offline.
 5. Toque em **"Instalar app"** (ou **"Adicionar à tela inicial"**, dependendo
    da versão do Chrome).
 6. Confirme o nome do app e toque em **"Instalar"**.
-7. O ícone do Girassol das Letras e Números aparece na tela inicial, como
-   qualquer outro aplicativo — a partir daí pode abrir direto por ele, sem
-   precisar do Chrome ou de internet.
+7. O ícone do Passo Certo aparece na tela inicial, como qualquer outro
+   aplicativo — a partir daí pode abrir direto por ele, sem precisar do
+   Chrome ou de internet.
 
 ## No PC (Windows 11, pelo Edge)
 

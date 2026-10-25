@@ -1,7 +1,7 @@
 {
-  "name": "Girassol das Letras e Números",
-  "short_name": "Girassol",
-  "description": "Folhas diárias de matemática, português e inglês para crianças, com repetição progressiva e domínio antes do avanço.",
+  "name": "Passo Certo",
+  "short_name": "Passo Certo",
+  "description": "Folhas diárias de matemática, português e inglês para qualquer idade, com domínio antes do avanço e revisão espaçada.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
