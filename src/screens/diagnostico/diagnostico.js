@@ -1,5 +1,7 @@
 import '../../styles/diagnostico.css'
 import { navigateTo } from '../../app/router.js'
+import { getState } from '../../app/state.js'
+import { obterOuCriarProgresso, salvarProgresso } from '../../dados/progresso.js'
 import { listarBlocosLineares } from '../../diagnostico/orquestracao.js'
 import { calcularIndiceDePartida, diagnosticoConcluido, iniciarDiagnostico, registrarResposta } from '../../diagnostico/algoritmo.js'
 import { montarFolha } from '../../geracao/montar-folha.js'
@@ -50,6 +52,12 @@ export function renderDiagnostico(root) {
   if (!geradoresRegistrados) {
     registrarTodosOsGeradores()
     geradoresRegistrados = true
+  }
+
+  const { activeStudentId } = getState()
+  if (!activeStudentId) {
+    navigateTo('#/')
+    return
   }
 
   root.innerHTML = `
@@ -120,6 +128,14 @@ export function renderDiagnostico(root) {
       return
     }
 
+    // Registra que o diagnóstico começou -- só muda de 'pendente' pra
+    // 'em-andamento' na primeira vez; se o responsável reiniciar um
+    // diagnóstico já concluído, o status some só quando ESTE terminar.
+    const progressoAtual = await obterOuCriarProgresso(activeStudentId, disciplina)
+    if (progressoAtual.statusDiagnostico === 'pendente') {
+      await salvarProgresso({ ...progressoAtual, statusDiagnostico: 'em-andamento' })
+    }
+
     let estado = iniciarDiagnostico(pontos.length)
     rodarPasso(disciplina, pontos, estado)
   }
@@ -131,12 +147,26 @@ export function renderDiagnostico(root) {
     if (diagnosticoConcluido(estado)) {
       const indicePartida = calcularIndiceDePartida(estado)
       const pontoDePartida = pontos[indicePartida]
+
+      // O ponto todo do diagnóstico é reposicionar o aluno de verdade --
+      // sem isso ele só mostra um número e não muda nada na prática.
+      const progressoAtual = await obterOuCriarProgresso(activeStudentId, disciplina)
+      await salvarProgresso({
+        ...progressoAtual,
+        faseAtual: pontoDePartida.faseNumero,
+        nivelAtual: pontoDePartida.nivelNumero,
+        blocoAtualId: pontoDePartida.bloco.id,
+        statusDiagnostico: 'concluido',
+        blocosDeReforcoPendentes: [],
+      })
+
       areaDiagnostico.innerHTML = `
         <div class="diagnostico-resultado">
           <h2>Diagnóstico concluído ✅</h2>
           <p>Ponto de partida: <strong>Fase ${pontoDePartida.faseNumero} · Nível ${pontoDePartida.nivelNumero}</strong></p>
           <p class="placeholder-note">Bloco: ${pontoDePartida.bloco.habilidade}</p>
           <p class="placeholder-note">Respondeu ${estado.tentativas.length} pergunta(s) de calibração.</p>
+          <p class="placeholder-note">Progresso do aluno nesta disciplina já foi atualizado para esse ponto.</p>
           <button type="button" id="go-responsavel">Voltar ao painel</button>
         </div>
       `

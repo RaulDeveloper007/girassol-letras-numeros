@@ -1,3 +1,5 @@
+import { navigateTo } from '../../app/router.js'
+import { setState } from '../../app/state.js'
 import { listarAlunos, removerAluno } from '../../dados/alunos.js'
 import { listarProgressoPorAluno, obterOuCriarProgresso, salvarProgresso } from '../../dados/progresso.js'
 import { listarProducoesPendentesDeRevisao, marcarCorrecaoRevisada } from '../../dados/correcoes.js'
@@ -223,7 +225,7 @@ export function renderDashboard(container) {
       <div class="guardian-backup">
         <h2>Diagnóstico técnico</h2>
         <p><a href="#/verificar-voz">🎤 Verificar voz (síntese e reconhecimento)</a></p>
-        <p><a href="#/diagnostico">🧭 Teste diagnóstico adaptativo</a></p>
+        <button type="button" id="ir-diagnostico">🧭 Teste diagnóstico adaptativo</button>
       </div>
     `
 
@@ -232,6 +234,15 @@ export function renderDashboard(container) {
         selectedStudentId = btn.dataset.student
         render()
       })
+    })
+
+    // A tela de diagnóstico lê o aluno ativo do estado global (ver
+    // app/state.js) -- esta aba do painel guarda o aluno selecionado só
+    // localmente, então sem isto o diagnóstico rodaria pro aluno errado
+    // (ou nenhum).
+    container.querySelector('#ir-diagnostico').addEventListener('click', () => {
+      setState({ activeStudentId: selectedStudentId })
+      navigateTo('#/diagnostico')
     })
 
     container.querySelector('#remove-student').addEventListener('click', async () => {
