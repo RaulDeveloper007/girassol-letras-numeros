@@ -8,7 +8,12 @@ export async function obterConfiguracoesOrientador(banco: BancoPassoCerto = obte
   const existente = await banco.configuracoesOrientador.get(ID_SINGLETON)
   if (existente) return existente
 
-  const padrao: ConfiguracoesOrientador = { id: ID_SINGLETON, pinHash: null, ultimoBackupEm: null }
+  const padrao: ConfiguracoesOrientador = {
+    id: ID_SINGLETON,
+    pinHash: null,
+    ultimoBackupEm: null,
+    folhasPorDiaPorDisciplina: {},
+  }
   await banco.configuracoesOrientador.put(padrao)
   return padrao
 }

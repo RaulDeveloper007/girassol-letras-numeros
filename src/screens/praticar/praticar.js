@@ -15,6 +15,8 @@ import { salvarCorrecao } from '../../dados/correcoes.js'
 import { salvarTentativaDeFala } from '../../dados/tentativas-de-fala.js'
 import { registrarResultadoDeRevisao } from '../../dados/revisoes-agendadas.js'
 import { registrarTesteDeConclusao } from '../../dados/testes-de-conclusao.js'
+import { obterOuCriarTarefaDeHoje, registrarFolhaConcluidaHoje } from '../../dados/tarefa-diaria.js'
+import { folhasRestantesHoje, tarefaConcluidaHoje } from '../../progressao/tarefa-diaria.js'
 import { createWritingCanvas } from '../../components/writing-canvas.js'
 import { createBigKeyboard } from '../../components/big-keyboard.js'
 import { criarCronometroPadrao } from '../../components/cronometro-padrao.js'
@@ -55,17 +57,6 @@ function formatarTempo(segundos) {
   const minutos = String(Math.floor(segundos / 60)).padStart(2, '0')
   const segs = String(segundos % 60).padStart(2, '0')
   return `${minutos}:${segs}`
-}
-
-function telaFinal(root, { titulo, linhas }) {
-  root.innerHTML = `
-    <main class="screen screen-folha-digital">
-      <h1>${titulo}</h1>
-      ${linhas.map((linha) => `<p class="result-summary">${linha}</p>`).join('')}
-      <button id="go-aluno">Voltar</button>
-    </main>
-  `
-  root.querySelector('#go-aluno').addEventListener('click', () => navigateTo('#/aluno'))
 }
 
 export function renderPraticar(root) {
@@ -134,6 +125,40 @@ export function renderPraticar(root) {
     if (autoavaliacao) {
       autoavaliacao.destroy()
       autoavaliacao = null
+    }
+  }
+
+  /**
+   * Tela de fim de folha/teste que respeita o bloquinho diário: só oferece
+   * "fazer a próxima folha de hoje" enquanto a tarefa do dia (ver
+   * dados/tarefa-diaria.js) ainda não foi cumprida nesta disciplina. Uma
+   * vez cumprida, a disciplina trava até o dia seguinte -- não existe
+   * "praticar mais" aqui, de propósito: o método é o bloquinho fixo, não
+   * a prática livre.
+   */
+  async function telaFinalDoDia(root, { titulo, linhas }) {
+    const tarefa = await obterOuCriarTarefaDeHoje(alunoId, disciplina)
+    const concluidaHoje = tarefaConcluidaHoje(tarefa)
+    const restantes = folhasRestantesHoje(tarefa)
+
+    root.innerHTML = `
+      <main class="screen screen-folha-digital">
+        <h1>${titulo}</h1>
+        ${linhas.map((linha) => `<p class="result-summary">${linha}</p>`).join('')}
+        <p class="placeholder-note">
+          ${
+            concluidaHoje
+              ? `Tarefa de hoje em ${NOMES_DISCIPLINA[disciplina] ?? disciplina} concluída (${tarefa.folhasConcluidas}/${tarefa.folhasAlvo}). Pronto até amanhã!`
+              : `Faltam ${restantes} folha(s) hoje em ${NOMES_DISCIPLINA[disciplina] ?? disciplina} (${tarefa.folhasConcluidas}/${tarefa.folhasAlvo}).`
+          }
+        </p>
+        ${!concluidaHoje ? '<button id="continuar-hoje">Fazer a próxima folha de hoje →</button>' : ''}
+        <button id="go-aluno">Voltar</button>
+      </main>
+    `
+    root.querySelector('#go-aluno').addEventListener('click', () => navigateTo('#/aluno'))
+    if (!concluidaHoje) {
+      root.querySelector('#continuar-hoje').addEventListener('click', () => iniciar())
     }
   }
 
@@ -382,7 +407,8 @@ export function renderPraticar(root) {
         houveRefazer: false,
         itensQueFalharamPrimeiro: [],
       })
-      telaFinal(root, {
+      await registrarFolhaConcluidaHoje(alunoId, disciplina)
+      telaFinalDoDia(root, {
         titulo: 'Resposta enviada! 📨',
         linhas: [
           'Sua produção foi enviada para a revisão do responsável.',
@@ -403,6 +429,7 @@ export function renderPraticar(root) {
       itensQueFalharamPrimeiro,
     })
     await registrarResultadoDeRevisao(alunoId, blocoAtual.id, notaPrimeiraTentativa === 100)
+    await registrarFolhaConcluidaHoje(alunoId, disciplina)
 
     const folhasRecentes = await calcularFolhasRecentesPara(blocoAtual)
     const passo = decidirProximoPassoNoCurriculo({
@@ -432,7 +459,7 @@ export function renderPraticar(root) {
           ? 'Você avançou pro próximo assunto. 🎉'
           : 'Você vai fazer um teste de conclusão deste nível na próxima vez.'
 
-    telaFinal(root, {
+    telaFinalDoDia(root, {
       titulo: 'Folha concluída! ✅',
       linhas: [
         `Nota da primeira tentativa: <strong>${notaPrimeiraTentativa}%</strong>`,
@@ -454,7 +481,7 @@ export function renderPraticar(root) {
     })
 
     if (resultado === 'reprovado') {
-      telaFinal(root, {
+      telaFinalDoDia(root, {
         titulo: 'Quase lá! 💪',
         linhas: [
           'O teste de conclusão não passou dessa vez -- sem problema, vamos reforçar.',
@@ -470,7 +497,7 @@ export function renderPraticar(root) {
     if (proximoIdNaFase) {
       const encontrado = buscarBloco(faseInfo, proximoIdNaFase)
       await salvarProgresso({ ...progresso, nivelAtual: encontrado.nivel.numero, blocoAtualId: proximoIdNaFase })
-      telaFinal(root, { titulo: 'Nível concluído! 🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pro próximo nível.'] })
+      telaFinalDoDia(root, { titulo: 'Nível concluído! 🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pro próximo nível.'] })
       return
     }
 
@@ -482,11 +509,11 @@ export function renderPraticar(root) {
         nivelAtual: proximaFase.nivelNumero,
         blocoAtualId: proximaFase.blocoId,
       })
-      telaFinal(root, { titulo: 'Fase concluída! 🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pra próxima fase!'] })
+      telaFinalDoDia(root, { titulo: 'Fase concluída! 🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pra próxima fase!'] })
       return
     }
 
-    telaFinal(root, {
+    telaFinalDoDia(root, {
       titulo: 'Parabéns! 🎉',
       linhas: ['Você concluiu todo o currículo disponível nesta disciplina até agora.'],
     })
@@ -525,6 +552,18 @@ export function renderPraticar(root) {
   }
 
   async function iniciar() {
+    // Guarda contra navegação direta pelo hash (ex.: voltar do histórico do
+    // navegador) depois que a tarefa de hoje já foi cumprida -- a tela
+    // inicial do aluno já esconde o botão, mas essa trava garante que não
+    // existe um caminho pra começar mais uma folha fora do bloquinho do dia.
+    const tarefaAgora = await obterOuCriarTarefaDeHoje(alunoId, disciplina)
+    if (tarefaConcluidaHoje(tarefaAgora)) {
+      return telaFinalDoDia(root, {
+        titulo: 'Tarefa de hoje já concluída ✅',
+        linhas: [`Você já fez ${tarefaAgora.folhasConcluidas} de ${tarefaAgora.folhasAlvo} folhas hoje em ${NOMES_DISCIPLINA[disciplina] ?? disciplina}.`],
+      })
+    }
+
     const progresso = await obterOuCriarProgresso(alunoId, disciplina)
     faseInfo = await carregarFase(disciplina, progresso.faseAtual)
     const encontrado = buscarBloco(faseInfo, progresso.blocoAtualId)

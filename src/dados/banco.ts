@@ -9,6 +9,7 @@ import type {
   ProgressoDisciplina,
   RegraDeAvanco,
   RevisaoAgendada,
+  TarefaDiaria,
   Tentativa,
   TentativaDeFala,
   TesteDeConclusao,
@@ -32,6 +33,7 @@ export class BancoPassoCerto extends Dexie {
   revisoesAgendadas!: Table<RevisaoAgendada, [string, string]>
   comentariosOrientador!: Table<ComentarioOrientador, string>
   configuracoesOrientador!: Table<ConfiguracoesOrientador, string>
+  tarefasDiarias!: Table<TarefaDiaria, [string, string, string]>
 
   constructor(nome = 'passo-certo-db') {
     super(nome)
@@ -49,6 +51,13 @@ export class BancoPassoCerto extends Dexie {
       revisoesAgendadas: '[alunoId+blocoId], alunoId, proximaRevisaoEm',
       comentariosOrientador: 'id, alunoId',
       configuracoesOrientador: 'id',
+    })
+
+    // v2: tarefa diária (bloquinho fixo por dia -- ver dados/tipos.ts). Só
+    // acrescenta uma tabela nova; nenhum dado existente precisa de
+    // migração, então as tabelas da v1 não precisam ser redeclaradas.
+    this.version(2).stores({
+      tarefasDiarias: '[alunoId+disciplina+data], alunoId',
     })
   }
 }

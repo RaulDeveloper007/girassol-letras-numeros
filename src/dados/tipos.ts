@@ -117,4 +117,24 @@ export interface ConfiguracoesOrientador {
   id: 'singleton'
   pinHash: string | null
   ultimoBackupEm: string | null
+  // Tarefa diária (ver progressao/tarefa-diaria.ts): quantas folhas o
+  // aluno precisa concluir por disciplina em cada dia antes de a
+  // disciplina ficar bloqueada até o dia seguinte. Disciplina ausente
+  // aqui usa o padrão (ver FOLHAS_ALVO_PADRAO).
+  folhasPorDiaPorDisciplina: Partial<Record<DisciplinaId, number>>
+}
+
+/**
+ * Progresso da tarefa do dia de uma disciplina -- é isso que implementa a
+ * disciplina do método (bloquinho diário fixo, não "pratique à vontade").
+ * Chave: [alunoId+disciplina+data]. "data" é a data local do aparelho em
+ * formato "AAAA-MM-DD" (ver progressao/tarefa-diaria.ts), então a tarefa
+ * vira "de ontem" automaticamente à meia-noite, sem precisar de um job.
+ */
+export interface TarefaDiaria {
+  alunoId: string
+  disciplina: DisciplinaId
+  data: string
+  folhasAlvo: number
+  folhasConcluidas: number
 }

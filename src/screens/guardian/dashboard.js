@@ -3,9 +3,10 @@ import { listarProgressoPorAluno, obterOuCriarProgresso, salvarProgresso } from 
 import { listarProducoesPendentesDeRevisao, marcarCorrecaoRevisada } from '../../dados/correcoes.js'
 import { listarTentativasDeFalaEncaminhadas } from '../../dados/tentativas-de-fala.js'
 import { listarRevisoesDevidas } from '../../dados/revisoes-agendadas.js'
-import { listarComentarios, salvarComentario, salvarConfiguracoesOrientador } from '../../dados/orientador.js'
+import { listarComentarios, salvarComentario, obterConfiguracoesOrientador, salvarConfiguracoesOrientador } from '../../dados/orientador.js'
 import { exportarBackup, baixarArquivoDeBackup, importarBackup } from '../../dados/backup.js'
 import { buscarBloco, carregarFase, primeiroBlocoDaProximaFase, proximoBlocoId } from '../../curriculo/loader.js'
+import { obterFolhasAlvoPorDia } from '../../progressao/tarefa-diaria.js'
 
 const DISCIPLINAS = ['matematica', 'portugues', 'ingles']
 const NOMES_DISCIPLINA = { matematica: 'Matemática', portugues: 'Português', ingles: 'Inglês' }
@@ -35,9 +36,10 @@ async function avancarManualmente(progresso) {
   })
 }
 
-function renderSubjectPanel({ disciplina, progresso, bloco, onChange }) {
+function renderSubjectPanel({ disciplina, progresso, bloco, configuracoes, onChange }) {
   const section = document.createElement('section')
   section.className = 'guardian-subject-panel'
+  const folhasAlvo = obterFolhasAlvoPorDia(disciplina, configuracoes)
   section.innerHTML = `
     <h2>${NOMES_DISCIPLINA[disciplina]}</h2>
     <p>Posição atual: <strong>Fase ${progresso.faseAtual} · Nível ${progresso.nivelAtual}</strong></p>
@@ -48,11 +50,28 @@ function renderSubjectPanel({ disciplina, progresso, bloco, onChange }) {
     <div class="level-adjust">
       <button type="button" class="avancar-manual-button">Avançar manualmente →</button>
     </div>
+    <div class="level-adjust">
+      <label for="folhas-dia-${disciplina}">Folhas por dia nesta disciplina:</label>
+      <input type="number" id="folhas-dia-${disciplina}" class="folhas-dia-input" min="1" max="10" value="${folhasAlvo}" />
+    </div>
   `
 
   section.querySelector('.avancar-manual-button').addEventListener('click', async () => {
     await avancarManualmente(progresso)
     onChange()
+  })
+
+  const input = section.querySelector('.folhas-dia-input')
+  input.addEventListener('change', async () => {
+    const valor = Math.min(10, Math.max(1, Number(input.value) || folhasAlvo))
+    input.value = String(valor)
+    await salvarConfiguracoesOrientador({
+      folhasPorDiaPorDisciplina: { ...configuracoes.folhasPorDiaPorDisciplina, [disciplina]: valor },
+    })
+    // Não chama onChange() aqui de propósito: isso re-renderizaria o painel
+    // inteiro só por causa de um número, perdendo o foco do campo. A tarefa
+    // de hoje já em andamento não muda retroativamente -- o novo valor só
+    // vale a partir da tarefa de amanhã (ver obterOuCriarTarefaDeHoje).
   })
 
   return section
@@ -219,12 +238,13 @@ export function renderDashboard(container) {
       render()
     })
 
+    const configuracoes = await obterConfiguracoesOrientador()
     const panels = container.querySelector('#subject-panels')
     for (const disciplina of DISCIPLINAS) {
       const progresso = progressoPorDisciplina[disciplina] ?? (await obterOuCriarProgresso(selectedStudentId, disciplina))
       const fase = await carregarFase(disciplina, progresso.faseAtual)
       const encontrado = buscarBloco(fase, progresso.blocoAtualId)
-      panels.appendChild(renderSubjectPanel({ disciplina, progresso, bloco: encontrado?.bloco, onChange: render }))
+      panels.appendChild(renderSubjectPanel({ disciplina, progresso, bloco: encontrado?.bloco, configuracoes, onChange: render }))
     }
 
     const tentativasDeFala = await listarTentativasDeFalaEncaminhadas()
