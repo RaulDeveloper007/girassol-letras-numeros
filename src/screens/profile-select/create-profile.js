@@ -4,8 +4,11 @@ import { setState } from '../../app/state.js'
 import { createStudentProfile } from '../../app/onboarding.js'
 
 const ICONS = ['🌼', '🌻', '🌸', '🌷', '🌺', '🌹']
+// Faixa etária do app é 3 a 90 (aprendizagem ao longo da vida, não só
+// crianças) -- o limite de 12 aqui era um resquício de antes do app
+// cobrir adultos.
 const MIN_AGE = 3
-const MAX_AGE = 12
+const MAX_AGE = 90
 const DEFAULT_AGE = 6
 
 export function renderCreateProfile(root) {
@@ -23,7 +26,7 @@ export function renderCreateProfile(root) {
       <p class="field-label">Quantos anos tem?</p>
       <div class="age-stepper">
         <button type="button" id="age-dec" aria-label="Diminuir idade">−</button>
-        <span id="age-value">${age}</span>
+        <input type="number" id="age-value" inputmode="numeric" min="${MIN_AGE}" max="${MAX_AGE}" value="${age}" />
         <button type="button" id="age-inc" aria-label="Aumentar idade">+</button>
       </div>
 
@@ -41,14 +44,16 @@ export function renderCreateProfile(root) {
 
   root.querySelector('#go-back').addEventListener('click', () => navigateTo('#/'))
 
-  root.querySelector('#age-dec').addEventListener('click', () => {
-    age = Math.max(MIN_AGE, age - 1)
-    root.querySelector('#age-value').textContent = String(age)
-  })
-  root.querySelector('#age-inc').addEventListener('click', () => {
-    age = Math.min(MAX_AGE, age + 1)
-    root.querySelector('#age-value').textContent = String(age)
-  })
+  const ageInput = root.querySelector('#age-value')
+
+  function setAge(novaIdade) {
+    age = Math.min(MAX_AGE, Math.max(MIN_AGE, novaIdade))
+    ageInput.value = String(age)
+  }
+
+  root.querySelector('#age-dec').addEventListener('click', () => setAge(age - 1))
+  root.querySelector('#age-inc').addEventListener('click', () => setAge(age + 1))
+  ageInput.addEventListener('change', () => setAge(Number(ageInput.value) || DEFAULT_AGE))
 
   root.querySelectorAll('.icon-option').forEach((btn) => {
     btn.addEventListener('click', () => {

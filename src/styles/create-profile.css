@@ -35,8 +35,11 @@
 #age-value {
   font-size: 1.6rem;
   font-weight: bold;
-  min-width: 48px;
+  width: 64px;
+  min-height: var(--touch-min);
   text-align: center;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius);
 }
 
 .icon-grid {
