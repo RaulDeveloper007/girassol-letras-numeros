@@ -18,11 +18,16 @@ export interface ProgressoDisciplina {
   blocoAtualId: string
   statusDiagnostico: 'pendente' | 'em-andamento' | 'concluido'
   ultimaAtividadeEm: string
+  // Blocos do nível atual que o teste de conclusão apontou como errados --
+  // o aluno precisa zerá-los (uma folha 100% correta em cada) antes de
+  // poder tentar o teste de conclusão de novo. Vazio fora desse fluxo.
+  blocosDeReforcoPendentes: string[]
 }
 
 export interface Folha {
   id: string
   alunoId: string
+  disciplina: DisciplinaId
   blocoId: string
   numeroDaTentativaNoBloco: number
   itensIds: string[]

@@ -41,7 +41,7 @@ describe('alunos', () => {
     await obterOuCriarProgresso(aluno.id, 'matematica', banco)
     const fase = await import('../curriculo/loader.js').then((m) => m.carregarFase('matematica', 1))
     const bloco = fase.niveis[0]!.blocos[0]!
-    const { folha, itens } = await iniciarFolha(aluno.id, bloco, 1, banco)
+    const { folha, itens } = await iniciarFolha(aluno.id, bloco, 1, 'matematica', banco)
     await registrarTentativa(itens[0]!, '1', true, 5, banco)
     await salvarComentario(aluno.id, 'Muito bem!', banco)
     await registrarResultadoDeRevisao(aluno.id, bloco.id, true, banco)
