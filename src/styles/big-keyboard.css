@@ -44,6 +44,11 @@
   min-width: calc(var(--touch-min) * 3);
 }
 
+.key--shift.is-active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
 .key--submit {
   background: var(--color-primary);
   color: #fff;

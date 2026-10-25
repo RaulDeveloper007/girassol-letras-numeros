@@ -8,6 +8,7 @@ import { avaliaTextual } from '../../correcao/textual.js'
 import { TOLERANCIA_PADRAO_POR_ESTAGIO } from '../../correcao/fala.js'
 import { avaliaTesteDeConclusao } from '../../progressao/teste-de-conclusao.js'
 import { decidirProximoPassoNoCurriculo } from '../../progressao/orquestracao.js'
+import { contarSequenciaAtual } from '../../progressao/dominio.js'
 import { obterOuCriarProgresso, salvarProgresso } from '../../dados/progresso.js'
 import { finalizarFolha, iniciarFolha, iniciarTesteDeConclusao, listarFolhasPorBloco, registrarTentativa } from '../../dados/sessao.js'
 import { salvarCorrecao } from '../../dados/correcoes.js'
@@ -28,6 +29,9 @@ let geradoresRegistrados = false
 const NOMES_DISCIPLINA = { matematica: 'Matemática', portugues: 'Português', ingles: 'Inglês' }
 const QUANTIDADE_ITENS_POR_FOLHA = 5
 const TIPOS_DE_FALA = ['fala-repetir', 'fala-leitura', 'fala-resposta']
+// Tempo pra ver o feedback (certo/errado) antes do avanço automático pro
+// próximo item -- não existe mais botão de "Próximo": confirmar já avança.
+const ATRASO_AUTO_AVANCO_MS = 900
 
 function metodoDeCorrecao(tipo) {
   if (tipo === 'textual') return 'textual'
@@ -154,20 +158,9 @@ export function renderPraticar(root) {
         <p class="sheet-progress" id="progresso-texto"></p>
         <div id="area-item"></div>
         <div id="canvas-slot"></div>
-        <div class="sheet-nav" id="area-nav">
-          <button id="go-prev">← Anterior</button>
-          <button id="go-next">Próximo →</button>
-        </div>
       </main>
     `
     root.querySelector('#go-back').addEventListener('click', () => navigateTo('#/aluno'))
-    root.querySelector('#go-prev').addEventListener('click', () => {
-      if (!modoRefazer && currentIndex > 0) {
-        currentIndex -= 1
-        renderItemAtual()
-      }
-    })
-    root.querySelector('#go-next').addEventListener('click', handleNext)
 
     if (!ehTesteDeConclusao) {
       root.querySelector('#exemplo-resolvido').innerHTML = `
@@ -201,6 +194,14 @@ export function renderPraticar(root) {
     const item = itensDb[indice]
     const resultadoExistente = resultados[indice]
     inicioDoItemEm = Date.now()
+    // Trava contra clique duplo: sem isso, confirmar duas vezes rápido antes
+    // do avanço automático disparar agendaria dois avanços e pularia um item.
+    let avancoEmAndamento = false
+    function agendarAvanco(fn) {
+      if (avancoEmAndamento) return
+      avancoEmAndamento = true
+      window.setTimeout(fn, ATRASO_AUTO_AVANCO_MS)
+    }
 
     // Sempre começa do zero pra cada item -- nenhum controle do item
     // anterior deve sobreviver (senão ouvintes/canvas antigos se acumulam).
@@ -252,7 +253,7 @@ export function renderPraticar(root) {
           registrarResultado(indice, false)
           feedbackEl.textContent = '📨 Enviado para revisão do responsável.'
           feedbackEl.className = 'item-feedback'
-          atualizarNav(indice)
+          agendarAvanco(avancarOuFinalizarPasse)
         },
       })
     } else if (TIPOS_DE_FALA.includes(item.tipo)) {
@@ -278,8 +279,7 @@ export function renderPraticar(root) {
           await salvarCorrecao({ itemId: item.id, metodo: 'fala', correto, revisadoPeloOrientador: false })
 
           registrarResultado(indice, correto)
-          if (modoRefazer) avancarFilaRefazer()
-          else atualizarNav(indice)
+          agendarAvanco(modoRefazer ? avancarFilaRefazer : avancarOuFinalizarPasse)
         },
       })
     } else {
@@ -302,9 +302,9 @@ export function renderPraticar(root) {
           mostrarFeedback(resultado.correto)
           registrarResultado(indice, resultado.correto)
           if (modoRefazer) {
-            if (resultado.correto) avancarFilaRefazer()
+            if (resultado.correto) agendarAvanco(avancarFilaRefazer)
           } else {
-            atualizarNav(indice)
+            agendarAvanco(avancarOuFinalizarPasse)
           }
         },
       })
@@ -319,35 +319,21 @@ export function renderPraticar(root) {
         })
       }
     }
-
-    atualizarNav(indice)
   }
 
-  function atualizarNav(indice) {
-    const navEl = root.querySelector('#area-nav')
-    navEl.style.display = modoRefazer || ehTesteDeConclusao ? 'none' : 'flex'
-    if (modoRefazer) return
-
-    if (ehTesteDeConclusao) {
-      if (!resultados[indice].respondido) return
-      if (currentIndex < itensDb.length - 1) {
-        currentIndex += 1
-        renderItemAtual()
-      } else {
-        finalizarSessao()
-      }
-      return
-    }
-
-    root.querySelector('#go-prev').disabled = currentIndex === 0
-    root.querySelector('#go-next').disabled = !resultados[indice].respondido
-    root.querySelector('#go-next').textContent = currentIndex === itensDb.length - 1 ? 'Concluir →' : 'Próximo →'
-  }
-
-  function handleNext() {
+  // Único ponto de avanço do app: usado depois de CADA resposta confirmada
+  // (certa ou errada -- o erro só vira ciclo de refazer no fim da passada),
+  // tanto na folha normal quanto no teste de conclusão. Não existe mais
+  // navegação manual (Anterior/Próximo): confirmar a resposta já avança.
+  function avancarOuFinalizarPasse() {
     if (currentIndex < itensDb.length - 1) {
       currentIndex += 1
       renderItemAtual()
+      return
+    }
+
+    if (ehTesteDeConclusao) {
+      finalizarSessao()
       return
     }
 
@@ -436,13 +422,18 @@ export function renderPraticar(root) {
 
     const mensagem =
       passo.tipo === 'repetir-bloco'
-        ? 'Continue praticando este mesmo assunto -- quase lá!'
+        ? (() => {
+            const sequencia = contarSequenciaAtual(folhasRecentes, blocoAtual.criterioDominio)
+            return sequencia > 0
+              ? `Continue praticando este mesmo assunto -- você já está com ${sequencia} de ${blocoAtual.criterioDominio.folhasConsecutivas} folhas perfeitas seguidas!`
+              : 'Continue praticando este mesmo assunto -- quase lá!'
+          })()
         : passo.tipo === 'avancar-bloco'
           ? 'Você avançou pro próximo assunto. 🎉'
           : 'Você vai fazer um teste de conclusão deste nível na próxima vez.'
 
     telaFinal(root, {
-      titulo: 'Folha concluída! 🌻',
+      titulo: 'Folha concluída! ✅',
       linhas: [
         `Nota da primeira tentativa: <strong>${notaPrimeiraTentativa}%</strong>`,
         `Tempo: <strong>${formatarTempo(tempoGasto)}</strong> (padrão: ${formatarTempo(blocoAtual.tempoPadraoSegundos)})`,
@@ -479,7 +470,7 @@ export function renderPraticar(root) {
     if (proximoIdNaFase) {
       const encontrado = buscarBloco(faseInfo, proximoIdNaFase)
       await salvarProgresso({ ...progresso, nivelAtual: encontrado.nivel.numero, blocoAtualId: proximoIdNaFase })
-      telaFinal(root, { titulo: 'Nível concluído! 🌻🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pro próximo nível.'] })
+      telaFinal(root, { titulo: 'Nível concluído! 🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pro próximo nível.'] })
       return
     }
 
@@ -491,12 +482,12 @@ export function renderPraticar(root) {
         nivelAtual: proximaFase.nivelNumero,
         blocoAtualId: proximaFase.blocoId,
       })
-      telaFinal(root, { titulo: 'Fase concluída! 🌻🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pra próxima fase!'] })
+      telaFinal(root, { titulo: 'Fase concluída! 🎉', linhas: ['Você passou no teste com 100% de acerto e avançou pra próxima fase!'] })
       return
     }
 
     telaFinal(root, {
-      titulo: 'Parabéns! 🌻🎉',
+      titulo: 'Parabéns! 🎉',
       linhas: ['Você concluiu todo o currículo disponível nesta disciplina até agora.'],
     })
   }
