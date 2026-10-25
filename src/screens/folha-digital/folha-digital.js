@@ -30,7 +30,10 @@ const ITEM_DEMO_FALA = {
 // cada um precisa do seu próprio motor de correção, não só avaliaNumerico.
 async function avaliarResposta(item, valor) {
   if (item.tipo === 'textual') {
-    return avaliaTextual(valor, String(item.gabarito))
+    // Alguns itens (ex. pontuação/maiúsculas) precisam desligar a
+    // normalização padrão -- senão "o gato." passaria como igual a
+    // "O gato.", justamente o que o exercício está testando.
+    return avaliaTextual(valor, String(item.gabarito), item.dados?.regrasTextuais ?? {})
   }
   if (item.tipo === 'simbolico') {
     return avaliaSimbolico(valor, String(item.gabarito))

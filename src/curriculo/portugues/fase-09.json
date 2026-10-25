@@ -1,0 +1,68 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 9,
+  "titulo": "Pontuação e maiúsculas",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Maiúscula no início e ponto final / interrogação / exclamação",
+      "blocos": [
+        {
+          "id": "por-f09-n01-b01",
+          "habilidade": "corrigir maiúscula no início da frase e a pontuação final",
+          "exemploResolvido": {
+            "enunciado": "Reescreva a frase com a pontuação e as maiúsculas corretas: o gato subiu no muro",
+            "passoAPasso": [
+              "Toda frase começa com letra maiúscula.",
+              "Essa frase é uma afirmação, então termina com ponto final.",
+              "Resultado: \"O gato subiu no muro.\""
+            ]
+          },
+          "geradorId": "portugues.pontuacao-corrigir",
+          "parametrosGerador": {
+            "frases": [
+              { "errada": "o gato subiu no muro", "correta": "O gato subiu no muro." },
+              { "errada": "você já fez a lição", "correta": "Você já fez a lição?" },
+              { "errada": "que susto eu levei", "correta": "Que susto eu levei!" },
+              { "errada": "a maria foi ao mercado", "correta": "A Maria foi ao mercado." },
+              { "errada": "meu irmão mora em são paulo", "correta": "Meu irmão mora em São Paulo." }
+            ]
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Vírgula e nomes próprios",
+      "blocos": [
+        {
+          "id": "por-f09-n02-b01",
+          "habilidade": "corrigir vírgula, nomes próprios com maiúscula e pontuação final",
+          "exemploResolvido": {
+            "enunciado": "Reescreva a frase com a pontuação e as maiúsculas corretas: eu gosto de maçã banana e uva",
+            "passoAPasso": [
+              "Numa lista, separe os itens com vírgula (menos o último, que vem com \"e\").",
+              "A frase começa com maiúscula e termina com ponto.",
+              "Resultado: \"Eu gosto de maçã, banana e uva.\""
+            ]
+          },
+          "geradorId": "portugues.pontuacao-corrigir",
+          "parametrosGerador": {
+            "frases": [
+              { "errada": "eu gosto de maçã banana e uva", "correta": "Eu gosto de maçã, banana e uva." },
+              { "errada": "oi tudo bem", "correta": "Oi, tudo bem?" },
+              { "errada": "nossa que lindo", "correta": "Nossa, que lindo!" },
+              { "errada": "o brasil é um país grande", "correta": "O Brasil é um país grande." }
+            ]
+          },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

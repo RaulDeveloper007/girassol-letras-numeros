@@ -1,0 +1,45 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 8,
+  "titulo": "Ortografia avançada",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Sons de S e de Z (S, SS, Ç, Z)",
+      "blocos": [
+        {
+          "id": "por-f08-n01-b01",
+          "habilidade": "escrever corretamente palavras com os diferentes sons de S e Z",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a palavra certinha (com acento, se tiver).",
+            "passoAPasso": ["Ouça a palavra com calma.", "S, SS, Ç e Z podem ter sons parecidos, mas se escrevem diferente.", "Escreva a palavra com a letra certa."]
+          },
+          "geradorId": "portugues.ditado-palavra",
+          "parametrosGerador": { "palavras": ["casa", "caça", "passo", "cabeça", "nariz", "feliz"] },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Sons de C/QU e de G/J",
+      "blocos": [
+        {
+          "id": "por-f08-n02-b01",
+          "habilidade": "escrever corretamente palavras com os sons de C/QU e de G/J",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a palavra certinha (com acento, se tiver).",
+            "passoAPasso": ["Ouça a palavra com calma.", "QUE e QUI usam QU, não apenas C.", "Escreva a palavra com a letra certa."]
+          },
+          "geradorId": "portugues.ditado-palavra",
+          "parametrosGerador": { "palavras": ["quero", "queijo", "gelo", "jogo", "cachorro", "girafa"] },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

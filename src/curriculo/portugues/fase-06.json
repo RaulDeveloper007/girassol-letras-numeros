@@ -1,0 +1,56 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 6,
+  "titulo": "Leitura em voz alta — textos curtos",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Parágrafos de 2 a 3 frases",
+      "blocos": [
+        {
+          "id": "por-f06-n01-b01",
+          "habilidade": "ler em voz alta um parágrafo curto, mantendo o fôlego e o ritmo",
+          "exemploResolvido": {
+            "enunciado": "Leia a frase em voz alta: O sol nasceu bem cedo. Os pássaros começaram a cantar. Foi um dia muito bonito.",
+            "passoAPasso": ["Leia o texto todo em silêncio primeiro.", "Fale frase por frase, respirando entre elas.", "Capriche na última frase."]
+          },
+          "geradorId": "portugues.leitura-frase",
+          "parametrosGerador": {
+            "frases": [
+              "O sol nasceu bem cedo. Os pássaros começaram a cantar. Foi um dia muito bonito.",
+              "Hoje é dia de feira. Minha mãe comprou frutas frescas. Vamos fazer um suco de laranja.",
+              "O cachorro correu no parque. Ele brincou com a bola. Depois, dormiu tranquilo."
+            ]
+          },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Parágrafos de 3 a 4 frases",
+      "blocos": [
+        {
+          "id": "por-f06-n02-b01",
+          "habilidade": "ler em voz alta um parágrafo mais longo, mantendo o ritmo até o fim",
+          "exemploResolvido": {
+            "enunciado": "Leia a frase em voz alta: Pedro gosta muito de ler. Todas as noites, ele escolhe um livro novo. Ontem ele leu uma história sobre dinossauros. No fim, ele sonhou com eles.",
+            "passoAPasso": ["Leia o texto todo em silêncio primeiro.", "Fale frase por frase, com calma.", "Respire sempre que terminar uma frase."]
+          },
+          "geradorId": "portugues.leitura-frase",
+          "parametrosGerador": {
+            "frases": [
+              "Pedro gosta muito de ler. Todas as noites, ele escolhe um livro novo. Ontem ele leu uma história sobre dinossauros. No fim, ele sonhou com eles.",
+              "A escola estava decorada para a festa. As crianças cantaram e dançaram. No final, todos comeram um bolo delicioso. Foi uma tarde muito alegre."
+            ]
+          },
+          "tempoPadraoSegundos": 540,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    }
+  ]
+}

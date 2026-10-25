@@ -1,0 +1,34 @@
+{
+  "disciplina": "portugues",
+  "faseNumero": 7,
+  "titulo": "Compreensão auditiva",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Perguntas simples de conhecimento geral",
+      "blocos": [
+        {
+          "id": "por-f07-n01-b01",
+          "habilidade": "ouvir uma pergunta simples e responder em voz alta com a palavra certa",
+          "exemploResolvido": {
+            "enunciado": "Ouça a pergunta e responda em voz alta.",
+            "passoAPasso": ["Ouça a pergunta com atenção (pode repetir).", "Pense na resposta.", "Fale a resposta em voz alta e clara."]
+          },
+          "geradorId": "portugues.compreensao-auditiva",
+          "parametrosGerador": {
+            "perguntas": [
+              { "pergunta": "Qual é a cor do céu num dia sem nuvens?", "resposta": "azul" },
+              { "pergunta": "Quantas patas tem um cachorro?", "resposta": "quatro" },
+              { "pergunta": "Que animal faz miau?", "resposta": "gato" },
+              { "pergunta": "Em que estação do ano faz mais frio?", "resposta": "inverno" },
+              { "pergunta": "Qual é o primeiro dia da semana?", "resposta": "domingo" }
+            ]
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-resposta"]
+        }
+      ]
+    }
+  ]
+}
