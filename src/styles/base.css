@@ -107,6 +107,33 @@ button:active {
   opacity: 0.85;
 }
 
+.subject-card {
+  cursor: pointer;
+}
+
+.subject-card.is-loading {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.subject-card.is-done {
+  border-color: #7cb342;
+  background: #f1f8e9;
+  cursor: default;
+  opacity: 0.85;
+}
+
+.card-progress {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.card-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #558b2f;
+}
+
 .card-icon {
   font-size: 2.2rem;
   line-height: 1;
