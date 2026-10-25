@@ -9,8 +9,10 @@ describe('listarBlocosLineares', () => {
     expect(pontos.map((p) => p.bloco.id)).toContain('mat-f01-n01-b03')
   })
 
-  it('retorna lista vazia para uma disciplina sem currículo ainda', async () => {
-    expect(await listarBlocosLineares('ingles')).toEqual([])
+  it('lista os blocos de inglês na ordem do currículo', async () => {
+    const pontos = await listarBlocosLineares('ingles')
+    expect(pontos.length).toBeGreaterThan(0)
+    expect(pontos[0]?.bloco.id).toBe('ing-f01-n01-b01')
   })
 
   it('nunca inclui um bloco de produção livre (não tem certo/errado síncrono pra calibrar)', async () => {

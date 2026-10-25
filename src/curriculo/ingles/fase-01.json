@@ -1,0 +1,45 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 1,
+  "titulo": "Alfabeto (Pré-A1)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Letras de A a M",
+      "blocos": [
+        {
+          "id": "ing-f01-n01-b01",
+          "habilidade": "reconhecer o nome das letras de A a M em inglês, ao ouvi-las",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a letra que você ouviu (em inglês).",
+            "passoAPasso": ["Ouça o nome da letra em inglês (pode repetir).", "Pense em qual letra tem esse nome.", "Digite a letra."]
+          },
+          "geradorId": "ingles.letra-ouvir",
+          "parametrosGerador": { "letras": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Letras de N a Z",
+      "blocos": [
+        {
+          "id": "ing-f01-n02-b01",
+          "habilidade": "reconhecer o nome das letras de N a Z em inglês, ao ouvi-las",
+          "exemploResolvido": {
+            "enunciado": "Ouça com atenção e escreva a letra que você ouviu (em inglês).",
+            "passoAPasso": ["Ouça o nome da letra em inglês (pode repetir).", "Pense em qual letra tem esse nome.", "Digite a letra."]
+          },
+          "geradorId": "ingles.letra-ouvir",
+          "parametrosGerador": { "letras": ["N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"] },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

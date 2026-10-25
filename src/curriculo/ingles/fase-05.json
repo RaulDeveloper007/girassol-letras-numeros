@@ -1,0 +1,35 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 5,
+  "titulo": "Compreensão auditiva básica (A1 / A2)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Perguntas simples de conhecimento geral, em inglês",
+      "blocos": [
+        {
+          "id": "ing-f05-n01-b01",
+          "habilidade": "ouvir uma pergunta simples em inglês e responder em voz alta, em inglês",
+          "exemploResolvido": {
+            "enunciado": "Ouça a pergunta e responda em voz alta.",
+            "passoAPasso": ["Ouça a pergunta em inglês com atenção (pode repetir).", "Pense na resposta em inglês.", "Fale a resposta em voz alta e clara."]
+          },
+          "geradorId": "ingles.compreensao-auditiva",
+          "parametrosGerador": {
+            "perguntas": [
+              { "pergunta": "What color is the sky?", "resposta": "blue" },
+              { "pergunta": "What is the opposite of hot?", "resposta": "cold" },
+              { "pergunta": "How many days are in a week?", "resposta": "seven" },
+              { "pergunta": "What animal says meow?", "resposta": "cat" },
+              { "pergunta": "What is the first day of the week?", "resposta": "sunday" }
+            ],
+            "idioma": "en-US"
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-resposta"]
+        }
+      ]
+    }
+  ]
+}

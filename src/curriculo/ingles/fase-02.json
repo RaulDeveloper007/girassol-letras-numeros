@@ -1,0 +1,99 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 2,
+  "titulo": "Vocabulário básico (Pré-A1 / A1)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Cores",
+      "blocos": [
+        {
+          "id": "ing-f02-n01-b01",
+          "habilidade": "traduzir o nome de cores básicas para o inglês",
+          "exemploResolvido": {
+            "enunciado": "Como se diz \"vermelho\" em inglês?",
+            "passoAPasso": ["Pense na cor em português.", "Lembre da palavra em inglês.", "Escreva a palavra em inglês."]
+          },
+          "geradorId": "ingles.traducao",
+          "parametrosGerador": {
+            "pares": [
+              { "portugues": "vermelho", "ingles": "red" },
+              { "portugues": "azul", "ingles": "blue" },
+              { "portugues": "verde", "ingles": "green" },
+              { "portugues": "amarelo", "ingles": "yellow" },
+              { "portugues": "preto", "ingles": "black" },
+              { "portugues": "branco", "ingles": "white" },
+              { "portugues": "laranja", "ingles": "orange" },
+              { "portugues": "roxo", "ingles": "purple" }
+            ]
+          },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Números de 1 a 10",
+      "blocos": [
+        {
+          "id": "ing-f02-n02-b01",
+          "habilidade": "traduzir números de 1 a 10 para o inglês",
+          "exemploResolvido": {
+            "enunciado": "Como se diz \"três\" em inglês?",
+            "passoAPasso": ["Pense no número em português.", "Lembre da palavra em inglês.", "Escreva a palavra em inglês."]
+          },
+          "geradorId": "ingles.traducao",
+          "parametrosGerador": {
+            "pares": [
+              { "portugues": "um", "ingles": "one" },
+              { "portugues": "dois", "ingles": "two" },
+              { "portugues": "três", "ingles": "three" },
+              { "portugues": "quatro", "ingles": "four" },
+              { "portugues": "cinco", "ingles": "five" },
+              { "portugues": "seis", "ingles": "six" },
+              { "portugues": "sete", "ingles": "seven" },
+              { "portugues": "oito", "ingles": "eight" },
+              { "portugues": "nove", "ingles": "nine" },
+              { "portugues": "dez", "ingles": "ten" }
+            ]
+          },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Animais",
+      "blocos": [
+        {
+          "id": "ing-f02-n03-b01",
+          "habilidade": "traduzir o nome de animais comuns para o inglês",
+          "exemploResolvido": {
+            "enunciado": "Como se diz \"cachorro\" em inglês?",
+            "passoAPasso": ["Pense no animal em português.", "Lembre da palavra em inglês.", "Escreva a palavra em inglês."]
+          },
+          "geradorId": "ingles.traducao",
+          "parametrosGerador": {
+            "pares": [
+              { "portugues": "cachorro", "ingles": "dog" },
+              { "portugues": "gato", "ingles": "cat" },
+              { "portugues": "pássaro", "ingles": "bird" },
+              { "portugues": "peixe", "ingles": "fish" },
+              { "portugues": "cavalo", "ingles": "horse" },
+              { "portugues": "vaca", "ingles": "cow" },
+              { "portugues": "porco", "ingles": "pig" },
+              { "portugues": "pato", "ingles": "duck" }
+            ]
+          },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["textual"]
+        }
+      ]
+    }
+  ]
+}

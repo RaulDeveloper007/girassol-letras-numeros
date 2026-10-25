@@ -18,4 +18,10 @@ describe('gerador portugues.compreensao-auditiva', () => {
       expect(item.tipo).toBe('fala-resposta')
     }
   })
+
+  it('usa pt-BR por padrão, mas aceita outro idioma (reaproveitado pelo conteúdo de Inglês)', () => {
+    const rng = criarRng(2)
+    const perguntas = [{ pergunta: 'What color is the sky?', resposta: 'blue' }]
+    expect(compreensaoAuditiva(rng, { perguntas, idioma: 'en-US' }).dados.idioma).toBe('en-US')
+  })
 })

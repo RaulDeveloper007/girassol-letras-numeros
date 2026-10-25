@@ -1,0 +1,45 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 3,
+  "titulo": "Leitura em voz alta — palavras (A1)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Palavras simples (3 a 4 letras)",
+      "blocos": [
+        {
+          "id": "ing-f03-n01-b01",
+          "habilidade": "ler em voz alta uma palavra simples em inglês, com pronúncia clara",
+          "exemploResolvido": {
+            "enunciado": "Leia a palavra em voz alta: cat",
+            "passoAPasso": ["Olhe a palavra com calma.", "Lembre do som de cada letra em inglês.", "Fale a palavra toda, de uma vez."]
+          },
+          "geradorId": "ingles.leitura-palavra",
+          "parametrosGerador": { "palavras": ["cat", "dog", "sun", "hat", "pen", "cup", "box", "map"], "idioma": "en-US" },
+          "tempoPadraoSegundos": 300,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Palavras um pouco mais longas",
+      "blocos": [
+        {
+          "id": "ing-f03-n02-b01",
+          "habilidade": "ler em voz alta palavras em inglês de 5 a 6 letras",
+          "exemploResolvido": {
+            "enunciado": "Leia a palavra em voz alta: apple",
+            "passoAPasso": ["Olhe a palavra com calma.", "Divida em partes, se ajudar.", "Fale a palavra toda, de uma vez."]
+          },
+          "geradorId": "ingles.leitura-palavra",
+          "parametrosGerador": { "palavras": ["apple", "table", "water", "house", "happy", "green"], "idioma": "en-US" },
+          "tempoPadraoSegundos": 360,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    }
+  ]
+}

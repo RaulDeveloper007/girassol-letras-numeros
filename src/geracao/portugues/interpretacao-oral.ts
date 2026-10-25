@@ -9,6 +9,7 @@ interface TextoComPergunta {
 
 export const interpretacaoOral: FuncaoGeradora = (rng, parametros) => {
   const itens = (parametros.itens as TextoComPergunta[] | undefined) ?? []
+  const idioma = (parametros.idioma as string | undefined) ?? 'pt-BR'
   const escolhido = escolherUm(rng, itens)
 
   return {
@@ -17,7 +18,7 @@ export const interpretacaoOral: FuncaoGeradora = (rng, parametros) => {
     dados: {
       textoFala: `${escolhido.texto} ${escolhido.pergunta}`,
       fraseAlvo: escolhido.resposta,
-      idioma: 'pt-BR',
+      idioma,
     },
     gabarito: escolhido.resposta,
   }

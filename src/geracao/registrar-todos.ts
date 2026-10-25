@@ -33,6 +33,8 @@ import { sistema2x2 } from './matematica/sistema-2x2.js'
 import { subtracao } from './matematica/subtracao.js'
 import { sucessorAntecessor } from './matematica/sucessor-antecessor.js'
 import { tabuada } from './matematica/tabuada.js'
+import { letraOuvir } from './ingles/letra-ouvir.js'
+import { traducao } from './ingles/traducao.js'
 import { compreensaoAuditiva } from './portugues/compreensao-auditiva.js'
 import { ditadoPalavra } from './portugues/ditado-palavra.js'
 import { formarPalavra } from './portugues/formar-palavra.js'
@@ -89,4 +91,12 @@ export function registrarTodosOsGeradores(): void {
   registrarGerador('portugues.interpretacao-texto', interpretacaoTexto)
   registrarGerador('portugues.interpretacao-oral', interpretacaoOral)
   registrarGerador('portugues.producao-livre', producaoLivre)
+  registrarGerador('ingles.letra-ouvir', letraOuvir)
+  registrarGerador('ingles.traducao', traducao)
+  // Reaproveita o mesmo código dos equivalentes de Português -- a lógica
+  // (sortear do banco, falar no idioma configurado) é idêntica, só muda
+  // o conteúdo e o idioma passados em parametrosGerador.
+  registrarGerador('ingles.leitura-palavra', leituraPalavra)
+  registrarGerador('ingles.leitura-frase', leituraFrase)
+  registrarGerador('ingles.compreensao-auditiva', compreensaoAuditiva)
 }

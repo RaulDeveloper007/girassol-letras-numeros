@@ -13,4 +13,10 @@ describe('gerador portugues.leitura-palavra', () => {
       expect(item.tipo).toBe('fala-leitura')
     }
   })
+
+  it('usa pt-BR por padrão, mas aceita outro idioma (reaproveitado pelo conteúdo de Inglês)', () => {
+    const rng = criarRng(2)
+    expect(leituraPalavra(rng, { palavras: ['gato'] }).dados.idioma).toBe('pt-BR')
+    expect(leituraPalavra(rng, { palavras: ['cat'], idioma: 'en-US' }).dados.idioma).toBe('en-US')
+  })
 })

@@ -29,8 +29,8 @@ describe('listarFasesDisponiveis', () => {
     expect(listarFasesDisponiveis('portugues')).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
   })
 
-  it('retorna lista vazia para uma disciplina sem nenhum arquivo ainda', () => {
-    expect(listarFasesDisponiveis('ingles')).toEqual([])
+  it('lista as fases existentes de inglês em ordem', () => {
+    expect(listarFasesDisponiveis('ingles')).toEqual([1, 2, 3, 4, 5])
   })
 })
 

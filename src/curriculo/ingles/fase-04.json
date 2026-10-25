@@ -1,0 +1,51 @@
+{
+  "disciplina": "ingles",
+  "faseNumero": 4,
+  "titulo": "Leitura em voz alta — frases curtas (A1)",
+  "niveis": [
+    {
+      "numero": 1,
+      "titulo": "Frases muito curtas",
+      "blocos": [
+        {
+          "id": "ing-f04-n01-b01",
+          "habilidade": "ler em voz alta uma frase curta em inglês",
+          "exemploResolvido": {
+            "enunciado": "Leia a frase em voz alta: I am happy.",
+            "passoAPasso": ["Leia a frase inteira em silêncio primeiro.", "Fale palavra por palavra, sem pressa.", "Capriche na pronúncia do final da frase."]
+          },
+          "geradorId": "ingles.leitura-frase",
+          "parametrosGerador": {
+            "frases": ["I am happy.", "This is a cat.", "The sun is hot.", "She has a dog.", "We like apples."],
+            "idioma": "en-US"
+          },
+          "tempoPadraoSegundos": 420,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "Frases um pouco mais longas",
+      "blocos": [
+        {
+          "id": "ing-f04-n02-b01",
+          "habilidade": "ler em voz alta uma frase em inglês um pouco mais longa",
+          "exemploResolvido": {
+            "enunciado": "Leia a frase em voz alta: My name is Ana.",
+            "passoAPasso": ["Leia a frase inteira em silêncio primeiro.", "Fale palavra por palavra, sem pressa.", "Respire antes de começar, se precisar."]
+          },
+          "geradorId": "ingles.leitura-frase",
+          "parametrosGerador": {
+            "frases": ["My name is Ana.", "I live in Brazil.", "He plays soccer every day.", "They are my best friends."],
+            "idioma": "en-US"
+          },
+          "tempoPadraoSegundos": 480,
+          "criterioDominio": { "folhasConsecutivas": 3, "acertoMinimo": 100, "dentroDoTempoPadrao": true },
+          "tiposDeItem": ["fala-leitura"]
+        }
+      ]
+    }
+  ]
+}
