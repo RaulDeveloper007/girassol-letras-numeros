@@ -4,7 +4,7 @@ O app é um PWA (Progressive Web App): não precisa de loja de aplicativos,
 só precisa visitar o endereço publicado uma vez (com internet) e instalar
 pelo próprio navegador. Depois de instalado, funciona offline.
 
-**Endereço publicado:** https://RaulDeveloper007.github.io/girassol-letras-numeros/
+**Endereço publicado:** https://RaulDeveloper007.github.io/passo-certo/
 
 ## No celular (Redmi 9 / Android, pelo Chrome)
 
