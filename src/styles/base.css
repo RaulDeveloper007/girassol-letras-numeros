@@ -112,12 +112,6 @@ button:active {
   line-height: 1;
 }
 
-.card-note {
-  font-size: 0.75rem;
-  opacity: 0.7;
-  min-height: 1em;
-}
-
 .card-label {
   font-size: 1.1rem;
   line-height: 1.2;

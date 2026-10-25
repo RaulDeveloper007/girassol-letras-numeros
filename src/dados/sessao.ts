@@ -2,7 +2,7 @@
 // A geração dos itens em si continua vindo do motor de geração
 // (src/geracao/montar-folha.ts); aqui só gravamos o resultado.
 import { createId } from '../generators/shared/id.js'
-import type { BlocoDeclarado, DisciplinaId } from '../curriculo/tipos.js'
+import type { BlocoDeclarado } from '../curriculo/tipos.js'
 import { montarFolha } from '../geracao/montar-folha.js'
 import { obterBanco, type BancoPassoCerto } from './banco.js'
 import type { Folha, Item, Tentativa } from './tipos.js'
@@ -16,7 +16,6 @@ export async function iniciarFolha(
   alunoId: string,
   bloco: BlocoDeclarado,
   quantidadeItens: number,
-  disciplina: DisciplinaId,
   banco: BancoPassoCerto = obterBanco()
 ): Promise<FolhaIniciada> {
   const folhasAnteriores = await banco.folhas.where('[alunoId+blocoId]').equals([alunoId, bloco.id]).toArray()
@@ -28,7 +27,6 @@ export async function iniciarFolha(
   const folha: Folha = {
     id: createId(),
     alunoId,
-    disciplina,
     blocoId: bloco.id,
     numeroDaTentativaNoBloco: (ultimaFolha?.numeroDaTentativaNoBloco ?? 0) + 1,
     itensIds: [],
@@ -70,7 +68,6 @@ export async function iniciarTesteDeConclusao(
   alunoId: string,
   blocosDoNivel: BlocoDeclarado[],
   blocoQueDisparouId: string,
-  disciplina: DisciplinaId,
   banco: BancoPassoCerto = obterBanco()
 ): Promise<FolhaIniciada> {
   const itensGerados = blocosDoNivel.map((bloco) => montarFolha({ bloco, quantidadeItens: 1 }).itens[0]!)
@@ -78,7 +75,6 @@ export async function iniciarTesteDeConclusao(
   const folha: Folha = {
     id: createId(),
     alunoId,
-    disciplina,
     blocoId: blocoQueDisparouId,
     numeroDaTentativaNoBloco: 0, // teste de conclusão não conta pro domínio de um bloco específico
     itensIds: [],
@@ -159,28 +155,4 @@ export async function finalizarFolha(
 
 export function listarFolhasPorBloco(alunoId: string, blocoId: string, banco: BancoPassoCerto = obterBanco()): Promise<Folha[]> {
   return banco.folhas.where('[alunoId+blocoId]').equals([alunoId, blocoId]).toArray()
-}
-
-function mesmoDiaLocal(isoA: string, data: Date): boolean {
-  const a = new Date(isoA)
-  return a.getFullYear() === data.getFullYear() && a.getMonth() === data.getMonth() && a.getDate() === data.getDate()
-}
-
-/**
- * Quantas folhas o aluno já concluiu HOJE nesta disciplina -- é o número
- * que a tela de prática compara com a cota diária (ver
- * progressao/cota-diaria.ts) pra decidir se ainda pode praticar ou se o
- * trabalho de hoje já acabou. Conta teste de conclusão e reforço também:
- * pro método, qualquer folha concluída é "um passo de hoje".
- */
-export async function contarFolhasFinalizadasHoje(
-  alunoId: string,
-  disciplina: DisciplinaId,
-  agora: Date = new Date(),
-  banco: BancoPassoCerto = obterBanco()
-): Promise<number> {
-  const folhasDoAluno = await banco.folhas.where('alunoId').equals(alunoId).toArray()
-  return folhasDoAluno.filter(
-    (folha) => folha.disciplina === disciplina && folha.finalizadaEm !== null && mesmoDiaLocal(folha.finalizadaEm, agora)
-  ).length
 }

@@ -30,14 +30,14 @@ do navegador), e roda instalado tanto no celular quanto no PC.
   um nível conforme regra configurável (X folhas seguidas, acerto ≥ Y%,
   tempo ≤ Z); ao fim de um nível, aplica um teste de conclusão cobrindo
   todos os seus blocos antes de liberar o próximo nível ou fase; também
-  agenda revisão espaçada (estilo Leitner) dos blocos já dominados.
-  **Cota diária** de folhas por disciplina (`progressao/cota-diaria.ts`)
-  impõe um número fixo de folhas por dia, não prática sem limite numa
-  sentada. Teste de conclusão reprovado gera uma fila de **reforço
-  direcionado** só aos assuntos (blocos) que o aluno errou, em vez de
-  repetir o nível inteiro. O **Tempo Padrão de Conclusão (SCT)** de cada
-  bloco já entra no critério de domínio e tem sua tendência recente
-  mostrada ao aluno (fim da folha) e ao responsável (painel).
+  agenda revisão espaçada (estilo Leitner) dos blocos já dominados. Não
+  há limite de quantas folhas o aluno pode fazer por dia -- o aluno
+  pratica quanto quiser, e cada folha concluída é salva imediatamente.
+  Teste de conclusão reprovado gera uma fila de **reforço direcionado**
+  só aos assuntos (blocos) que o aluno errou, em vez de repetir o nível
+  inteiro. O **Tempo Padrão de Conclusão (SCT)** de cada bloco já entra
+  no critério de domínio e tem sua tendência recente mostrada ao aluno
+  (fim da folha) e ao responsável (painel).
 - **Diagnóstico adaptativo** (`src/diagnostico/`): busca binária por posição
   inicial no currículo quando necessário, sem depender da idade informada.
 - **Canvas de escrita manuscrita** (Pointer Events) com borracha, desfazer
@@ -55,8 +55,8 @@ do navegador), e roda instalado tanto no celular quanto no PC.
   conclusão, tentativas de fala, regras de avanço, revisões agendadas e
   comentários do responsável — nada sai do aparelho exceto por backup manual.
 - **Painel do responsável** protegido por PIN: progresso real por
-  disciplina (fase/nível/status de diagnóstico), folhas feitas hoje,
-  tendência de SCT recente, reforço pendente, avanço manual, fila de
+  disciplina (fase/nível/status de diagnóstico), tendência de SCT
+  recente, reforço pendente, avanço manual, fila de
   produções livres pendentes de revisão, fila de tentativas de fala
   encaminhadas, revisões espaçadas devidas, recado para o aluno, e
   backup/restauração em JSON.

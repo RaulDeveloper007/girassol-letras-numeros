@@ -27,7 +27,6 @@ export interface ProgressoDisciplina {
 export interface Folha {
   id: string
   alunoId: string
-  disciplina: DisciplinaId
   blocoId: string
   numeroDaTentativaNoBloco: number
   itensIds: string[]

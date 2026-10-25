@@ -10,16 +10,8 @@ import { avaliaTesteDeConclusao, blocosComErro } from '../../progressao/teste-de
 import { decidirProximoPassoNoCurriculo } from '../../progressao/orquestracao.js'
 import { contarSequenciaAtual } from '../../progressao/dominio.js'
 import { calcularTendenciaSct } from '../../progressao/sct.js'
-import { cotaDiariaAtingida, FOLHAS_POR_DIA_POR_DISCIPLINA } from '../../progressao/cota-diaria.js'
 import { obterOuCriarProgresso, salvarProgresso } from '../../dados/progresso.js'
-import {
-  contarFolhasFinalizadasHoje,
-  finalizarFolha,
-  iniciarFolha,
-  iniciarTesteDeConclusao,
-  listarFolhasPorBloco,
-  registrarTentativa,
-} from '../../dados/sessao.js'
+import { finalizarFolha, iniciarFolha, iniciarTesteDeConclusao, listarFolhasPorBloco, registrarTentativa } from '../../dados/sessao.js'
 import { salvarCorrecao } from '../../dados/correcoes.js'
 import { salvarTentativaDeFala } from '../../dados/tentativas-de-fala.js'
 import { registrarResultadoDeRevisao } from '../../dados/revisoes-agendadas.js'
@@ -154,22 +146,6 @@ export function renderPraticar(root) {
       autoavaliacao.destroy()
       autoavaliacao = null
     }
-  }
-
-  function telaCotaAtingida() {
-    root.innerHTML = `
-      <main class="screen screen-folha-digital">
-        <button class="back-button" id="go-back" aria-label="Voltar">←</button>
-        <h1>Trabalho de hoje concluído</h1>
-        <p class="result-summary">
-          Você já fez as ${FOLHAS_POR_DIA_POR_DISCIPLINA} folhas de ${NOMES_DISCIPLINA[disciplina] ?? disciplina} de hoje.
-        </p>
-        <p class="result-summary">Volte amanhã para continuar -- o domínio se constrói um pouco por dia, não tudo de uma vez.</p>
-        <button id="go-aluno">Voltar</button>
-      </main>
-    `
-    root.querySelector('#go-back').addEventListener('click', () => navigateTo('#/aluno'))
-    root.querySelector('#go-aluno').addEventListener('click', () => navigateTo('#/aluno'))
   }
 
   // Estado visual de cada linha da folha sequencial: 'ativa' é a linha que
@@ -632,7 +608,7 @@ export function renderPraticar(root) {
     modoReforco = reforco
     blocoAtual = bloco
     const quantidade = bloco.tiposDeItem.includes('producao-livre') ? 1 : QUANTIDADE_ITENS_POR_FOLHA
-    const sessao = await iniciarFolha(alunoId, bloco, quantidade, disciplina)
+    const sessao = await iniciarFolha(alunoId, bloco, quantidade)
     folhaDb = sessao.folha
     itensDb = sessao.itens
     resultados = itensDb.map(() => ({ respondido: false, corretoPrimeiraTentativa: null, corretoFinal: null }))
@@ -651,7 +627,7 @@ export function renderPraticar(root) {
     nivelDoTesteAtual = nivel.numero
     blocosDoNivelDoTeste = nivel.blocos
     blocoAtual = nivel.blocos.at(-1)
-    const sessao = await iniciarTesteDeConclusao(alunoId, nivel.blocos, blocoAtual.id, disciplina)
+    const sessao = await iniciarTesteDeConclusao(alunoId, nivel.blocos, blocoAtual.id)
     folhaDb = sessao.folha
     itensDb = sessao.itens
     resultados = itensDb.map(() => ({ respondido: false, corretoPrimeiraTentativa: null, corretoFinal: null }))
@@ -665,11 +641,6 @@ export function renderPraticar(root) {
   }
 
   async function iniciar() {
-    const folhasHoje = await contarFolhasFinalizadasHoje(alunoId, disciplina)
-    if (cotaDiariaAtingida(folhasHoje)) {
-      return telaCotaAtingida()
-    }
-
     const progresso = await obterOuCriarProgresso(alunoId, disciplina)
     faseInfo = await carregarFase(disciplina, progresso.faseAtual)
     const encontrado = buscarBloco(faseInfo, progresso.blocoAtualId)

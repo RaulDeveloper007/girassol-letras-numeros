@@ -8,9 +8,8 @@ import { listarRevisoesDevidas } from '../../dados/revisoes-agendadas.js'
 import { listarComentarios, salvarComentario, salvarConfiguracoesOrientador } from '../../dados/orientador.js'
 import { exportarBackup, baixarArquivoDeBackup, importarBackup } from '../../dados/backup.js'
 import { buscarBloco, carregarFase, primeiroBlocoDaProximaFase, proximoBlocoId } from '../../curriculo/loader.js'
-import { contarFolhasFinalizadasHoje, listarFolhasPorBloco } from '../../dados/sessao.js'
+import { listarFolhasPorBloco } from '../../dados/sessao.js'
 import { calcularTendenciaSct } from '../../progressao/sct.js'
-import { FOLHAS_POR_DIA_POR_DISCIPLINA } from '../../progressao/cota-diaria.js'
 
 const DISCIPLINAS = ['matematica', 'portugues', 'ingles']
 const NOMES_DISCIPLINA = { matematica: 'Matemática', portugues: 'Português', ingles: 'Inglês' }
@@ -49,7 +48,7 @@ async function avancarManualmente(progresso) {
   })
 }
 
-function renderSubjectPanel({ disciplina, progresso, bloco, folhasHoje, tendenciaSct, onChange }) {
+function renderSubjectPanel({ disciplina, progresso, bloco, tendenciaSct, onChange }) {
   const section = document.createElement('section')
   section.className = 'guardian-subject-panel'
   const reforcoPendente = progresso.blocosDeReforcoPendentes?.length ?? 0
@@ -60,7 +59,6 @@ function renderSubjectPanel({ disciplina, progresso, bloco, folhasHoje, tendenci
     <p class="placeholder-note">Diagnóstico: ${
       { pendente: 'ainda não feito', 'em-andamento': 'em andamento', concluido: 'concluído' }[progresso.statusDiagnostico]
     }</p>
-    <p class="placeholder-note">Folhas de hoje: ${Math.min(folhasHoje, FOLHAS_POR_DIA_POR_DISCIPLINA)}/${FOLHAS_POR_DIA_POR_DISCIPLINA}</p>
     ${
       tendenciaSct
         ? `<p class="placeholder-note">Tempo Padrão de Conclusão (SCT) recente: ${tendenciaSct.percentualDoTempoPadrao}% do tempo padrão.</p>`
@@ -260,7 +258,6 @@ export function renderDashboard(container) {
       const fase = await carregarFase(disciplina, progresso.faseAtual)
       const encontrado = buscarBloco(fase, progresso.blocoAtualId)
 
-      const folhasHoje = await contarFolhasFinalizadasHoje(selectedStudentId, disciplina)
       const folhasDoBlocoAtual = encontrado ? await listarFolhasPorBloco(selectedStudentId, encontrado.bloco.id) : []
       const tendenciaSct = calcularTendenciaSct(
         folhasDoBlocoAtual
@@ -272,9 +269,7 @@ export function renderDashboard(container) {
           }))
       )
 
-      panels.appendChild(
-        renderSubjectPanel({ disciplina, progresso, bloco: encontrado?.bloco, folhasHoje, tendenciaSct, onChange: render })
-      )
+      panels.appendChild(renderSubjectPanel({ disciplina, progresso, bloco: encontrado?.bloco, tendenciaSct, onChange: render }))
     }
 
     const tentativasDeFala = await listarTentativasDeFalaEncaminhadas()
