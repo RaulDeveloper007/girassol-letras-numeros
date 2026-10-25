@@ -31,6 +31,13 @@ do navegador), e roda instalado tanto no celular quanto no PC.
   tempo ≤ Z); ao fim de um nível, aplica um teste de conclusão cobrindo
   todos os seus blocos antes de liberar o próximo nível ou fase; também
   agenda revisão espaçada (estilo Leitner) dos blocos já dominados.
+  **Cota diária** de folhas por disciplina (`progressao/cota-diaria.ts`)
+  impõe um número fixo de folhas por dia, não prática sem limite numa
+  sentada. Teste de conclusão reprovado gera uma fila de **reforço
+  direcionado** só aos assuntos (blocos) que o aluno errou, em vez de
+  repetir o nível inteiro. O **Tempo Padrão de Conclusão (SCT)** de cada
+  bloco já entra no critério de domínio e tem sua tendência recente
+  mostrada ao aluno (fim da folha) e ao responsável (painel).
 - **Diagnóstico adaptativo** (`src/diagnostico/`): busca binária por posição
   inicial no currículo quando necessário, sem depender da idade informada.
 - **Canvas de escrita manuscrita** (Pointer Events) com borracha, desfazer
@@ -48,7 +55,8 @@ do navegador), e roda instalado tanto no celular quanto no PC.
   conclusão, tentativas de fala, regras de avanço, revisões agendadas e
   comentários do responsável — nada sai do aparelho exceto por backup manual.
 - **Painel do responsável** protegido por PIN: progresso real por
-  disciplina (fase/nível/status de diagnóstico), avanço manual, fila de
+  disciplina (fase/nível/status de diagnóstico), folhas feitas hoje,
+  tendência de SCT recente, reforço pendente, avanço manual, fila de
   produções livres pendentes de revisão, fila de tentativas de fala
   encaminhadas, revisões espaçadas devidas, recado para o aluno, e
   backup/restauração em JSON.
@@ -162,8 +170,9 @@ public/
 - Reconhecimento de caligrafia cobre só dígitos e símbolos matemáticos
   básicos (nível 1); letras e palavras manuscritas não são reconhecidas —
   nesses casos o teclado grande é a única entrada.
-- Teste de conclusão reprovado faz o aluno repetir o mesmo bloco até dominar
-  de novo, em vez de gerar um bloco de reforço direcionado aos erros
-  específicos.
 - A fila de tentativas de fala encaminhadas no painel do responsável é
   somente leitura (não há como marcá-las como revisadas ainda).
+- A revisão espaçada (estilo Leitner) só é calculada e mostrada ao
+  responsável (`Revisão espaçada devida hoje`, no painel) -- ela nunca é
+  servida de volta ao aluno dentro de uma folha, então um bloco "devido"
+  não entra sozinho na prática do dia.
