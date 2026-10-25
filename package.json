@@ -1,6 +1,7 @@
 {
-  "name": "girassol-letras-numeros",
+  "name": "passo-certo",
   "version": "0.0.0",
+  "description": "Folhas diarias de matematica, portugues e ingles para qualquer idade, com dominio antes do avanco e revisao espacada.",
   "private": true,
   "type": "module",
   "scripts": {
