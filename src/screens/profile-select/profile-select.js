@@ -1,11 +1,13 @@
 import { navigateTo } from '../../app/router.js'
 import { setState } from '../../app/state.js'
 import { listarAlunos } from '../../dados/alunos.js'
+import { saudacaoPorHorario } from '../../app/saudacao.js'
 
 export function renderProfileSelect(root) {
   root.innerHTML = `
     <main class="screen screen-profile-select">
       <h1>👣 Passo Certo</h1>
+      <h2 id="greeting">${saudacaoPorHorario()}!</h2>
       <p>Quem vai estudar hoje?</p>
       <div class="profile-grid" id="profile-grid"></div>
       <button class="link-button" id="go-guardian">⚙ Responsável</button>

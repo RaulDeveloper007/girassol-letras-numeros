@@ -1,5 +1,7 @@
 import { navigateTo } from '../../app/router.js'
 import { getState, setState } from '../../app/state.js'
+import { saudacaoPorHorario } from '../../app/saudacao.js'
+import { obterAluno } from '../../dados/alunos.js'
 
 const DISCIPLINAS = [
   { id: 'matematica', icone: '➕', nome: 'Matemática' },
@@ -18,7 +20,8 @@ export function renderStudentHome(root) {
   root.innerHTML = `
     <main class="screen screen-student-home">
       <button class="back-button" id="go-back" aria-label="Voltar">←</button>
-      <h1>O que vamos estudar?</h1>
+      <h1 id="student-greeting">${saudacaoPorHorario()}!</h1>
+      <p>O que vamos estudar?</p>
       <div class="subject-grid">
         ${DISCIPLINAS.map(
           (d) => `
@@ -33,6 +36,13 @@ export function renderStudentHome(root) {
   `
 
   root.querySelector('#go-back').addEventListener('click', () => navigateTo('#/'))
+
+  // O nome vem do perfil do aluno ativo; textContent evita interpretar
+  // qualquer marcação digitada no nome.
+  obterAluno(activeStudentId).then((aluno) => {
+    const titulo = root.querySelector('#student-greeting')
+    if (aluno && titulo) titulo.textContent = `${saudacaoPorHorario()}, ${aluno.nomeExibicao}!`
+  })
 
   root.querySelectorAll('.subject-card').forEach((btn) => {
     btn.addEventListener('click', () => {
